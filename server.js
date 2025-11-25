@@ -126,6 +126,9 @@ const portfolioData = {
 // --- End of Portfolio Data ---
 
 
+// --- Trust Proxy (Required for Render/Heroku/Railway etc.) ---
+app.set('trust proxy', 1); // Trust first proxy
+
 // --- Security & Middleware ---
 app.use(compression()); // Enable Gzip compression
 app.use((req, res, next) => {
