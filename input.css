@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  /* Optimization for magnetic buttons */
+  .will-change-transform {
+    will-change: transform;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}

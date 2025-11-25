@@ -1,8 +1,33 @@
-# Node.js
-/node_modules
+# Dependencies
+node_modules/
 
-# Environment variables (contains all your passwords)
+# Environment variables (contains all your passwords!)
 .env
+.env.local
+.env.*.local
+
+# Build artifacts
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+coverage/
+
+# Temporary files
+*.tmp
+.cache/
 
 # Old database file
 db.json

@@ -1,2473 +1,655 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sugam Pokharel - Fullstack Developer specializing in React, Node.js, and modern web technologies. Building responsive, data-driven web applications.">
-    <meta name="keywords" content="Fullstack Developer, Web Developer, React, Node.js, JavaScript, Portfolio, Frontend Developer, Backend Developer, MERN Stack">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Sugam Pokharel | Fullstack Developer & Digital Creator</title>
+    <meta name="description"
+        content="Sugam Pokharel - Self-taught Fullstack Developer specializing in MERN stack. Building modern web applications with React, Node.js, and AI integration. Available for freelance work.">
+    <meta name="keywords"
+        content="Fullstack Developer, MERN Stack, React Developer, Node.js Developer, Web Development, JavaScript, TypeScript, Portfolio, Freelance Developer, Nepal">
     <meta name="author" content="Sugam Pokharel">
     <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#3b82f6">
-    
+    <link rel="canonical" href="https://sugampokharel.dev">
+
+    <!-- Enhanced Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Sugam Pokharel | Fullstack Developer">
-    <meta property="og:description" content="Fullstack Developer specializing in React, Node.js, and modern web technologies. Building responsive, data-driven web applications.">
-    <meta property="og:url" content="https://sugampokharel.dev">
-    <meta property="og:image" content="https://sugampokharel.dev/images/image.png">
+    <meta property="og:title" content="Sugam Pokharel | Fullstack Developer & Digital Creator">
+    <meta property="og:description"
+        content="Self-taught Fullstack Developer specializing in MERN stack. Building modern web applications with React, Node.js, and AI integration.">
+    <meta property="og:image" content="https://sugampokharel.dev/images/og-image.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://sugampokharel.dev">
     <meta property="og:site_name" content="Sugam Pokharel Portfolio">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Sugam Pokharel | Fullstack Developer">
-    <meta name="twitter:description" content="Fullstack Developer specializing in React, Node.js, and modern web technologies.">
-    <meta name="twitter:image" content="https://sugampokharel.dev/images/image.png">
-    
-    <link rel="icon" type="image/png" href="images/image.png">
-    <link rel="apple-touch-icon" href="images/image.png">
+    <meta property="og:locale" content="en_US">
 
-    <link rel="preload" href="images/image.png" as="image" fetchpriority="high">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@PokharelSu65518">
+    <meta name="twitter:title" content="Sugam Pokharel | Fullstack Developer">
+    <meta name="twitter:description"
+        content="Self-taught Fullstack Developer crafting innovative web applications with modern technologies">
+    <meta name="twitter:image" content="https://sugampokharel.dev/images/og-image.jpg">
+    <meta name="twitter:image:alt" content="Sugam Pokharel - Fullstack Developer Portfolio">
+
+    <!-- Preload critical resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <title>Sugam Pokharel | Fullstack Developer | Portfolio</title>
-    
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Security & Theme Meta Tags -->
+    <meta name="theme-color" content="#6366f1">
+    <meta name="msapplication-TileColor" content="#6366f1">
+    <meta name="color-scheme" content="dark light">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Preload Critical Images (LCP) -->
+    <!-- Note: Project images will be loaded dynamically, but preloading the first one is still good practice -->
+    <link rel="preload" href="images/project1.png" as="image" importance="high">
+
+    <!-- Structured Data for SEO -->
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Sugam Pokharel",
-        "jobTitle": "Fullstack Developer",
-        "url": "https://sugampokharel.dev",
-        "sameAs": [
-            "https://www.linkedin.com/in/sugam-pokharel-0504b438b",
-            "https://github.com/sugampokhareldev",
-            "https://x.com/PokharelSu65518"
-        ],
-        "email": "sugampokharel28@gmail.com",
-        "description": "Fullstack Developer specializing in React, Node.js, and modern web technologies. Building responsive, data-driven web applications.",
-        "knowsAbout": ["React", "Node.js", "JavaScript", "MongoDB", "Express.js", "HTML", "CSS", "Fullstack Development"]
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sugam Pokharel",
+      "jobTitle": "Fullstack Developer",
+      "url": "https://sugampokharel.dev",
+      "email": "sugampokharel28@gmail.com",
+      "sameAs": [
+        "https://github.com/sugampokhareldev",
+        "https://linkedin.com/in/sugam-pokharel-0504b438b",
+        "https://twitter.com/PokharelSu65518"
+      ],
+      "image": "https://sugampokharel.dev/images/image1.png",
+      "description": "Self-taught Fullstack Developer specializing in modern web applications with MERN stack",
+      "knowsAbout": ["JavaScript", "React", "Node.js", "MongoDB", "Express.js", "TypeScript", "Tailwind CSS", "HTML5", "CSS3", "Git", "RESTful APIs", "Progressive Web Apps"],
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Self-Taught Developer"
+      },
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Freelance"
+      }
     }
     </script>
-    
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    
-    <script>
-        // Initial theme setup (anti-flicker)
-        (function(){
-            try {
-                const isDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                document.documentElement.classList.toggle('dark', isDark);
-            } catch (e) {
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    document.documentElement.classList.add('dark');
-                }
-            }
-            document.documentElement.setAttribute('data-js-ready', 'true');
-        })();
-    </script>
-    
+
+    <!-- Critical CSS Inline -->
     <style>
+        /* Critical above-fold styles (unchanged) */
         :root {
-            --primary: #3b82f6;
-            --primary-dark: #1d4ed8;
-            --primary-light: #60a5fa;
-            --secondary: #10b981;
-            --secondary-dark: #059669;
-            --accent: #8b5cf6;
-            --accent-light: #a78bfa;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f9fafb;
-            --border-color: #e5e7eb;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --bg-primary: #0f0f23;
+            --text-primary: #f8fafc;
         }
-        
-        .dark {
-            --primary: #60a5fa;
-            --primary-dark: #3b82f6;
-            --primary-light: #93c5fd;
-            --secondary: #34d399;
-            --secondary-dark: #10b981;
-            --accent: #a78bfa;
-            --accent-light: #c4b5fd;
-            --text-primary: #f9fafb;
-            --text-secondary: #d1d5db;
-            --bg-primary: #111827;
-            --bg-secondary: #1f2937;
-            --border-color: #374151;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
-        }
-        
-        html, body {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background-color 0.3s ease, color 0.3s ease;
-            position: relative;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-        }
-        
-        .text-gradient {
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            background-image: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
-            background-size: 200% auto;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-shift 3s ease infinite;
-        }
-        
-        @keyframes gradient-shift {
-            0%, 100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-        
-        .animate-fade-in {
+
+        .hero-section,
+        .nav-glass {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        
-        .animate-fade-in.is-visible {
-            opacity: 1;
-            transform: translateY(0);
+            animation: fadeIn 0.5s ease forwards;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--text-secondary);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
-        }
-        
-        .dark ::-webkit-scrollbar-thumb {
-            background: var(--text-secondary);
-        }
-        
-        .dark ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
-        }
-        
-        .floating-bg {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.2;
-            z-index: -1;
-            animation: float 20s ease-in-out infinite;
-        }
-        
-        .floating-bg-1 {
-            animation-delay: 0s;
-        }
-        
-        .floating-bg-2 {
-            animation-delay: 7s;
-        }
-        
-        .floating-bg-3 {
-            animation-delay: 14s;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(30px, -30px) scale(1.1);
-            }
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-        }
-        
-        .section-bg {
-            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
-        }
-        
-        .dark .section-bg {
-            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%);
-        }
-        
-        .nav-link.active {
-            color: var(--primary);
-        }
-        
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
-            border-radius: 2px;
-        }
-        
-        .glow {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-        }
-        
-        .dark .glow {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-        }
-        
-        .typewriter-cursor {
-            color: var(--primary);
-            animation: blink-caret 0.75s step-end infinite;
-        }
-        
-        @keyframes blink-caret {
-            from, to { opacity: 0 }
-            50% { opacity: 1 }
-        }
-        
-        .card-hover {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        
-        .card-hover::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: inherit;
-            opacity: 0;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15), 
-                        0 10px 20px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card-hover:hover::before {
-            opacity: 1;
-        }
-        
-        .dark .card-hover:hover {
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4), 
-                        0 10px 20px -5px rgba(0, 0, 0, 0.3);
-        }
-        
-        .dark .card-hover::before {
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.15), rgba(167, 139, 250, 0.15));
-        }
-        
-        .progress-ring {
-            transform: rotate(-90deg);
-        }
-        
-        .progress-ring-circle {
-            transition: stroke-dashoffset 1.5s ease-out;
-            transform-origin: 50% 50%;
-        }
-        
-        .skill-card {
-            transition: all 0.3s ease;
-        }
-        
-        .skill-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .skill-level-text {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.5s ease;
-        }
-        
-        .skill-card.animate .skill-level-text {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        #theme-icon-light, #theme-icon-dark, 
-        #theme-icon-light-mobile, #theme-icon-dark-mobile {
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        .nav-transparent {
-            background-color: transparent;
-            backdrop-filter: none;
-            border-bottom-color: transparent;
-        }
-
-        .section-padding {
-            padding-top: 5rem;
-            padding-bottom: 5rem;
-        }
-        
-        @media (min-width: 768px) {
-            .section-padding {
-                padding-top: 7rem;
-                padding-bottom: 7rem;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .section-padding {
-                padding-top: 8rem;
-                padding-bottom: 8rem;
-            }
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            border: none;
-        }
-        
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4), 0 5px 10px rgba(59, 130, 246, 0.2);
-        }
-        
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            transition: all 0.3s ease;
-        }
-
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-        
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.7);
-        }
-        
-        .dark .glass-card:hover {
-            background: rgba(30, 41, 59, 0.9);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-        }
-
-        .text-muted {
-            color: var(--text-secondary);
-        }
-        
-        #chat-button {
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        #chat-button.hidden {
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.8) translateY(20px);
-            pointer-events: none;
-        }
-
-        #chat-widget {
-            position: fixed;
-            bottom: 100px;
-            left: 32px;
-            width: 380px;
-            height: 550px;
-            background: var(--bg-primary);
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            z-index: 70;
-            transform: translateY(20px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .dark #chat-widget {
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        #chat-widget.open {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .chat-header {
-            background: linear-gradient(to right, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-radius: 20px 20px 0 0;
-            flex-shrink: 0;
-        }
-        
-        .chat-header h3 {
-            font-weight: 600;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .chat-header .status {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #10b981;
-            display: inline-block;
-            margin-right: 8px;
-        }
-        
-        .chat-close {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .chat-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-        
-        .chat-body {
-            flex-grow: 1;
-            padding: 16px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        .message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 14px;
-            line-height: 1.4;
-            animation: fadeIn 0.3s ease;
-            white-space: pre-wrap;
-        }
-        
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .message.user {
-            align-self: flex-end;
-            background: var(--primary);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-        
-        .message.bot {
-            align-self: flex-start;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border-bottom-left-radius: 4px;
-        }
-        
-        .chat-footer {
-            position: relative;
-            flex-shrink: 0;
-            padding: 16px;
-            background: var(--bg-primary);
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            z-index: 10;
-        }
-        
-        .dark .chat-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .chat-input-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .chat-input {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 24px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 14px;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        
-        .dark .chat-input {
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .chat-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .chat-send {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .chat-send:hover {
-            background: var(--primary-dark);
-            transform: scale(1.05);
-        }
-        
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-radius: 18px;
-            border-bottom-left-radius: 4px;
-            align-self: flex-start;
-            max-width: 80px;
-        }
-        
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--text-secondary);
-            animation: typingAnimation 1.4s infinite ease-in-out;
-        }
-        
-        .typing-dot:nth-child(1) {
-            animation-delay: 0s;
-        }
-        
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        @keyframes typingAnimation {
-            0%, 60%, 100% {
-                transform: translateY(0);
-                opacity: 0.5;
-            }
-            30% {
-                transform: translateY(-10px);
+            to {
                 opacity: 1;
             }
         }
-        
-        @media (max-width: 640px) {
-            #chat-widget {
-                width: 100vw;
-                height: 100vh;
-                left: 0;
-                bottom: 0;
-                border-radius: 0;
-                max-height: 100vh;
-                display: flex;
-                flex-direction: column;
-            }
-            
-            #chat-widget .chat-header {
-                border-radius: 0;
-                padding: 12px 16px;
-            }
-            
-            #chat-widget .chat-body {
-                height: auto; 
-                padding: 12px;
-                flex-grow: 1;
-            }
-            
-            #chat-widget .chat-footer {
-                padding: 12px;
-                position: relative;
-            }
-            
-            #chat-widget .message {
-                max-width: 85%;
-                font-size: 14px;
-                padding: 10px 14px;
-            }
-            
-            .floating-bg { display: none; }
-            
-            #chat-button {
-                bottom: 80px;
-                left: 14px;
-                width: 48px;
-                height: 48px;
-            }
-            
-            #back-to-top {
-                bottom: 80px;
-                right: 14px;
-                width: 44px;
-                height: 44px;
-            }
-            
-            .section-padding {
-                padding-top: 2rem;
-                padding-bottom: 2.5rem;
-            }
-            
-            .container {
-                padding-left: 0.875rem;
-                padding-right: 0.875rem;
-            }
-            
-            h1 {
-                font-size: 2rem !important;
-                line-height: 1.2 !important;
-            }
-            
-            h2 {
-                font-size: 1.5rem !important;
-                line-height: 1.3 !important;
-            }
-            
-            h3 {
-                font-size: 1.25rem !important;
-            }
-            
-            .hero-section { padding-top: 1rem; min-height: auto; }
-            .hero-image-container {
-                height: auto !important;
-                min-height: 240px;
-                max-height: 320px;
-                margin-top: 1.25rem;
-                border-radius: 1.5rem;
-                overflow: hidden;
-                -webkit-mask-image: -webkit-radial-gradient(white, black);
-                mask-image: radial-gradient(white, black);
-            }
-            
-            .hero-image-container img {
-                max-height: 320px;
-                object-fit: cover !important;
-                object-position: center !important;
-                border-radius: 0 !important;
-            }
-            
-            #home p { font-size: 1rem; margin-bottom: 0.75rem; }
-            #home .btn-primary, #home .btn-secondary { padding: 0.625rem 1rem; font-size: 0.95rem; }
-            #home .social-links { margin-top: 0.5rem; }
-            
-            .skill-card {
-                padding: 0.875rem !important;
-            }
-            
-            .project-card { margin-bottom: 1rem; }
-            .experience-item { margin-bottom: 1.25rem; }
-            .contact-info { margin-top: 1.25rem; }
-            .social-links { justify-content: center; margin-top: 0.75rem; }
-            
-            .btn {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
-            }
-            
-            .grid { gap: 0.75rem; }
-        }
-        
-        @media (max-width: 768px) {
-            .grid-cols-2, .grid-cols-3, .grid-cols-5 {
-                grid-template-columns: repeat(2, 1fr) !important;
-            }
-            
-            .hero-section {
-                padding-top: 1.5rem;
-                min-height: auto;
-            }
-            
-            .about-content { margin-top: 1.5rem; }
-            
-            .mobile-nav-link {
-                font-size: 1.05rem;
-                padding: 0.625rem 0.875rem;
-            }
-            
-            #chat-widget {
-                width: calc(100vw - 40px);
-                max-width: 380px;
-                left: 16px;
-                bottom: 100px;
-                height: 520px;
-            }
-            
-            #chat-button, #back-to-top {
-                bottom: 96px;
-            }
 
-            p {
-                font-size: 0.95rem;
-                line-height: 1.7;
-            }
+        /* Prevent FOUC */
+        body {
+            visibility: hidden;
+            background: var(--bg-primary);
+            color: var(--text-primary);
         }
-        
-        @media (max-width: 480px) {
-            .grid-cols-2, .grid-cols-3, .grid-cols-5 {
-                grid-template-columns: 1fr !important;
-            }
-            
-            h1 { font-size: 1.75rem !important; }
-            h2 { font-size: 1.375rem !important; }
-            h3 { font-size: 1.25rem !important; }
-            
-            .hero-image-container {
-                height: auto !important;
-                min-height: 200px;
-                max-height: 280px;
-                border-radius: 1.5rem;
-                overflow: hidden;
-                -webkit-mask-image: -webkit-radial-gradient(white, black);
-                mask-image: radial-gradient(white, black);
-            }
-            
-            .hero-image-container img {
-                max-height: 280px;
-                object-fit: cover !important;
-                object-position: center !important;
-                border-radius: 0 !important;
-            }
-            
-            .skill-card { padding: 0.625rem !important; }
-            .skill-card .w-20 { width: 3.25rem; height: 3.25rem; }
-            
-            input, textarea { font-size: 16px; }
+
+        body.loaded {
+            visibility: visible;
         }
-        
-        button:focus-visible, a:focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
+
+        /* Critical layout styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
         }
-        
-        h1, h2, h3, h4, h5, h6 {
-            line-height: 1.2;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-        
-        h1 {
-            letter-spacing: -0.03em;
-        }
-        
-        p {
-            line-height: 1.75;
-            letter-spacing: -0.01em;
-        }
-        
+
         .btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
             font-weight: 600;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
             cursor: pointer;
-            text-decoration: none;
+            transition: all 0.3s ease;
         }
-        
+
         .btn-primary {
-            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             color: white;
-            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .btn-secondary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: -1;
-        }
-        
-        .btn-secondary:hover {
-            color: white;
-            border-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
-        }
-        
-        .btn-secondary:hover::before {
-            width: 100%;
-        }
-        
-        .btn-secondary:active {
-            transform: translateY(0);
-        }
-        
-        .card {
-            background: var(--bg-primary);
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .dark .card {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .project-card-tilt:hover { transform: translateY(-6px) scale(1.01) rotateX(0.5deg) rotateY(-0.5deg); }
-        
-        .dark .card:hover {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid var(--text-secondary);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        section {
-            position: relative;
-        }
-        
-        .nav-scrolled {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-        
-        .dark .nav-scrolled {
-            background: rgba(17, 24, 39, 0.9);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        footer {
-            border-top: 1px solid var(--text-secondary);
-            padding: 2rem 0;
-        }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            transition: all 0.3s ease;
-        }
-        
-        .hover-lift {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .hover-lift:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        .dark .hover-lift:hover {
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--text-secondary), transparent);
-            margin: 4rem 0;
-        }
-        
-        *:focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-            border-radius: 4px;
-        }
-        
-        .btn-primary:active,
-        .btn-secondary:active {
-            transform: translateY(1px);
-        }
-        
-        img {
-            transition: opacity 0.3s ease;
-        }
-        
-        .lazy-image {
-            opacity: 0;
-            /* Placeholder or low-res image can be set here */
-        }
-        
-        .lazy-image.loaded {
-            opacity: 1;
-        }
-        
-        ::selection {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        ::-moz-selection {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .card-shadow {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: box-shadow 0.3s ease;
-        }
-        
-        .card-shadow:hover {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        
-        .dark .card-shadow {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-        }
-        
-        .dark .card-shadow:hover {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-        }
-        
-        .section-gap {
-            margin-bottom: 6rem;
-        }
-        
-        @media (max-width: 768px) {
-            .section-gap {
-                margin-bottom: 4rem;
-            }
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            transform: translateY(-1px);
-        }
-        
-        a:not(.btn):hover {
-            transition: color 0.2s ease;
-        }
-        
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-        
-        .badge:hover {
-            transform: scale(1.05);
-        }
-        
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px;
-        }
-        @media (max-width: 640px) {
-            html { scroll-padding-top: 68px; }
-            #nav-sticky nav { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
-        }
-        
-        * {
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        img, video {
-            content-visibility: auto;
-        }
-        
-        .loading-state {
-            opacity: 0.6;
-            pointer-events: none;
-            position: relative;
-        }
-        
-        .loading-state::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid var(--primary);
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .skip-to-main {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--primary);
-            color: white;
-            padding: 8px 16px;
-            text-decoration: none;
-            z-index: 100;
-            border-radius: 0 0 4px 0;
-        }
-        
-        .skip-to-main:focus {
-            top: 0;
-        }
-        
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
         }
     </style>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Debug Utility (Development Only) -->
+    <script src="debug-overflow.js"></script>
+
 </head>
-<body class="selection:bg-blue-500/20 transition-colors duration-300">
 
-    <a href="#main-content" class="skip-to-main focus:top-0">Skip to main content</a>
-
-    <div class="floating-bg floating-bg-1 w-96 h-96 bg-blue-400 top-20 -left-40"></div>
-    <div class="floating-bg floating-bg-2 w-96 h-96 bg-purple-500 bottom-40 -right-40"></div>
-    <div class="floating-bg floating-bg-3 w-80 h-80 bg-indigo-400 top-1/2 left-1/3"></div>
-    
-    <button id="back-to-top" aria-label="Back to top" class="fixed bottom-8 right-8 z-40 btn-primary text-white p-3 rounded-full shadow-lg glow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <button id="chat-button" aria-label="Open chat widget" class="fixed bottom-8 left-8 z-40 btn-primary text-white p-3 rounded-full shadow-lg glow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-        <i class="fas fa-comment"></i>
-    </button>
-    
-    <div id="chat-widget">
-        <div class="chat-header">
-            <h3>
-                <span class="status"></span>
-                AI Assistant
-            </h3>
-            <button id="chat-close" class="chat-close" aria-label="Close chat widget">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="chat-body" id="chat-messages">
-            <div class="message bot">
-                Hello! I'm your AI assistant. How can I help you today?
-            </div>
-            <div class="message bot">
-                Feel free to ask me anything about Sugam's skills, projects, or experience.
-            </div>
-        </div>
-        <div class="chat-footer">
-            <div class="chat-input-container">
-                <input type="text" id="chat-input" class="chat-input" placeholder="Type your message...">
-                <button id="chat-send" class="chat-send" aria-label="Send message">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    <header id="nav-sticky" class="fixed top-0 left-0 right-0 z-50 nav-transparent transition-all duration-300 ease-out gradient-border" style="border-width:1px;border-radius:0 0 16px 16px;">
-        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="text-xl sm:text-2xl font-bold text-gradient flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg">
-                <span class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-1.5 rounded-lg mr-2 glow">
-                    <i class="fas fa-code text-sm"></i>
-                </span>
-                Sugam Pokharel
-            </a>
-            
-            <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
-                <a href="#home" class="nav-link active text-muted hover:text-blue-500 font-medium transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm px-2 py-1">Home</a>
-                <a href="#about" class="nav-link text-muted hover:text-blue-500 font-medium transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm px-2 py-1">About</a>
-                <a href="#skills" class="nav-link text-muted hover:text-blue-500 font-medium transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm px-2 py-1">Skills</a>
-                <a href="#projects" class="nav-link text-muted hover:text-blue-500 font-medium transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm px-2 py-1">Projects</a>
-                <a href="#experience" class="nav-link text-muted hover:text-blue-500 font-medium transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-sm px-2 py-1">Experience</a>
-                <a href="#contact" class="btn-primary px-4 py-2.5 rounded-lg shadow-md font-medium glow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-                    Contact Me
-                </a>
-                <button id="theme-toggle" aria-label="Toggle light/dark theme" class="text-muted hover:text-blue-500 transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 w-8 h-8 relative focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                    <i id="theme-icon-light" class="fas fa-sun absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
-                    <i id="theme-icon-dark" class="fas fa-moon absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
-                </button>
-            </div>
-            
-            <div class="md:hidden flex items-center">
-                <button id="theme-toggle-mobile" aria-label="Toggle light/dark theme" class="text-muted mr-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 w-8 h-8 relative focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                    <i id="theme-icon-light-mobile" class="fas fa-sun absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
-                    <i id="theme-icon-dark-mobile" class="fas fa-moon absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></i>
-                </button>
-                <button id="mobile-menu-open" aria-label="Open mobile menu" class="text-muted p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </nav>
-
-        <div id="mobile-menu" class="fixed top-0 right-0 h-full w-80 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-xl z-60 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden">
-            <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
-                <span class="text-xl font-bold text-gradient">Menu</span>
-                <button id="mobile-menu-close" aria-label="Close mobile menu" class="text-muted p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <nav class="flex flex-col space-y-2 p-6">
-                <a href="#home" class="mobile-nav-link text-lg text-muted hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-lg transition-colors flex items-center focus:outline-none focus-visible:bg-gray-100 dark:focus-visible:bg-gray-800">
-                    <i class="fas fa-home mr-3 text-blue-500"></i> Home
-                </a>
-                <a href="#about" class="mobile-nav-link text-lg text-muted hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-lg transition-colors flex items-center focus:outline-none focus-visible:bg-gray-100 dark:focus-visible:bg-gray-800">
-                    <i class="fas fa-user mr-3 text-blue-500"></i> About
-                </a>
-                <a href="#skills" class="mobile-nav-link text-lg text-muted hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-lg transition-colors flex items-center focus:outline-none focus-visible:bg-gray-100 dark:focus-visible:bg-gray-800">
-                    <i class="fas fa-code mr-3 text-blue-500"></i> Skills
-                </a>
-                <a href="#projects" class="mobile-nav-link text-lg text-muted hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-lg transition-colors flex items-center focus:outline-none focus-visible:bg-gray-100 dark:focus-visible:bg-gray-800">
-                    <i class="fas fa-project-diagram mr-3 text-blue-500"></i> Projects
-                </a>
-                <a href="#experience" class="mobile-nav-link text-lg text-muted hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-3 rounded-lg transition-colors flex items-center focus:outline-none focus-visible:bg-gray-100 dark:focus-visible:bg-gray-800">
-                    <i class="fas fa-briefcase mr-3 text-blue-500"></i> Experience
-                </a>
-                <a href="#contact" class="mobile-nav-link btn-primary text-center px-4 py-3 rounded-lg transition-all duration-300 mt-4 flex items-center justify-center glow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-                    <i class="fas fa-paper-plane mr-2"></i> Contact Me
-                </a>
-            </nav>
-        </div>
-    </header>
-
-    <main id="main-content" role="main">
-        <section id="home" class="min-h-screen flex items-center pt-24 md:pt-0 relative overflow-hidden section-bg hero-section">
-            <div class="container mx-auto px-4 sm:px-6">
-                <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
-                    <div class="animate-fade-in is-visible text-center md:text-left">
-                        <span class="inline-flex items-center text-blue-500 font-semibold text-sm uppercase tracking-wider mb-4 justify-center md:justify-start">
-                            <span class="w-8 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 mr-3"></span>
-                            Hello, I'm
-                        </span>
-                        <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold my-6 leading-tight">
-                            <span class="text-gradient">Sugam Pokharel</span>
-                        </h1>
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-muted mb-8 h-14 md:h-20 leading-tight">
-                            <span id="typewriter-text"></span><span class="typewriter-cursor text-3xl sm:text-4xl md:text-5xl">|</span>
-                        </h2>
-                        <p class="text-lg sm:text-xl text-muted max-w-2xl mb-10 leading-relaxed mx-auto md:mx-0">
-                            I build modern, responsive, and data-driven web applications, bridging the gap between beautiful design and robust backend logic.
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                            <a href="#projects" class="btn-primary px-6 py-3.5 rounded-lg text-lg font-semibold shadow-lg text-center flex items-center justify-center gap-2 glow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 w-full sm:w-auto">
-                                <i class="fas fa-eye"></i> View My Work
-                            </a>
-                            <a href="#contact" class="btn-secondary px-6 py-3.5 rounded-lg text-lg font-semibold text-center flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 w-full sm:w-auto">
-                                <i class="fas fa-paper-plane"></i> Get In Touch
-                            </a>
-                        </div>
-                        <div class="flex mt-8 space-x-4 justify-center md:justify-start social-links">
-                            <a href="https://www.linkedin.com/in/sugam-pokharel-0504b438b" target="_blank" rel="noopener noreferrer" aria-label="View LinkedIn profile" class="text-muted hover:text-blue-500 transition-all p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                <i class="fab fa-linkedin-in text-xl"></i>
-                            </a>
-                            <a href="https://github.com/sugampokhareldev" target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile" class="text-muted hover:text-blue-500 transition-all p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                <i class="fab fa-github text-xl"></i>
-                            </a>
-                            <a href="https://x.com/PokharelSu65518" target="_blank" rel="noopener noreferrer" aria-label="View Twitter profile" class="text-muted hover:text-blue-500 transition-all p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                <i class="fab fa-twitter text-xl"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-center items-center animate-fade-in is-visible" style="animation-delay: 200ms;">
-                        <div class="relative w-full max-w-md hero-image-container h-[450px] md:h-[550px] lg:h-[600px]">
-                            <div class="absolute -inset-4 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl blur-lg opacity-30"></div>
-                            <img src="images/image.png" 
-                                alt="Professional photo of Sugam Pokharel - Fullstack Developer" 
-                                width="800" height="800"
-                                class="relative rounded-2xl shadow-2xl w-full h-full object-contain md:object-cover object-center md:object-top overflow-hidden z-10 transition-all duration-300 hover:-translate-y-2 hover:shadow-3xl"
-                                loading="eager" fetchpriority="high"
-                                onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjgwMCIgdmlld0JveD0iMCAwIDgwMCA4MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iODAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik00MDAgNDAwTDMwMCA1MDBMNTAwIDUwMFoiIGZpbGw9IiM5Q0EwQUIiLz4KPC9zdmc+Cg=='">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="section-padding relative overflow-hidden section-bg">
-            <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16 lg:mb-20 animate-fade-in">
-                    <span class="inline-block text-sm font-semibold text-blue-500 uppercase tracking-wider mb-4">About</span>
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6">
-                        <span class="text-gradient">About Me</span>
-                    </h2>
-                    <div class="w-20 h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 mx-auto mb-6 rounded-full"></div>
-                    <p class="text-lg sm:text-xl text-muted max-w-3xl mx-auto leading-relaxed">
-                        A brief story about my professional background and passions.
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-5 gap-8 lg:gap-12 items-center">
-                    <div class="md:col-span-2 animate-fade-in">
-                        <div class="relative w-3/4 md:w-full mx-auto">
-                            <div class="absolute -inset-4 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full blur-lg opacity-30"></div>
-                            <img src="images/image.png"
-                                alt="A profile picture of Sugam Pokharel" 
-                                width="600" height="600"
-                                loading="lazy"
-                                class="lazy-image relative rounded-full shadow-xl w-full z-10 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] dark:hover:shadow-[0_0_30px_rgba(96,165,250,0.6)] object-cover"
-                                style="aspect-ratio: 1/1;">
-                        </div>
-                    </div>
-                    <div class="md:col-span-3 animate-fade-in about-content" style="animation-delay: 200ms;">
-                        <h3 class="text-2xl sm:text-3xl font-bold mb-6 text-gradient">Who I Am</h3>
-                        <p class="text-lg text-muted mb-6 leading-relaxed">
-                            Hello! I'm Sugam, a fullstack developer with a passion for creating seamless digital experiences. With a mastery of frontend technologies like <strong class="text-gray-800 dark:text-gray-100">HTML, CSS, and JavaScript</strong>, I love bringing ideas to life in the browser.
-                        </p>
-                        <p class="text-lg text-muted mb-6 leading-relaxed">
-                            I'm currently deepening my expertise in backend development, actively <strong class="text-gray-800 dark:text-gray-100">learning Node.js and Express.js</strong>, to build complete, end-to-end applications. My goal is to write clean, efficient code that solves real-world problems.
-                        </p>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="card-hover p-6 rounded-2xl flex flex-col items-center justify-center text-center glass-card shadow-lg transition-all duration-300 group">
-                                <span class="text-4xl font-extrabold text-gradient mb-2 group-hover:scale-110 transition-transform">2+</span>
-                                <span class="text-sm font-semibold text-muted uppercase tracking-wide">Years of Experience</span>
-                            </div>
-                            <div class="card-hover p-6 rounded-2xl flex flex-col items-center justify-center text-center glass-card shadow-lg transition-all duration-300 group">
-                                <span class="text-4xl font-extrabold text-gradient mb-2 group-hover:scale-110 transition-transform">10+</span>
-                                <span class="text-sm font-semibold text-muted uppercase tracking-wide">Projects Completed</span>
-                            </div>
-                            <div class="card-hover p-6 rounded-2xl flex flex-col items-center justify-center text-center glass-card shadow-lg transition-all duration-300 group">
-                                <span class="text-4xl font-extrabold text-gradient mb-2 group-hover:scale-110 transition-transform">5+</span>
-                                <span class="text-sm font-semibold text-muted uppercase tracking-wide">Happy Clients</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="skills" class="section-padding bg-gray-50 dark:bg-gray-800/50 rounded-lg relative overflow-hidden">
-            <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16 lg:mb-20 animate-fade-in">
-                    <span class="inline-block text-sm font-semibold text-blue-500 uppercase tracking-wider mb-4">Skills</span>
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6">
-                        <span class="text-gradient">My Tech Stack</span>
-                    </h2>
-                    <div class="w-20 h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 mx-auto mb-6 rounded-full"></div>
-                    <p class="text-lg sm:text-xl text-muted max-w-3xl mx-auto leading-relaxed">
-                        Technologies I use to bring ideas to life.
-                    </p>
-                </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 max-w-5xl mx-auto animate-fade-in" style="animation-delay: 200ms;">
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-1 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="HTML5 skill level 95%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="95" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fab fa-html5 text-3xl sm:text-4xl text-orange-500"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">HTML5</h3>
-                        <p class="text-sm text-muted mb-2">Advanced</p>
-                        <div class="skill-level-text text-blue-500 font-bold">95%</div>
-                    </div>
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-2 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="CSS3 skill level 90%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="90" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fab fa-css3-alt text-3xl sm:text-4xl text-blue-500"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">CSS3</h3>
-                        <p class="text-sm text-muted mb-2">Advanced</p>
-                        <div class="skill-level-text text-blue-500 font-bold">90%</div>
-                    </div>
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-3 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="JavaScript skill level 85%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="85" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fab fa-js-square text-3xl sm:text-4xl text-yellow-500"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">JavaScript</h3>
-                        <p class="text-sm text-muted mb-2">Advanced</p>
-                        <div class="skill-level-text text-blue-500 font-bold">85%</div>
-                    </div>
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-4 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="React skill level 80%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="80" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fab fa-react text-3xl sm:text-4xl text-cyan-500"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">React</h3>
-                        <p class="text-sm text-muted mb-2">Proficient</p>
-                        <div class="skill-level-text text-blue-500 font-bold">80%</div>
-                    </div>
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-5 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="Node.js skill level 70%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="70" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fab fa-node-js text-3xl sm:text-4xl text-green-600"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">Node.js</h3>
-                        <p class="text-sm text-muted mb-2">Intermediate</p>
-                        <div class="skill-level-text text-blue-500 font-bold">70%</div>
-                    </div>
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-6 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="MongoDB skill level 65%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="65" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fas fa-database text-3xl sm:text-4xl text-green-500"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">MongoDB</h3>
-                        <p class="text-sm text-muted mb-2">Intermediate</p>
-                        <div class="skill-level-text text-blue-500 font-bold">65%</div>
-                    </div>
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-7 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="Git skill level 85%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="85" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fab fa-git-alt text-3xl sm:text-4xl text-orange-600"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">Git</h3>
-                        <p class="text-sm text-muted mb-2">Advanced</p>
-                        <div class="skill-level-text text-blue-500 font-bold">85%</div>
-                    </div>
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-8 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="Tailwind CSS skill level 85%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="85" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <svg class="w-8 h-8 sm:w-9 sm:h-9 text-cyan-400" fill="currentColor" viewBox="0 0 2500 1718"><path d="M1250.1 247.2c-53.9 0-105.5 13.9-152.3 40.2-44.1 24.9-82.3 59.3-112.5 101.3-30.1 42-49.3 90.1-56.2 141.5-6.9 51.4-1.4 103.9 15.9 153.2 17.3 49.3 46.1 94 84.7 131.2 38.6 37.2 86.4 66.4 139.7 86.2 53.3 19.8 110.8 29.6 169.2 28.5 58.4-1.1 115.6-13 168.4-34.9 52.8-21.9 100.2-53.9 139.4-94 39.2-40.1 69.3-87.8 88.5-140.4 19.2-52.6 27.2-109.2 23.3-166.5-3.9-57.3-19.8-112.8-46.3-163-26.5-50.2-63-94-106.8-128.5-43.8-34.5-94-59.2-147.1-72.3-53.1-13.1-108.3-14.4-161.7-3.9zM1250.1 0c80 0 157.9 15.8 230.9 46.4 73 30.6 139.3 75 195.3 130.9 56 55.9 100.4 122.2 131 195.2 30.6 73 46.5 150.8 46.5 230.8 0 80-15.8 157.9-46.4 230.9-30.6 73-75 139.3-130.9 195.3-55.9 56-122.2 100.4-195.2 131-73 30.6-150.8 46.5-230.8 46.5-80 0-157.9-15.8-230.9-46.4-73-30.6-139.3-75-195.3-130.9-56-55.9-122.2-100.4-195.2-131-73-30.6-150.8-46.5-230.8-46.5zM625 1061c-53.9 0-105.5 13.9-152.3 40.2-44.1 24.9-82.3 59.3-112.5 101.3-30.1 42-49.3 90.1-56.2 141.5-6.9 51.4-1.4 103.9 15.9 153.2 17.3 49.3 46.1 94 84.7 131.2 38.6 37.2 86.4 66.4 139.7 86.2 53.3 19.8 110.8 29.6 169.2 28.5 58.4-1.1 115.6-13 168.4-34.9 52.8-21.9 100.2-53.9 139.4-94 39.2-40.1 69.3-87.8 88.5-140.4 19.2-52.6 27.2-109.2 23.3-166.5-3.9-57.3-19.8-112.8-46.3-163-26.5-50.2-63-94-106.8-128.5-43.8-34.5-94-59.2-147.1-72.3-53.1-13.1-108.3-14.4-161.7-3.9zm1250.1 0c-53.9 0-105.5 13.9-152.3 40.2-44.1 24.9-82.3 59.3-112.5 101.3-30.1 42-49.3 90.1-56.2 141.5-6.9 51.4-1.4 103.9 15.9 153.2 17.3 49.3 46.1 94 84.7 131.2 38.6 37.2 86.4 66.4 139.7 86.2 53.3 19.8 110.8 29.6 169.2 28.5 58.4-1.1 115.6-13 168.4-34.9 52.8-21.9 100.2-53.9 139.4-94 39.2-40.1 69.3-87.8 88.5-140.4 19.2-52.6 27.2-109.2 23.3-166.5-3.9-57.3-19.8-112.8-46.3-163-26.5-50.2-63-94-106.8-128.5-43.8-34.5-94-59.2-147.1-72.3-53.1-13.1-108.3-14.4-161.7-3.9z"></path></svg>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">Tailwind CSS</h3>
-                        <p class="text-sm text-muted mb-2">Advanced</p>
-                        <div class="skill-level-text text-blue-500 font-bold">85%</div>
-                    </div>
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-9 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="REST APIs skill level 80%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="80" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <i class="fas fa-cloud text-3xl sm:text-4xl text-blue-400"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">REST APIs</h3>
-                        <p class="text-sm text-muted mb-2">Proficient</p>
-                        <div class="skill-level-text text-blue-500 font-bold">80%</div>
-                    </div>
-                    
-                    <div class="skill-card p-4 sm:p-6 flex flex-col items-center text-center skill-card-10 glass-card rounded-2xl shadow-lg transition-all duration-300">
-                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 mb-4">
-                            <svg class="w-full h-full progress-ring" viewBox="0 0 100 100" role="img" aria-label="Express.js skill level 75%">
-                                <circle class="text-gray-200 dark:text-gray-700" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                <circle class="text-blue-500 progress-ring-circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" 
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2" data-percentage="75" />
-                            </svg>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <span class="text-2xl sm:text-3xl font-bold text-muted">Ex</span>
-                            </div>
-                        </div>
-                        <h3 class="text-lg font-semibold mb-2">Express.js</h3>
-                        <p class="text-sm text-muted mb-2">Intermediate</p>
-                        <div class="skill-level-text text-blue-500 font-bold">75%</div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="section-padding relative overflow-hidden section-bg">
-            <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16 lg:mb-20 animate-fade-in">
-                    <span class="inline-block text-sm font-semibold text-blue-500 uppercase tracking-wider mb-4">Portfolio</span>
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6">
-                        <span class="text-gradient">My Projects</span>
-                    </h2>
-                    <div class="w-20 h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 mx-auto mb-6 rounded-full"></div>
-                    <p class="text-lg sm:text-xl text-muted max-w-3xl mx-auto leading-relaxed">
-                        Here are some of the projects I've worked on.
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
-                    
-                    <div class="overflow-hidden transform transition-all duration-300 animate-fade-in group project-card card project-card-tilt glass-card rounded-2xl shadow-lg">
-                        <div class="relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                                data-src="https://images.unsplash.com/photo-1556740758-90de374c12ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80"
-                                alt="E-Commerce Platform Project Screenshot" 
-                                loading="lazy" 
-                                class="lazy-image w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500 rounded-xl">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                                <div class="flex space-x-3">
-                                    <a href="https://ajkcleaners.de/" aria-label="View live project" target="_blank" rel="noopener noreferrer" class="bg-white/90 text-gray-800 p-2 rounded-full hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                        <i class="fas fa-external-link-alt"></i>
-                                    </a>
-                                    <a href="https://github.com/sugampokhareldev" aria-label="View project source code" target="_blank" rel="noopener noreferrer" class="bg-white/90 text-gray-800 p-2 rounded-full hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-6 lg:p-8">
-                            <h3 class="text-2xl lg:text-3xl font-bold mb-4 text-gradient">E-Commerce Platform</h3>
-                            <p class="text-muted mb-6 leading-relaxed">
-                                Live e-commerce site with a payment interface, booking system, live chat, and AI chat integration.
-                            </p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">React</span>
-                                <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">Node.js</span>
-                                <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">MongoDB</span>
-                                <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">Stripe</span>
-                                <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">AI (Gemini)</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="overflow-hidden transform transition-all duration-300 animate-fade-in group project-card card project-card-tilt glass-card rounded-2xl shadow-lg" style="animation-delay: 200ms;">
-                        <div class="relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                                data-src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1760&q=80"
-                                alt="Task Manager App Project Screenshot" 
-                                loading="lazy" 
-                                class="lazy-image w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                                <div class="flex space-x-3">
-                                    <a href="https://github.com/sugampokhareldev" aria-label="View project source code" target="_blank" rel="noopener noreferrer" class="bg-white/90 text-gray-800 p-2 rounded-full hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-2xl font-bold mb-3">Task Manager App</h3>
-                            <p class="text-muted mb-4">
-                                A responsive task management app with drag-and-drop functionality and local storage.
-                            </p>
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">React</span>
-                                <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">JavaScript</span>
-                                <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">CSS3</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="experience" class="section-padding bg-gray-50 dark:bg-gray-800/50 rounded-lg relative overflow-hidden">
-            <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16 lg:mb-20 animate-fade-in">
-                    <span class="inline-block text-sm font-semibold text-blue-500 uppercase tracking-wider mb-4">Experience</span>
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6">
-                        <span class="text-gradient">My Experience</span>
-                    </h2>
-                    <div class="w-20 h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 mx-auto mb-6 rounded-full"></div>
-                    <p class="text-lg sm:text-xl text-muted max-w-3xl mx-auto leading-relaxed">
-                        My professional journey and roles I've held.
-                    </p>
-                </div>
-                
-                <div class="max-w-3xl mx-auto">
-                    <div class="relative">
-                        
-                        <div class="mb-12 relative animate-fade-in experience-item">
-                            <div class="flex flex-col md:flex-row gap-6">
-                                <div class="md:w-1/3">
-                                    <span class="inline-block text-sm font-semibold text-blue-500 bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full mb-4">2023 - Present</span>
-                                    <h3 class="text-2xl lg:text-3xl font-bold mb-2 text-gradient">Freelance Web Developer</h3>
-                                    <h4 class="text-lg font-semibold text-muted">Self-Employed</h4>
-                                </div>
-                                <div class="md:w-2/3 p-6 lg:p-8 glass-card rounded-2xl shadow-lg transition-all duration-300 card-hover">
-                                    <p class="text-muted">
-                                        Designed and developed responsive websites for small businesses and clients. Handled everything from initial consultation and design in Figma to full frontend and backend development.
-                                    </p>
-                                    <div class="flex flex-wrap gap-2 mt-4">
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">HTML/CSS</span>
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">JavaScript</span>
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">React</span>
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">Node.js</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-12 relative animate-fade-in experience-item" style="animation-delay: 200ms;">
-                            <div class="flex flex-col md:flex-row gap-6">
-                                <div class="md:w-1/3">
-                                    <span class="inline-block text-sm font-semibold text-blue-500 bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full mb-4">Summer 2022</span>
-                                    <h3 class="text-2xl lg:text-3xl font-bold mb-2 text-gradient">Web Developer Intern</h3>
-                                    <h4 class="text-lg font-semibold text-muted">Example Tech Co.</h4>
-                                </div>
-                                <div class="md:w-2/3 p-6 lg:p-8 glass-card rounded-2xl shadow-lg transition-all duration-300 card-hover">
-                                    <p class="text-muted">
-                                        Assisted senior developers in maintaining and updating internal web applications. Gained hands-on experience with React, Node.js, and working within an Agile team environment.
-                                    </p>
-                                    <div class="flex flex-wrap gap-2 mt-4">
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">React</span>
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">Node.js</span>
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">Agile</span>
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">Git</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="relative animate-fade-in experience-item" style="animation-delay: 400ms;">
-                            <div class="flex flex-col md:flex-row gap-6">
-                                <div class="md:w-1/3">
-                                    <span class="inline-block text-sm font-semibold text-blue-500 bg-blue-100 dark:bg-blue-900/30 px-4 py-2 rounded-full mb-4">2021 - 2022</span>
-                                    <h3 class="text-2xl lg:text-3xl font-bold mb-2 text-gradient">Personal Projects</h3>
-                                    <h4 class="text-lg font-semibold text-muted">Self-Study</h4>
-                                </div>
-                                <div class="md:w-2/3 p-6 lg:p-8 glass-card rounded-2xl shadow-lg transition-all duration-300 card-hover">
-                                    <p class="text-muted">
-                                        Built numerous projects to solidify my understanding of fullstack development, focusing on MERN stack and advanced JavaScript concepts.
-                                    </p>
-                                    <div class="flex flex-wrap gap-2 mt-4">
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">MongoDB</span>
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">Express</span>
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">React</span>
-                                        <span class="badge bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-800">Node.js</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="section-padding relative overflow-hidden section-bg">
-            <div class="container mx-auto px-4 sm:px-6">
-                <div class="text-center mb-16 lg:mb-20 animate-fade-in">
-                    <span class="inline-block text-sm font-semibold text-blue-500 uppercase tracking-wider mb-4">Contact</span>
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6">
-                        <span class="text-gradient">Get In Touch</span>
-                    </h2>
-                    <div class="w-20 h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 mx-auto mb-6 rounded-full"></div>
-                    <p class="text-lg sm:text-xl text-muted max-w-3xl mx-auto leading-relaxed">
-                        I'm open to new opportunities and collaborations. Feel free to send me a message!
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-                    <form id="contact-form" class="animate-fade-in glass-card p-6 lg:p-8 rounded-2xl shadow-lg" style="animation-delay: 200ms;">
-                        <div class="mb-6">
-                            <label for="name" class="block text-sm font-semibold text-muted mb-3 flex items-center gap-2">
-                                <i class="fas fa-user text-blue-500"></i>
-                                Your Name
-                            </label>
-                            <input type="text" id="name" name="name" class="form-input w-full p-4 lg:p-5 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-md border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="Enter your full name" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="email" class="block text-sm font-semibold text-muted mb-3 flex items-center gap-2">
-                                <i class="fas fa-envelope text-blue-500"></i>
-                                Your Email
-                            </label>
-                            <input type="email" id="email" name="email" class="form-input w-full p-4 lg:p-5 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-md border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="your.email@example.com" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="message" class="block text-sm font-semibold text-muted mb-3 flex items-center gap-2">
-                                <i class="fas fa-comment-dots text-blue-500"></i>
-                                Message
-                            </label>
-                            <textarea id="message" name="message" rows="6" class="form-input w-full p-4 lg:p-5 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-md border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-base resize-none placeholder:text-gray-400 dark:placeholder:text-gray-500" placeholder="Tell me about your project or just say hello..." required></textarea>
-                        </div>
-                        <button type="submit" class="w-full btn-primary px-8 py-4 lg:py-5 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-2 glow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 group">
-                            <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform"></i> 
-                            Send Message
-                        </button>
-                        <div id="form-status" class="mt-4 text-center text-lg font-medium"></div>
-                    </form>
-                    
-                    <div class="animate-fade-in contact-info" style="animation-delay: 400ms;">
-                        <div class="glass-card p-6 lg:p-8 rounded-2xl shadow-lg h-full">
-                            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gradient">Let's Connect</h3>
-                            <p class="text-lg sm:text-xl text-muted mb-8 leading-relaxed">
-                                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Feel free to reach out!
-                            </p>
-                            
-                            <div class="space-y-4 mb-8">
-                                <a href="mailto:sugampokharel28@gmail.com" class="card-hover flex items-center group p-5 lg:p-6 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/30 shadow-md transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                    <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center mr-5 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
-                                        <i class="fas fa-envelope text-white text-xl"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <span class="block text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">sugampokharel28@gmail.com</span>
-                                        <span class="text-sm text-muted">Send me an email</span>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-muted group-hover:text-blue-500 group-hover:translate-x-1 transition-all"></i>
-                                </a>
-                                
-                                <a href="https://www.linkedin.com/in/sugam-pokharel-0504b438b" target="_blank" rel="noopener noreferrer" class="card-hover flex items-center group p-5 lg:p-6 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/30 shadow-md transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                    <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center mr-5 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
-                                        <i class="fab fa-linkedin-in text-white text-xl"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <span class="block text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">LinkedIn</span>
-                                        <span class="text-sm text-muted">Connect professionally</span>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-muted group-hover:text-blue-500 group-hover:translate-x-1 transition-all"></i>
-                                </a>
-                                
-                                <a href="https://github.com/sugampokhareldev" target="_blank" rel="noopener noreferrer" class="card-hover flex items-center group p-5 lg:p-6 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/30 shadow-md transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                                    <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center mr-5 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-lg">
-                                        <i class="fab fa-github text-white text-xl"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <span class="block text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">GitHub</span>
-                                        <span class="text-sm text-muted">View my code</span>
-                                    </div>
-                                    <i class="fas fa-arrow-right text-muted group-hover:text-blue-500 group-hover:translate-x-1 transition-all"></i>
-                                </a>
-                            </div>
-                            
-                            <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
-                                <p class="text-sm text-muted text-center">
-                                    <i class="fas fa-clock text-blue-500 mr-2"></i>
-                                    Usually responds within 24 hours
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div id="mobile-cta" class="md:hidden fixed bottom-0 inset-x-0 z-30 backdrop-blur bg-white/85 dark:bg-gray-900/85 border-t border-gray-200 dark:border-gray-700 py-3 px-4 flex items-center justify-between shadow-lg">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white shadow">
-                <i class="fas fa-code text-xs"></i>
-            </div>
-            <div class="text-sm">
-                <div class="font-semibold">Work with Sugam</div>
-                <div class="text-muted -mt-0.5">Available for projects</div>
-            </div>
-        </div>
-        <a href="#contact" class="btn-primary px-3 py-2 rounded-lg font-semibold glow">Contact</a>
-    </div>
+<body class="antialiased">
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <script>
-        // Debounce function for performance
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // --- Navigation Active State & Intersection Observer ---
-        (function(){
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', runObserver);
-            } else {
-                runObserver();
-            }
-
-            function runObserver() {
-                const navLinks = Array.from(document.querySelectorAll('.nav-link'));
-                const sections = navLinks.map(l => {
-                    const href = l.getAttribute('href');
-                    try {
-                        return href ? document.querySelector(href) : null;
-                    } catch (e) {
-                        return null;
-                    }
-                }).filter(Boolean);
-
-                if (!('IntersectionObserver' in window) || sections.length === 0) {
-                    return;
-                }
-
-                const observer = new IntersectionObserver((entries) => {
-                    // Only find the one currently centered in the 'active' zone
-                    let activeLink = null;
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            // Find the correct section based on its middle/top position
-                            if (!activeLink || (entry.target.getBoundingClientRect().top < window.innerHeight / 3 && entry.target.getBoundingClientRect().bottom > window.innerHeight / 3)) {
-                                activeLink = entry.target;
-                            }
-                        }
-                    });
-
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    if (activeLink) {
-                        const link = navLinks.find(l => l.getAttribute('href') === '#' + activeLink.id);
-                        if (link) link.classList.add('active');
-                    }
-                }, { 
-                    rootMargin: '-30% 0px -60% 0px', // Makes the active zone roughly the middle 30% of the screen
-                    threshold: 0 
-                });
-
-                sections.forEach(sec => {
-                    if(sec) observer.observe(sec);
-                });
-            }
-        })();
-
-        // --- Mobile CTA and Chat Widget Interaction ---
-        (function(){
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', runChatCta);
-            } else {
-                runChatCta();
-            }
-
-            function runChatCta() {
-                const cta = document.getElementById('mobile-cta');
-                const chat = document.getElementById('chat-widget');
-                
-                if (!cta || !chat) return;
-
-                const toggleCTA = () => {
-                    const open = chat.classList.contains('open');
-                    // Hide CTA if chat is open, show if chat is closed
-                    cta.style.transform = open ? 'translateY(120%)' : 'translateY(0)';
-                    cta.style.transition = 'transform .3s ease';
-                };
-
-                // Observe the chat widget for class changes
-                const observer = new MutationObserver(toggleCTA);
-                observer.observe(chat, { attributes: true, attributeFilter: ['class'] });
-
-                // Initial check
-                toggleCTA();
-            }
-        })();
-
-        // --- Chat Widget Logic (Enhanced/FIXED) ---
-        
-        // Store references to DOM elements
-        const chatButton = document.getElementById('chat-button');
-        const chatWidget = document.getElementById('chat-widget');
-        const chatClose = document.getElementById('chat-close');
-        const chatInput = document.getElementById('chat-input');
-        const chatSend = document.getElementById('chat-send');
-        const chatMessages = document.getElementById('chat-messages');
-
-        // Define initial messages to be displayed client-side only
-        const initialClientMessages = [
-            { role: 'bot', content: 'Hello! I\'m your AI assistant. How can I help you today?' },
-            { role: 'bot', content: 'Feel free to ask me anything about Sugam\'s skills, projects, or experience.' }
-        ];
-
-        let chatHistory = []; // This array will hold ONLY the actual user/bot conversation (starting with 'user')
-
-        // Function to load chat history from localStorage
-        function loadChatState() {
-            const saved = localStorage.getItem('portfolioChatHistory');
-            
-            // Reset/clear displayed messages
-            if (chatMessages) chatMessages.innerHTML = ''; 
-
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    // Re-validate structure: must be an array, not empty, and first message must be from 'user'
-                    if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].role === 'user') {
-                        chatHistory = parsed;
-                    } else {
-                        chatHistory = [];
-                    }
-                } catch (e) {
-                    console.warn('Failed to load chat history, resetting:', e);
-                    localStorage.removeItem('portfolioChatHistory');
-                    chatHistory = [];
-                }
-            } else {
-                chatHistory = [];
-            }
-            
-            // Display initial client messages or the loaded history
-            if (chatHistory.length === 0) {
-                // Display initial messages when no history exists
-                initialClientMessages.forEach(msg => {
-                    addMessage(msg.content, msg.role, false);
-                });
-            } else {
-                // Display actual conversation history (user messages alternate with model messages)
-                chatHistory.forEach(msg => {
-                    addMessage(msg.content, msg.role, false);
-                });
-            }
-            
-            scrollToBottom(chatMessages);
-        }
-
-        // Function to save chat history to localStorage
-        function saveChatState() {
-            // Only save if there is actual conversation history (excluding initial boilerplate)
-            if (chatHistory.length > 0) {
-                localStorage.setItem('portfolioChatHistory', JSON.stringify(chatHistory));
-            } else {
-                localStorage.removeItem('portfolioChatHistory');
-            }
-        }
-
-        // Event listener for opening the chat
-        if(chatButton) {
-            chatButton.addEventListener('click', () => {
-                if(chatWidget) chatWidget.classList.add('open');
-                if(chatButton) chatButton.classList.add('hidden');
-                loadChatState(); // Load previous conversation
-                if(chatInput) chatInput.focus();
-            });
-        }
-
-        // Event listener for closing the chat
-        if(chatClose) {
-            chatClose.addEventListener('click', () => {
-                if(chatWidget) chatWidget.classList.remove('open');
-                if(chatButton) chatButton.classList.remove('hidden');
-                saveChatState(); // Save conversation
-            });
-        }
-
-        /**
-         * Adds a message to the chat window.
-         * @param {string} text - The message text.
-         * @param {string} sender - The sender ('user' or 'bot').
-         * @param {boolean} shouldScroll - Whether to scroll to bottom after adding.
-         */
-        function addMessage(text, sender, shouldScroll = true) {
-            if (!text || typeof text !== 'string' || !chatMessages) {
-                return;
-            }
-            
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', sender);
-            
-            // Use textContent to sanitize input and display correctly
-            messageDiv.textContent = text;
-            
-            chatMessages.appendChild(messageDiv);
-            if (shouldScroll) {
-                scrollToBottom(chatMessages);
-            }
-        }
-
-        /**
-         * Asynchronously sends a message to the chat API and displays the response.
-         */
-        async function sendMessage() {
-            if (!chatInput || !chatSend || !chatMessages) return;
-
-            const message = chatInput.value.trim();
-            
-            if (!message) return;
-            
-            if (message.length > 2000) {
-                addMessage("Your message is too long. Please keep it under 2000 characters.", 'bot');
-                return;
-            }
-            
-            // Disable input while processing
-            chatInput.disabled = true;
-            chatSend.disabled = true;
-            
-            addMessage(message, 'user');
-            
-            // Send the entire chatHistory + current message. chatHistory starts with 'user'
-            const historyToSend = [...chatHistory];
-            historyToSend.push({ role: 'user', content: message });
-            
-            chatInput.value = '';
-            
-            showTypingIndicator();
-                
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        message,
-                        history: historyToSend
-                    })
-                });
-
-                const result = await response.json();
-
-                removeTypingIndicator();
-
-                if (result.success) {
-                    // Add both user and bot messages to the chatHistory state
-                    chatHistory.push({ role: 'user', content: message });
-                    chatHistory.push({ role: 'bot', content: result.message });
-                    
-                    // Display the new bot message
-                    addMessage(result.message, 'bot');
-                    
-                    // Keep history manageable (last 20 messages)
-                    if (chatHistory.length > 20) {
-                        chatHistory = chatHistory.slice(chatHistory.length - 20);
-                    }
-                } else {
-                    addMessage(result.message || "I'm sorry, I couldn't process your request. Please try again.", 'bot');
-                }
-
-            } catch (error) {
-                console.error('Error fetching chat response:', error);
-                removeTypingIndicator();
-                addMessage("I'm having trouble connecting right now. Please try again later or email me directly at sugampokharel28@gmail.com.", 'bot');
-            } finally {
-                // Re-enable input
-                chatInput.disabled = false;
-                chatSend.disabled = false;
-                chatInput.focus();
-                saveChatState();
-                scrollToBottom(chatMessages);
-            }
-        }
-
-        // Event listener for send button click
-        if(chatSend) {
-            chatSend.addEventListener('click', sendMessage);
-        }
-
-        // Event listener for 'Enter' key press in chat input
-        if(chatInput) {
-            chatInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-        }
-
-        /**
-         * Displays a typing indicator in the chat.
-         */
-        function showTypingIndicator() {
-            if (!chatMessages) return;
-            removeTypingIndicator(); 
-            
-            const typingDiv = document.createElement('div');
-            typingDiv.classList.add('typing-indicator');
-            typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = `
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            `;
-            chatMessages.appendChild(typingDiv);
-            scrollToBottom(chatMessages);
-        }
-
-        /**
-         * Removes the typing indicator from the chat.
-         */
-        function removeTypingIndicator() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-
-        /**
-         * Scrolls a container element to its bottom.
-         * @param {HTMLElement} element - The element to scroll.
-         */
-        function scrollToBottom(element) {
-            if(element) {
-                element.scrollTop = element.scrollHeight;
-            }
-        }
-
-        // Main DOMContentLoaded event listener for page setup
+        // Mark body as loaded to prevent FOUC
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // Set current year in footer (if you add a footer with id="current-year")
-            const yearElement = document.getElementById('current-year');
-            if (yearElement) {
-                yearElement.textContent = new Date().getFullYear();
-            }
-            
-            // --- Enhanced Lazy Loading ---
-            function initLazyLoading() {
-                const lazyImages = document.querySelectorAll('.lazy-image');
-                
-                if ('IntersectionObserver' in window) {
-                    const imageObserver = new IntersectionObserver((entries, observer) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                const img = entry.target;
-                                if (img.dataset.src) {
-                                    img.src = img.dataset.src; // Load the actual image
-                                }
-                                img.classList.remove('lazy-image');
-                                img.classList.add('loaded'); // Trigger CSS opacity transition
-                                observer.unobserve(img);
-                            }
-                        });
-                    }, { threshold: 0.01 });
-                    
-                    lazyImages.forEach(img => {
-                        imageObserver.observe(img);
-                    });
-                } else {
-                    // Fallback for older browsers
-                    lazyImages.forEach(img => {
-                        if (img.dataset.src) {
-                            img.src = img.dataset.src;
-                        }
-                        img.classList.remove('lazy-image');
-                        img.classList.add('loaded');
-                    });
-                }
-            }
-            initLazyLoading(); // Run immediately after DOMContentLoaded
-            
-            // Theme toggle functionality
-            const themeToggleBtns = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
-            
-            function initThemeIcons() {
-                const isDark = document.documentElement.classList.contains('dark');
-                const lightIcons = document.querySelectorAll('#theme-icon-light, #theme-icon-light-mobile');
-                const darkIcons = document.querySelectorAll('#theme-icon-dark, #theme-icon-dark-mobile');
-                
-                if (isDark) {
-                    lightIcons.forEach(icon => { icon.style.opacity = '0'; icon.style.transform = 'rotate(-90deg)'; });
-                    darkIcons.forEach(icon => { icon.style.opacity = '1'; icon.style.transform = 'rotate(0deg)'; });
-                } else {
-                    lightIcons.forEach(icon => { icon.style.opacity = '1'; icon.style.transform = 'rotate(0deg)'; });
-                    darkIcons.forEach(icon => { icon.style.opacity = '0'; icon.style.transform = 'rotate(90deg)'; });
-                }
-            }
-            
-            initThemeIcons();
-            
-            themeToggleBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const isDark = document.documentElement.classList.toggle('dark');
-                    localStorage.theme = isDark ? 'dark' : 'light';
-                    initThemeIcons(); // Update icons
-                });
-            });
-
-            // Mobile menu functionality
-            const mobileMenu = document.getElementById('mobile-menu');
-            const openMenuBtn = document.getElementById('mobile-menu-open');
-            const closeMenuBtn = document.getElementById('mobile-menu-close');
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-            if (openMenuBtn && mobileMenu) {
-                openMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.remove('translate-x-full');
-                });
-            }
-            
-            if (closeMenuBtn && mobileMenu) {
-                closeMenuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.add('translate-x-full');
-                });
-            }
-            
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (mobileMenu) mobileMenu.classList.add('translate-x-full');
-                });
-            });
-
-            // Intersection Observer for fade-in animations
-            const animatedElements = document.querySelectorAll('.animate-fade-in');
-            if ('IntersectionObserver' in window) {
-                const observer = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('is-visible');
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, {
-                    threshold: 0.1
-                });
-
-                animatedElements.forEach(el => {
-                    observer.observe(el);
-                });
-            } else {
-                // Fallback for older browsers
-                animatedElements.forEach(el => {
-                    el.classList.add('is-visible');
-                });
-            }
-            
-            // Back to Top button functionality
-            const backToTopBtn = document.getElementById('back-to-top');
-            if (backToTopBtn) {
-                backToTopBtn.addEventListener('click', () => {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                });
-            }
-
-            // --- Optimized Sticky navigation and Back to Top visibility ---
-            const navSticky = document.getElementById('nav-sticky');
-            const navScrolledClasses = [
-                'bg-white/80', 
-                'dark:bg-gray-900/80', 
-                'backdrop-blur-xl', 
-                'border-b', 
-                'border-gray-200/50', 
-                'dark:border-gray-700/50', 
-                'shadow-md'
-            ];
-
-            function handleScroll(scrollY) {
-                // Sticky Nav
-                if (navSticky) {
-                    if (scrollY > 50) {
-                        navSticky.classList.add(...navScrolledClasses);
-                        navSticky.classList.remove('nav-transparent');
-                    } else {
-                        navSticky.classList.remove(...navScrolledClasses);
-                        navSticky.classList.add('nav-transparent');
-                    }
-                }
-
-                // Back to Top Button
-                if (backToTopBtn) {
-                    // Check for visibility (using an inline style which is overwritten by JS)
-                    if (scrollY > 300) {
-                        backToTopBtn.style.opacity = '1';
-                        backToTopBtn.style.visibility = 'visible';
-                        backToTopBtn.style.transform = 'translateY(0) scale(1)';
-                        backToTopBtn.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                    } else {
-                        backToTopBtn.style.opacity = '0';
-                        backToTopBtn.style.visibility = 'hidden';
-                        backToTopBtn.style.transform = 'translateY(20px) scale(0.8)';
-                        backToTopBtn.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                    }
-                }
-            }
-            
-            const optimizedScrollHandler = debounce(() => {
-                handleScroll(window.scrollY);
-            }, 10);
-
-            window.addEventListener('scroll', optimizedScrollHandler);
-
-            // Initial check on load
-            handleScroll(window.scrollY);
-            
-            // Typewriter effect
-            const typeElement = document.getElementById('typewriter-text');
-            if (typeElement) {
-                const typeCursor = document.querySelector('.typewriter-cursor');
-                const roles = ["Fullstack Developer", "UI/UX Enthusiast", "Creative Coder", "Problem Solver"];
-                let roleIndex = 0;
-                let charIndex = 0;
-                let isDeleting = false;
-                let typingSpeed = 120;
-                let deletingSpeed = 60;
-                let delay = 1500;
-
-                function type() {
-                    const currentRole = roles[roleIndex];
-                    let displayText = '';
-
-                    if (isDeleting) {
-                        displayText = currentRole.substring(0, charIndex - 1);
-                        charIndex--;
-                    } else {
-                        displayText = currentRole.substring(0, charIndex + 1);
-                        charIndex++;
-                    }
-
-                    if(typeElement) typeElement.textContent = displayText;
-                    if(typeCursor) typeCursor.style.opacity = '1';
-
-                    let currentSpeed = isDeleting ? deletingSpeed : typingSpeed;
-
-                    if (!isDeleting && charIndex === currentRole.length) {
-                        currentSpeed = delay;
-                        isDeleting = true;
-                    } else if (isDeleting && charIndex === 0) {
-                        isDeleting = false;
-                        roleIndex = (roleIndex + 1) % roles.length;
-                        currentSpeed = typingSpeed;
-                    }
-
-                    setTimeout(type, currentSpeed);
-                }
-                
-                type();
-            }
-            
-            // Skill cards animation (progress ring)
-            const skillCards = document.querySelectorAll('.skill-card');
-            if ('IntersectionObserver' in window) {
-                const skillObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const skillCard = entry.target;
-                            const progressRing = skillCard.querySelector('.progress-ring-circle');
-                            if (!progressRing) return;
-                            
-                            const percentage = progressRing.getAttribute('data-percentage');
-                            
-                            const circumference = 251.2; // 2 * PI * 40
-                            const offset = circumference - (percentage / 100) * circumference;
-                            
-                            // Start CSS transition for the ring
-                            setTimeout(() => {
-                                progressRing.style.strokeDashoffset = offset;
-                            }, 200);
-                            
-                            // Fade in the text after ring animation starts
-                            setTimeout(() => {
-                                skillCard.classList.add('animate');
-                            }, 800);
-                            
-                            observer.unobserve(skillCard);
-                        }
-                    });
-                }, { threshold: 0.5 });
-                
-                skillCards.forEach(card => {
-                    skillObserver.observe(card);
-                });
-            }
-            
-            // Contact form submission
-            const contactForm = document.getElementById('contact-form');
-            if (contactForm) {
-                const submitButton = contactForm.querySelector('button[type="submit"]');
-                const formStatus = document.getElementById('form-status');
-
-                contactForm.addEventListener('submit', async (e) => {
-                    e.preventDefault(); 
-                    
-                    if (!formStatus || !submitButton) return;
-
-                    formStatus.textContent = '';
-                    formStatus.className = 'mt-4 text-center text-lg';
-
-                    const originalButtonText = submitButton.innerHTML;
-                    submitButton.disabled = true;
-                    submitButton.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Sending...`;
-
-                    const formData = new FormData(contactForm);
-                    const payload = {
-                        name: formData.get('name')?.trim() || '',
-                        email: formData.get('email')?.trim() || '',
-                        message: formData.get('message')?.trim() || ''
-                    };
-                    
-                    try {
-                        const response = await fetch('/api/send', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(payload)
-                        });
-
-                        const result = await response.json();
-
-                        if (result.success) {
-                            formStatus.textContent = result.message;
-                            formStatus.className = 'mt-4 text-center text-lg text-green-600 dark:text-green-400';
-                            contactForm.reset();
-                        } else {
-                            formStatus.textContent = result.message || 'An error occurred. Please try again.';
-                            formStatus.className = 'mt-4 text-center text-lg text-red-600 dark:text-red-400';
-                        }
-                        
-                    } catch (error) {
-                        console.error('Form submission error:', error);
-                        formStatus.textContent = 'A network error occurred. Please try again or check your connection.';
-                        formStatus.className = 'mt-4 text-center text-lg text-red-600 dark:text-red-400';
-                    } finally {
-                        submitButton.disabled = false;
-                        submitButton.innerHTML = originalButtonText;
-                    }
-                });
-            }
-            
+            document.body.classList.add('loaded');
         });
     </script>
 
+    <!-- Cursor Trail Effect -->
+    <div class="cursor-trail"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-glass" id="mainNav" aria-label="Main Navigation">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="#home" class="brand-logo" aria-label="Home - Sugam Pokharel">
+                    <div class="logo-dot" aria-hidden="true"></div>
+                    <span>Sugam</span>
+                </a>
+            </div>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active" data-text="Home">Home</a>
+                <a href="#about" class="nav-link" data-text="About">About</a>
+                <a href="#skills" class="nav-link" data-text="Skills">Skills</a>
+                <a href="#projects" class="nav-link" data-text="Projects">Projects</a>
+                <a href="#contact" class="nav-link" data-text="Contact">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="cursor-trail-toggle" id="cursorTrailToggle" aria-label="Toggle cursor trail effect"
+                    title="Toggle cursor trail">
+                    <i class="fas fa-mouse-pointer"></i>
+                </button>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Scrim Overlay -->
+    <div class="mobile-menu-scrim" id="mobileMenuScrim"></div>
+
+    <!-- Main Content -->
+    <main id="main-content">
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="hero-background">
+                <div class="floating-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                </div>
+            </div>
+
+            <div class="hero-content">
+
+
+                <h1 class="hero-title">
+                    <span class="title-line">Building</span>
+                    <span class="title-line highlight type-effect" id="typewriter-text">Digital
+                        Experiences</span>
+                </h1>
+
+                <!-- Availability Badge -->
+                <div class="availability-badge">
+                    <span></span>
+                    <span>Available for Freelance</span>
+                </div>
+
+                <p class="hero-subtitle">
+                    I'm Sugam Pokharel - a passionate Fullstack Developer crafting innovative
+                    solutions at the intersection of design and technology.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-briefcase"></i>
+                        View Projects
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <span>Let's Connect</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </a>
+                    <a href="/api/resume" class="btn btn-outline" target="_blank">
+                        <span>Download Resume</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                    <button id="installApp" class="btn btn-outline hidden" style="display: none;">
+                        <span>Install App</span>
+                        <i class="fas fa-mobile-alt"></i>
+                    </button>
+                </div>
+
+                <!-- Hero Stats: This will be populated dynamically by script.js -->
+                <div class="hero-stats" id="hero-stats-container">
+                    <!-- Loading Skeletons -->
+                    <div class="stat skeleton-item">
+                        <div class="skeleton-box skeleton-number"></div>
+                        <div class="skeleton-box skeleton-label"></div>
+                    </div>
+                    <div class="stat skeleton-item">
+                        <div class="skeleton-box skeleton-number"></div>
+                        <div class="skeleton-box skeleton-label"></div>
+                    </div>
+                    <div class="stat skeleton-item">
+                        <div class="skeleton-box skeleton-number"></div>
+                        <div class="skeleton-box skeleton-label"></div>
+                    </div>
+                    <div class="stat skeleton-item">
+                        <div class="skeleton-box skeleton-number"></div>
+                        <div class="skeleton-box skeleton-label"></div>
+                    </div>
+                </div>
+
+                <div class="hero-scroll">
+                    <div class="scroll-indicator"></div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <i class="fab fa-react"></i>
+                    <span>React</span>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fab fa-node-js"></i>
+                    <span>Node.js</span>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="fas fa-database"></i>
+                    <span>MongoDB</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section about-section" aria-labelledby="about-heading">
+            <h2 id="about-heading" class="visually-hidden">About Me</h2>
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">About Me</span>
+                    <h2 class="section-title">Crafting Digital Excellence</h2>
+                    <p class="section-subtitle">
+                        Passionate developer with a focus on creating meaningful digital experiences
+                        that solve real-world problems.
+                    </p>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-content">
+                        <!-- About Text: This will be populated dynamically -->
+                        <div class="about-text" id="about-text-container">
+                            <!-- Loading Skeletons -->
+                            <div class="skeleton-item">
+                                <div class="skeleton-box skeleton-title"></div>
+                                <div class="skeleton-box skeleton-text"></div>
+                                <div class="skeleton-box skeleton-text"></div>
+                                <div class="skeleton-box skeleton-text-short"></div>
+                            </div>
+                        </div>
+
+                        <!-- About Features: This will be populated dynamically -->
+                        <div class="about-features" id="about-features-container">
+                            <!-- Loading Skeleton -->
+                            <div class="feature">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <div>
+                                    <h4>Loading...</h4>
+                                    <p>Please wait</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-visual">
+                        <div class="profile-card">
+                            <div class="profile-image">
+                                <img src="images/image1.png" alt="Sugam Pokharel" loading="lazy" width="150"
+                                    height="150">
+                                <div class="profile-glow"></div>
+                            </div>
+                            <div class="profile-info">
+                                <h4>Sugam Pokharel</h4>
+                                <p>Fullstack Developer</p>
+                                <div class="profile-links">
+                                    <a href="https://github.com/sugampokhareldev" target="_blank" aria-label="GitHub">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/in/sugam-pokharel-0504b438b/" target="_blank"
+                                        aria-label="LinkedIn">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                    <a href="https://x.com/PokharelSu65518" target="_blank" aria-label="X (Twitter)">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section skills-section" aria-labelledby="skills-heading">
+            <h2 id="skills-heading" class="visually-hidden">My Skills</h2>
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">My Skills</span>
+                    <h2 class="section-title">Technologies I Work With</h2>
+                </div>
+
+                <!-- Skills Grid: This will be populated dynamically by script.js -->
+                <div class="skills-grid" id="skills-container">
+                    <!-- Loading Skeleton -->
+                    <div class="skill-category">
+                        <h3 class="category-title">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Loading Skills...
+                        </h3>
+                    </div>
+                    <div class="skill-category">
+                        <h3 class="category-title">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Loading Skills...
+                        </h3>
+                    </div>
+                    <div class="skill-category">
+                        <h3 class="category-title">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Loading Skills...
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section projects-section animate-on-scroll reveal"
+            aria-labelledby="projects-heading">
+            <h2 id="projects-heading" class="visually-hidden">Featured Projects</h2>
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">My Work</span>
+                    <h2 class="section-title">Featured Projects</h2>
+                    <p class="section-subtitle">
+                        A collection of projects that showcase my skills and passion for development
+                    </p>
+                </div>
+
+
+
+                <!-- Projects Grid: This will be populated dynamically by script.js -->
+                <div class="projects-grid" id="projects-container">
+                    <!-- Loading Skeleton -->
+                    <article class="project-card tilt-card">
+                        <div class="project-media"
+                            style="background: var(--bg-tertiary); display: grid; place-items: center;">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Loading Project...</h3>
+                            <p class="project-description">
+                                Please wait while content is being loaded from the server.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section (Unchanged) -->
+        <section id="contact" class="section contact-section reveal" aria-labelledby="contact-heading">
+            <h2 id="contact-heading" class="visually-hidden">Get In Touch</h2>
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <div class="section-header">
+                            <span class="section-label">Get In Touch</span>
+                            <h2 class="section-title">Let's Work Together</h2>
+                            <p class="section-subtitle">
+                                Have a project in mind? I'd love to hear about it.
+                                Let's create something amazing together.
+                            </p>
+                        </div>
+
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="method-info">
+                                    <h4>Email</h4>
+                                    <a href="mailto:sugampokharel28@gmail.com">sugampokharel28@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <div class="method-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="method-info">
+                                    <h4>Location</h4>
+                                    <span>Available Worldwide</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-links">
+                            <a href="https://github.com/sugampokhareldev" target="_blank" aria-label="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/sugam-pokharel-0504b438b/" target="_blank"
+                                aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://x.com/PokharelSu65518" target="_blank" aria-label="X (Twitter)">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-form">
+                        <form class="form" id="contactForm">
+                            <div class="form-group">
+                                <input type="text" id="name" name="name" placeholder=" " required autocomplete="name">
+                                <label for="name">Full Name</label>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder=" " required
+                                    autocomplete="email">
+                                <label for="email">Email Address</label>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" id="subject" name="subject" placeholder=" " required
+                                    autocomplete="off">
+                                <label for="subject">Subject</label>
+                            </div>
+
+                            <div class="form-group">
+                                <textarea id="message" name="message" rows="5" maxlength="3000" placeholder=" "
+                                    required></textarea>
+                                <label for="message">Message</label>
+                                <div class="char-counter">
+                                    <span id="charCount">0</span> / 3000 characters
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-full">
+                                <span>Send Message</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <!-- End Main Content -->
+
+    <!-- Footer (Unchanged) -->
+    <footer class="footer reveal">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <div class="logo-dot"></div>
+                        <span>Sugam Pokharel</span>
+                    </div>
+                    <p class="footer-text">
+                        Crafting digital experiences that make a difference
+                    </p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Navigation</h4>
+                        <a href="#home">Home</a>
+                        <a href="#about">About</a>
+                        <a href="#skills">Skills</a>
+                        <a href="#projects">Projects</a>
+                        <a href="#contact">Contact</a>
+                    </div>
+
+                    <div class="link-group">
+                        <h4>Connect</h4>
+                        <a href="https://github.com/sugampokhareldev" target="_blank">GitHub</a>
+                        <a href="https://www.linkedin.com/in/sugam-pokharel-0504b438b/" target="_blank">LinkedIn</a>
+                        <a href="https://x.com/PokharelSu65518" target="_blank">X (Twitter)</a>
+                    </div>
+
+                    <div class="link-group">
+                        <h4>Legal</h4>
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/terms">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Sugam Pokharel. All rights reserved.</p>
+                <p>Made with <i class="fas fa-heart"></i> and lots of coffee</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Page Loader (Unchanged) -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-bg-animation"></div>
+        <div class="loader-content">
+            <!-- Animated Logo -->
+            <div class="loader-logo">
+                <div class="logo-ring"></div>
+                <div class="logo-ring"></div>
+                <div class="logo-ring"></div>
+                <div class="logo-center">
+                    <i class="fas fa-code"></i>
+                </div>
+            </div>
+
+            <!-- Loading Text with Animation -->
+            <div class="loader-text-wrapper">
+                <h2 class="loader-title">Loading Portfolio</h2>
+                <p class="loader-subtitle" id="loaderSubtitle">Preparing amazing experience...</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="loader-progress-container">
+                <div class="loader-progress-bar" id="loaderProgress"></div>
+            </div>
+
+            <div class="loader-percentage" id="loaderPercentage">0%</div>
+        </div>
+    </div>
+
+    <!-- Back to Top (Unchanged) -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- AI Chat Widget (Unchanged) -->
+    <div class="chat-widget">
+        <button class="chat-toggle-btn" id="chatToggle" aria-label="Toggle AI Chat">
+            <i class="fas fa-comment-dots chat-icon"></i>
+            <i class="fas fa-times close-icon"></i>
+        </button>
+
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-status"></div>
+                <h3>AI Assistant</h3>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <!-- Initial greeting will be added dynamically from portfolioData -->
+
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <form class="chat-input-area" id="chatForm">
+                <input type="text" id="chatInput" placeholder="Type your message..." autocomplete="off">
+                <button type="submit" class="chat-send-btn" aria-label="Send message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Performance Monitoring -->
+    <script src="utils/performance.js"></script>
+
+    <!-- Enhanced Features Modules -->
+    <script src="js/modules/skill-chart.js"></script>
+    <script src="js/enhanced-init.js"></script>
+
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
+
 </body>
+
 </html>
