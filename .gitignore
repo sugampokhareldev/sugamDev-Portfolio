@@ -1,0 +1,8 @@
+# Node.js
+/node_modules
+
+# Environment variables (contains all your passwords)
+.env
+
+# Old database file
+db.json
