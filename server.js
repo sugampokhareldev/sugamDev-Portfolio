@@ -251,24 +251,34 @@ async function fetchWithBackoff(url, options, retries = 3, delay = 1000) {
 }
 
 
-// --- Nodemailer Email Transport ---
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: parseInt(process.env.EMAIL_PORT) || 587,
-  secure: process.env.EMAIL_PORT === '465',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+// --- SendGrid Email Transport (Web API - works on Render) ---
+const sgMail = require('@sendgrid/mail');
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('Email transporter configuration error:', error);
-  } else {
-    console.log('Email transporter is ready to send messages');
+// Initialize SendGrid with API key
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  console.log('SendGrid is ready to send emails');
+} else {
+  console.warn('⚠️  SENDGRID_API_KEY not set. Email functionality will be disabled.');
+}
+
+// Helper function to send email via SendGrid
+async function sendEmail(mailOptions) {
+  if (!process.env.SENDGRID_API_KEY) {
+    throw new Error('SendGrid API key not configured');
   }
-});
+
+  const msg = {
+    to: mailOptions.to,
+    from: mailOptions.from,
+    replyTo: mailOptions.replyTo || mailOptions.from,
+    subject: mailOptions.subject,
+    text: mailOptions.text,
+    html: mailOptions.html
+  };
+
+  return await sgMail.send(msg);
+}
 
 // --- API Test Route ---
 app.get('/api', (req, res) => {
@@ -411,10 +421,10 @@ app.post('/api/send', async (req, res) => {
       text: `Hi ${sanitizedName},\n\nThanks for reaching out! I've received your message and will get back to you shortly.\n\nBest regards,\nSugam Pokharel`
     };
 
-    // Send both emails
+    // Send both emails using SendGrid
     await Promise.all([
-      transporter.sendMail(adminMailOptions),
-      transporter.sendMail(userAutoReplyOptions)
+      sendEmail(adminMailOptions),
+      sendEmail(userAutoReplyOptions)
     ]);
 
     res.status(200).json({
