@@ -1,0 +1,16 @@
+/* =====Portfolio Main Styles ===== */
+/* Import base styles */
+@import 'styles/base/variables.css';
+@import 'styles/base/reset.css';
+@import 'styles/base/typography.css';
+@import 'styles/base/accessibility.css';
+
+/* Import component styles */
+@import 'styles/components/buttons.css';
+@import 'styles/components/navigation.css';
+@import 'styles/components/cards.css';
+
+/* Import responsive styles */
+@import 'styles/responsive.css';
+
+/* Additional styles that haven't been modularized yet remain in style.css */

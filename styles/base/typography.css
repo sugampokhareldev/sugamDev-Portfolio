@@ -1,0 +1,46 @@
+/* ===== Typography ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+p {
+    font-size: clamp(0.875rem, 1rem + 0.25vw, 1rem);
+    line-height: 1.6;
+}
+
+.text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
