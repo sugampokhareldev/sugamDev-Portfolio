@@ -76,6 +76,35 @@ const About = ({ data }) => {
                     transformOrigin: "center center"
                   }}
                 />
+                
+                {/* Animated Border Ring around the mask */}
+                <motion.div
+                  style={{
+                    position: 'absolute',
+                    top: smoothY,
+                    left: smoothX,
+                    width: useTransform(maskRadius, r => r * 2),
+                    height: useTransform(maskRadius, r => r * 2),
+                    x: '-50%',
+                    y: '-50%',
+                    borderRadius: '50%',
+                    pointerEvents: 'none',
+                    zIndex: 10,
+                    opacity: smoothHover,
+                    border: '1px solid var(--accent)',
+                  }}
+                >
+                  <motion.div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      border: '2px dashed rgba(232, 197, 71, 0.4)',
+                    }}
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+                  />
+                </motion.div>
               </>
             )}
           </div>

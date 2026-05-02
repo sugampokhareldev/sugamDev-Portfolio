@@ -104,6 +104,59 @@ nav::after {
 }
 .nav-links a:hover { color: var(--accent); }
 
+/* MOBILE MENU */
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 101;
+  position: relative;
+}
+.mobile-toggle .bar {
+  width: 24px;
+  height: 1px;
+  background-color: var(--ink);
+  transition: all 0.4s ease;
+}
+.mobile-toggle.active .bar:nth-child(1) {
+  transform: translateY(3.5px) rotate(45deg);
+}
+.mobile-toggle.active .bar:nth-child(2) {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0a;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  text-align: center;
+}
+.mobile-menu-container a {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  color: var(--ink);
+  text-decoration: none;
+  font-style: italic;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .mobile-toggle { display: flex; }
+}
+
 /* HERO */
 .hero {
   min-height: 100vh;
@@ -617,4 +670,12 @@ footer {
 @keyframes lineSlide {
   from { left: -100%; }
   to   { left: 100%; }
+}
+
+/* AI COMPANION OVERLAY */
+.companion {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
 }
