@@ -1,0 +1,103 @@
+{
+  "nav": {
+    "logo": "SP",
+    "links": [
+      { "id": "work", "label": "Work" },
+      { "id": "about", "label": "About" },
+      { "id": "contact", "label": "Contact" }
+    ]
+  },
+  "hero": {
+    "tag": "MERN Stack & WebGL Developer",
+    "firstName": "Sugam",
+    "lastName": "Pokharel",
+    "description": "I craft visual identities, digital experiences, and brand worlds that people remember long after the screen goes dark.",
+    "scrollText": "Scroll to explore",
+    "svgText": "VISION"
+  },
+  "marquee": [
+    "React.js", "Node.js", "MongoDB", "Express", "Three.js", "GSAP", "WebGL", "React.js", "Node.js", "MongoDB", "Express", "Three.js", "GSAP", "WebGL"
+  ],
+  "work": {
+    "sectionNum": "01 — Selected Work",
+    "title": "Projects",
+    "linkText": "All projects",
+    "projects": [
+      {
+        "cat": "E-Commerce",
+        "name": "AJK Cleaning — Platform",
+        "year": "2024",
+        "featured": true,
+        "tags": ["React", "Express", "MongoDB"],
+        "media": { "type": "video", "src": "/projects/ajk-cleaning-vid.mp4" },
+        "svgText": "AJK"
+      },
+      {
+        "cat": "3D Design",
+        "name": "Solar System — Animation",
+        "year": "2024",
+        "featured": true,
+        "tags": ["Three.js", "WebGL", "GSAP"],
+        "media": { "type": "video", "src": "/projects/solar-system-vid.mp4" },
+        "svgText1": "SOLAR",
+        "svgText2": "SYSTEM"
+      },
+      {
+        "cat": "N/A",
+        "name": "In Production",
+        "year": "2026",
+        "featured": false,
+        "tags": [],
+        "media": { "type": "image", "src": "/projects/demo3.jpg" }
+      },
+      {
+        "cat": "N/A",
+        "name": "In Production",
+        "year": "2026",
+        "featured": false,
+        "tags": [],
+        "media": { "type": "image", "src": "/projects/demo4.jpg" },
+        "svgText": "Muse"
+      },
+      {
+        "cat": "N/A",
+        "name": "In Production",
+        "year": "2026",
+        "featured": false,
+        "tags": [],
+        "media": { "type": "video", "src": "/projects/demo5.mp4" }
+      }
+    ]
+  },
+  "stats": [
+    { "num": "5", "sup": "+", "label": "Years of Experience" },
+    { "num": "20", "sup": "+", "label": "Projects Delivered" },
+    { "num": "5", "sup": "+", "label": "Happy Clients" },
+    { "num": "0", "sup": "+", "label": "Awards Won" }
+  ],
+  "about": {
+    "sectionNum": "02 — About Me",
+    "title": "The person\nbehind the work",
+    "introText": "I believe code is ",
+    "introEmphasis": "storytelling",
+    "introTextEnd": " — every pixel has something to say.",
+    "body1": "Based in Nepal, I've spent the last 5 years working at the intersection of robust backend systems and beautiful frontend craft. My work lives in the space between functionality and experience — translating complex logic into interfaces people feel before they understand.",
+    "body2": "I've collaborated with startups and agencies, building scalable web platforms and immersive storytelling websites.",
+    "skills": ["MERN Stack", "React Three Fiber", "GSAP Animations", "TailwindCSS", "Node/Express APIs", "MongoDB"]
+  },
+  "contact": {
+    "sectionNum": "03 — Contact",
+    "title1": "Let's make",
+    "titleEmphasis": "something",
+    "title2": "great."
+  },
+  "footer": {
+    "logo": "SP",
+    "copy": "© 2026 Sugam Pokharel. All rights reserved.",
+    "socials": [
+      { "name": "GitHub", "url": "https://github.com/sugampokhareldev" },
+      { "name": "LinkedIn", "url": "#" },
+      { "name": "Instagram", "url": "#" }
+    ]
+  }
+}
