@@ -66,7 +66,7 @@ const Footer = () => {
         </div>
         <div className="social-links">
           {footerData.socials.map((link, i) => (
-            <a key={i} href={link.url} className="social-link">{link.name}</a>
+            <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="social-link">{link.name}</a>
           ))}
         </div>
       </footer>

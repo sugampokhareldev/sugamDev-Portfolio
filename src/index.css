@@ -30,7 +30,7 @@ body {
   box-shadow: 0 0 50px rgba(0,0,0,0.5);
 }
 
-@media (hover: none) and (pointer: coarse) {
+@media (hover: none) and (pointer: coarse), (max-width: 768px) {
   body, * { cursor: auto !important; }
   .cursor { display: none !important; }
 }

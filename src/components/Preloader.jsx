@@ -11,37 +11,43 @@ const Preloader = ({ onComplete }) => {
     // Lock scroll
     document.body.style.overflow = 'hidden';
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        gsap.to(containerRef.current, {
-          yPercent: -100,
-          duration: 0.8,
-          ease: 'power4.inOut',
-          onComplete: () => {
-            document.body.style.overflow = '';
-            if (onComplete) onComplete();
-          }
-        });
-      }
-    });
-
-    const wordElements = wordsRef.current.children;
-    
-    // Quick flash sequence
-    Array.from(wordElements).forEach((word) => {
-      tl.to(word, {
-        opacity: 1,
-        duration: 0.15,
-        ease: 'none'
-      })
-      .to(word, {
-        opacity: 0,
-        duration: 0.15,
-        ease: 'none',
-        delay: 0.15
+    let ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          gsap.to(containerRef.current, {
+            yPercent: -100,
+            duration: 0.8,
+            ease: 'power4.inOut',
+            onComplete: () => {
+              document.body.style.overflow = '';
+              if (onComplete) onComplete();
+            }
+          });
+        }
       });
-    });
 
+      const wordElements = wordsRef.current.children;
+      
+      // Quick flash sequence
+      Array.from(wordElements).forEach((word) => {
+        tl.to(word, {
+          opacity: 1,
+          duration: 0.15,
+          ease: 'none'
+        })
+        .to(word, {
+          opacity: 0,
+          duration: 0.15,
+          ease: 'none',
+          delay: 0.15
+        });
+      });
+    }, containerRef);
+
+    return () => {
+      document.body.style.overflow = '';
+      ctx.revert();
+    };
   }, [onComplete]);
 
   return (

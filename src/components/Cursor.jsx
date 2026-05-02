@@ -28,6 +28,14 @@ const Cursor = () => {
 
     window.addEventListener('mousemove', onMouseMove);
 
+    const onMouseDown = (e) => {
+      // Prevent native auto-scroll on middle click to keep custom cursor active
+      if (e.button === 1) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener('mousedown', onMouseDown);
+
     const interactiveElements = document.querySelectorAll('a, button, .project-card, .hero-grid-cell, .form-input, .form-textarea');
     interactiveElements.forEach((el) => {
       el.addEventListener('mouseenter', onHoverEnter);
@@ -36,6 +44,7 @@ const Cursor = () => {
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousedown', onMouseDown);
       interactiveElements.forEach((el) => {
         el.removeEventListener('mouseenter', onHoverEnter);
         el.removeEventListener('mouseleave', onHoverLeave);
