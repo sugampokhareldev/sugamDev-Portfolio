@@ -1,0 +1,73 @@
+---
+import { sections as defaultSections } from '../data/site'
+
+interface Props {
+  items?: readonly { id: string; label: string }[]
+}
+
+const { items = defaultSections } = Astro.props
+---
+
+{/*
+  The registration cursor. Two parts moving at two speeds, which is the whole
+  idea: the DOT is exactly under the pointer with no smoothing at all, so
+  clicking never feels laggy, and the RING trails a few frames behind and
+  carries the personality. A single smoothed element has to choose between
+  those and gets both wrong.
+
+  Over a link or a button the ring stops following the pointer and locks onto
+  the target instead — taking its size, its corner radius and its centre — so
+  the cursor reads as registering with the thing it is over. That is the same
+  idea as the cyan/magenta plates the rest of the site is built on, which is
+  why the ring splits into those two inks while it is locked.
+
+  Pointer-fine only, and empty until the pointer moves.
+*/}
+<div class="cursor" data-cursor-root aria-hidden="true">
+  <span class="cursor__ring"><i></i><i></i></span>
+  <span class="cursor__dot"></span>
+  <span class="cursor__label"></span>
+</div>
+
+{/*
+  Instrument readout. Both figures are real: actual scroll position and the
+  section actually under the reading line. The availability dot is the only
+  purely decorative element on the page and it moves once every four seconds.
+*/}
+<div class="hud" aria-hidden="true">
+  <p class="hud__row">
+    <span>Scroll</span><span data-hud-pct>000</span><span>%</span>
+  </p>
+  <p class="hud__row">
+    <span>Section</span>
+    <span class="hud__reel" data-hud-reel>
+      {items.map((_, i) => <i>{String(i + 1).padStart(2, '0')}</i>)}
+    </span>
+    <span>/</span><span data-hud-total>00</span>
+  </p>
+  <p class="hud__row"><span class="hud__dot"></span><span>Available</span></p>
+</div>
+
+{/*
+  No monogram and no corner registration marks: both were furniture printed
+  over the top of the page rather than part of it, and the four crosshairs in
+  particular read as stray plus signs sitting on the nav.
+*/}
+<header class="nav" data-header>
+  {/*
+    Plain labels, no numbering: the section sequence is already communicated
+    by the HUD and by each chapter's own index.
+
+    One underline for the whole list, which travels between items. Per-link
+    underlines that fade out and back in somewhere else read as separate
+    elements rather than as one indicator moving.
+  */}
+  <nav class="nav__links" aria-label="Sections">
+    {items.map((section) => (
+      <a href={`#${section.id}`} data-route-link>{section.label}</a>
+    ))}
+    <span class="nav__rail" data-rail aria-hidden="true"></span>
+  </nav>
+
+  <span class="nav__progress" aria-hidden="true"><i></i></span>
+</header>

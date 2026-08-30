@@ -1,0 +1,1070 @@
+/* BEAT INTRO — a cinematic layer above the fully rendered portfolio.
+   Only transform and opacity animate, so the exit never triggers layout. */
+
+/* ---- THE GATE OWNS ITS PALETTE ----------------------------------------
+   TWILIGHT — sampled from the background film, and the reason the gate and
+   the footage read as one colour system.
+
+   These are re-declared here, on the intro root, rather than inherited from
+   :root. The portfolio underneath runs a different palette (PRESSWORK, see
+   DESIGN.md), and this block is what makes the two independent: the interior
+   can be repainted freely without any of it reaching the film.
+
+   `color` is set explicitly for the same reason. The scrim and the intro root
+   itself take their colour by inheritance from <body>, which now carries the
+   interior's ink — without this line they would follow it. */
+.intro {
+  --ground: #050b16;
+  --surface: #0c1626;
+  --surface-hi: #152439;
+  --rule: #1d3050;
+  --rule-hi: #2f4c74;
+  --text-hi: #eef1f6;
+  --text: #a9b6ca;
+  --text-lo: #6c7b95;
+  --signal: #f0a24b;
+  --signal-dim: #7a4e1f;
+  --data: #5b93da;
+  --radius: 1rem;
+
+  /* The gate sets its track title and tagline from the shared type scale.
+     Those steps belong to the interior and have been retuned twice — the last
+     retune silently shrank the player title from 13.3px to 11.2px. Frozen here
+     at their shipped values for the same reason the palette is. */
+  --step--1: clamp(0.78rem, 0.76rem + 0.1vw, 0.84rem);
+  --step-0: clamp(0.95rem, 0.92rem + 0.15vw, 1.05rem);
+
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: var(--ground);
+  color: var(--text);
+}
+
+body.intro-locked {
+  overflow: hidden;
+}
+
+/* ---- THE GATE OWNS `.data` TOO --------------------------------------------
+   The gate's markup tags every figure, label and status with `.data`, which
+   used to be defined globally. The portfolio's interface class is now `.mono`,
+   and renaming it silently stripped the mono face off the gate's location line,
+   track metadata and timestamps — they fell back to inherited body type.
+
+   Defined here, scoped to `.intro`, for the same reason the palette is: the
+   gate is self-contained, and nothing the interior renames can reach it. */
+/* ---- AND `.display` ------------------------------------------------------
+   The gate sets its name in Big Shoulders Display. The portfolio's display
+   face is now a serif, and `.display` is a global class the gate's markup
+   uses — so redefining it for the interior would quietly restyle the one
+   element on the welcome card that must not change.
+
+   Declared here with its own face, for the same reason the palette and `.data`
+   are: the gate is self-contained, and nothing the interior changes can
+   reach it. */
+.intro .display {
+  font-family: 'Big Shoulders Display', 'Arial Narrow', ui-sans-serif, sans-serif;
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--text-hi);
+}
+
+.intro .data {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  font-variant-numeric: tabular-nums;
+}
+
+.intro--done {
+  pointer-events: none;
+}
+
+/* ---- THE EXIT ----------------------------------------------------------
+   Begins on the beat (see BeatIntro.tsx) and runs for --intro-exit-ms, which
+   React sets from TRANSITION in cues.ts so the timings live in one place.
+
+   Three passes, staggered, so the layer comes apart in an order the eye can
+   follow instead of all dimming at once:
+
+     1. the copy lifts and goes, early and quickly — the frame is clean
+        before anything else starts to move;
+     2. the image pushes in a little and loses its lift, as though the camera
+        is settling rather than the page is fading;
+     3. the scrim deepens toward --ground, then the whole layer dissolves —
+        so the hand-off passes through the portfolio's own background colour
+        and never through a milky grey.
+
+   Compositor-only: opacity and transform, no blur, no filter animation. A
+   full-screen filter on a playing 1080p video is the one thing here that
+   would reliably drop frames on modest hardware, and a dissolve that stutters
+   is worse than a cut. */
+.intro--exiting {
+  /* Promoted only for the ~1s it is actually animating. Holding will-change
+     for the whole visit pins a full-viewport layer in memory the entire time
+     the intro is up, to buy nothing until the moment someone clicks. */
+  will-change: opacity;
+
+  /* Deliberately still clickable-blocking: the layer swallows clicks for the
+     length of the dissolve. Letting them through to a portfolio that is only
+     half visible means people hit links they cannot yet see. */
+  animation: intro-dissolve var(--intro-exit-ms, 1040ms) cubic-bezier(0.4, 0, 0.2, 1)
+    both;
+}
+
+@keyframes intro-dissolve {
+  0% {
+    opacity: 1;
+  }
+  /* Holds while the copy leaves and the image starts to settle. */
+  34% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.intro--exiting .intro__video {
+  /* Slightly slower than the layer fade, so the image is still moving as it
+     goes — a move that stops before it disappears reads as a stall. */
+  animation: intro-video-settle calc(var(--intro-exit-ms, 1040ms) * 1.12)
+    cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* Transform only. Animating `filter` here meant a full-screen filter pass on
+   every frame of the dissolve — the one second in the whole experience that
+   most needs the frames. The desaturation it added was never visible under a
+   layer going to zero opacity anyway. */
+@keyframes intro-video-settle {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.055);
+  }
+}
+
+/* A wash of the page's own ground colour, laid over everything and brought up
+   as the layer goes. It is what makes the swap invisible rather than merely
+   gradual: the last thing visible through the dissolve is very nearly the
+   colour of the portfolio behind it, so there is no milky grey in the middle
+   and no moment where two different images are equally legible.
+
+   Not opacity on .intro__scrim — that is already at 1 and cannot go further. */
+.intro--exiting::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: var(--ground);
+  animation: intro-ground-wash var(--intro-exit-ms, 1040ms) ease-in both;
+}
+
+@keyframes intro-ground-wash {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0.72;
+  }
+}
+
+.intro--exiting .intro__copy {
+  animation: intro-copy-out var(--intro-copy-out-ms, 235ms)
+    cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+@keyframes intro-copy-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-0.75rem);
+  }
+}
+
+/* The footage is the design. No grayscale here — the palette was sampled from
+   this image, so the interface and the video are the same colour system. */
+.intro__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* NO `filter` ON THE VIDEO. It used to carry saturate(1.05) contrast(1.04) for
+   a touch of lift, and that one declaration costs the entire hardware video
+   path: an unfiltered video is handed to the compositor as its own quad and
+   never touches the page's render surface, while a filtered one has to be
+   drawn into that surface and re-filtered every frame, full-viewport. On a
+   1080p clip that is the difference between free and a full-screen GPU pass
+   at 30fps. The grade belongs in the transcode, not in CSS — if the lift is
+   wanted back, bake it into the file with ffmpeg `eq=saturation=1.05`. */
+
+/* Darkens the lower-left where the copy lives, and the edges, without
+   flattening the sky. Deliberately asymmetric — the interesting part of the
+   frame is up and right. */
+.intro__scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top right,
+      color-mix(in srgb, var(--ground) 88%, transparent) 0%,
+      color-mix(in srgb, var(--ground) 40%, transparent) 42%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 120% 90% at 50% 50%,
+      transparent 45%,
+      color-mix(in srgb, var(--ground) 70%, transparent) 100%
+    );
+}
+
+/* ---- The gate, centred ----
+   NOTE FOR ANYONE READING DESIGN.md FIRST: this screen deliberately breaks the
+   "no glass panels, no backdrop blur, radius 0 or 2px" rule that governs the
+   rest of the site. It is the one surface that does. The portfolio below is
+   unchanged and still obeys it. Colour, type and the single amber accent are
+   still the sampled system, which is what keeps the two halves recognisably
+   the same site. */
+.intro__copy {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: max(var(--sp-6), 6vh) var(--sp-4) var(--sp-5);
+  color: var(--text-hi);
+}
+
+/* Same reasoning as .intro--exiting: this element is inset:0, so promoting it
+   up front pins a second full-viewport layer behind the card for the whole
+   visit. It only ever animates on the way out. */
+.intro--exiting .intro__copy {
+  will-change: transform, opacity;
+}
+
+.gate,
+.player {
+  width: min(34rem, 100%);
+  /* A plate of the page's own ground, not a frosted pane. DESIGN.md rejects
+     glass and backdrop blur: the footage supplies the light, so the panel
+     only has to supply the read. A flat wash of --ground does that, costs one
+     paint instead of a blur kernel recomputed on every video frame, and keeps
+     the gate in the same colour system as everything below it. */
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--ground) 82%, transparent);
+}
+
+/* Generously round, and deliberately so. These two plates float over moving
+   footage with no shadow and no blur to separate them from it, so the corner
+   is the only thing doing that job — the softer it is, the more the panel
+   reads as a lozenge resting on the picture rather than a rectangle punched
+   into it. The nested pieces step down from the same figure (card 3rem →
+   presence 1.9rem → social tiles 1.1rem) so the curvature looks like one
+   family rather than three unrelated decisions. */
+.gate { border-radius: 3rem; }
+.player { border-radius: 1.9rem; }
+
+.gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-6) var(--sp-5) var(--sp-5);
+  text-align: center;
+}
+
+/* Lifted clear of the card's top edge, so the card reads as a plate the
+   portrait sits on rather than a box with a picture inside it. */
+.gate__avatar {
+  position: relative;
+  width: 6.5rem;
+  height: 6.5rem;
+  margin-top: calc(var(--sp-6) * -1.55);
+  margin-bottom: var(--sp-4);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--surface-hi);
+  border: 1px solid var(--rule-hi);
+}
+
+/* The round crop lives on the image, not the wrapper: the wrapper has to
+   stay unclipped so the status dot can sit on its edge. */
+.gate__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+.gate__monogram {
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--text-hi);
+  letter-spacing: 0.02em;
+}
+
+.gate__name {
+  /* The floor matters more than the ceiling here. A two-word name at 2.4rem
+     runs the full width of a 375px screen with nothing either side of it, so
+     the minimum is set from the narrowest screen rather than from what looks
+     good on a laptop. */
+  font-size: clamp(1.85rem, 1rem + 4.2vw, 3.9rem);
+  line-height: 0.92;
+  color: var(--text-hi);
+  margin: 0;
+}
+
+.gate__handle {
+  margin-top: 0.65rem;
+  color: var(--data);
+  text-transform: none;
+}
+
+.gate__tagline {
+  font-size: var(--step-0);
+  color: var(--text);
+  margin-top: var(--sp-2);
+}
+
+.gate__place {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  margin-top: var(--sp-3);
+  color: var(--text-lo);
+}
+
+.gate__place i {
+  width: 1px;
+  height: 0.85em;
+  margin-inline: 0.25rem;
+  background: var(--rule-hi);
+}
+
+.gate__place time {
+  min-width: 4.8rem;
+  color: var(--text-hi);
+  font-variant-numeric: tabular-nums;
+}
+
+.gate__place svg {
+  width: 0.95em;
+  height: 0.95em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+/* ---- The Discord card ----
+   Identity from OAuth. There is no status dot and no activity line here: see
+   BeatIntro.tsx for why a card that cannot know something does not draw it. */
+.presence {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  /* Two columns, not three: the status pill that occupied the third is gone
+     with the presence provider that fed it. */
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  margin-top: var(--sp-4);
+  padding: 0.8rem 0.9rem;
+  border-radius: 1.9rem;
+  overflow: hidden;
+  /* --accent is the account's own colour, written inline by React when the
+     profile carries one. The fallback keeps this identical to what it was for
+     a profile with no accent set. */
+  background: color-mix(in srgb, var(--accent, var(--surface-hi)) 24%, var(--surface-hi));
+  border: 1px solid color-mix(in srgb, var(--accent, var(--rule-hi)) 40%, var(--rule-hi));
+  text-align: left;
+}
+
+/* Before OAuth is connected. Same card, same weight — only the rule softens,
+   because there is nothing wrong with this state and it should not look like
+   an error. */
+.presence--local {
+  border-color: var(--rule);
+}
+
+/* The account's own banner, at the strength of a ground rather than a
+   picture: it sits behind three lines of type that have to stay readable, and
+   a Discord banner is chosen for a profile page where nothing is set over it.
+   Masked away to the right so the type end of the card stays clean. */
+.presence__banner {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-image: var(--banner);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.28;
+  -webkit-mask-image: linear-gradient(to right, #000, transparent 78%);
+  mask-image: linear-gradient(to right, #000, transparent 78%);
+}
+
+.presence__avatar {
+  position: relative;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex: none;
+}
+
+.presence__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--rule-hi);
+}
+
+
+.presence__body {
+  display: grid;
+  min-width: 0;
+  gap: 0.12rem;
+}
+
+.presence__who {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--text-hi);
+  font-size: var(--step--1);
+}
+
+.presence__who strong {
+  overflow: hidden;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.presence__line {
+  font-size: 0.72rem;
+  color: var(--text-lo);
+  text-align: left;
+  /* One line. A long game title or a Spotify track with three featured
+     artists must not resize the card. */
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.presence__handle {
+  color: var(--data);
+  font: 500 0.64rem/1.3 var(--font-data);
+}
+
+
+/* The status dot, on the avatar — the Discord convention, and the reason the
+   avatar needs a positioning context. */
+/* ---- Socials ---- */
+.gate__socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-5);
+  padding: 0;
+  list-style: none;
+}
+
+.gate__socials a {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 1.1rem;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface-hi) 55%, transparent);
+  border: 1px solid transparent;
+  transition:
+    transform var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+
+.gate__socials svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+
+.gate__socials a:hover,
+.gate__socials a:focus-visible {
+  transform: translateY(-2px);
+  color: var(--text-hi);
+  border-color: var(--rule-hi);
+}
+
+/* ---- Enter ----
+   The one piece of the old lower-left treatment kept as it was, because it is
+   what carries the beat. */
+.intro__enter {
+  display: inline-block;
+  margin-top: var(--sp-5);
+  padding-inline: var(--sp-3);
+  cursor: pointer;
+}
+
+.intro__enter[disabled] {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.intro__enter .data {
+  color: var(--text-hi);
+}
+
+/* The rule under ENTER ticks on every beat, so the page visibly listens to the
+   music before you click. Scale only — cheap, and it cannot cause layout. */
+.intro__enter-rule {
+  display: block;
+  height: 2px;
+  margin-top: var(--sp-2);
+  background: var(--signal);
+  transform: scaleX(0.28);
+  transform-origin: center;
+  transition: transform 180ms var(--ease);
+}
+
+.intro__enter.is-beat .intro__enter-rule {
+  transform: scaleX(0.42);
+  transition-duration: 70ms;
+}
+
+.intro__enter:not([disabled]):hover .intro__enter-rule,
+.intro__enter:not([disabled]):focus-visible .intro__enter-rule {
+  transform: scaleX(1);
+}
+
+/* Armed: the rule sits full width, waiting for the beat to land. */
+.intro--armed .intro__enter-rule {
+  transform: scaleX(1);
+  background: var(--signal);
+}
+
+/* ---- The player ----
+   Playing the film's own track, on the film's own timeline. */
+.player {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3);
+}
+
+/* Four bars that tick on the real beat — the same clock ENTER fires on, not a
+   decorative equaliser looping on its own schedule. */
+.player__art {
+  flex: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.7rem 0.55rem;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--ground) 70%, transparent);
+  border: 1px solid var(--rule);
+}
+
+/* scaleY from the bottom, NOT height. The bars are driven at 60fps by the
+   analyser, and `height` is a layout property — animating it on four elements
+   every frame would relayout the card continuously. A transform does not
+   touch layout at all. */
+.player__art i {
+  width: 3px;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--text-lo);
+  transform: scaleY(0.14);
+  transform-origin: bottom;
+  transition:
+    transform 200ms var(--ease),
+    background-color 200ms var(--ease);
+}
+
+/* AT REST. Paused, muted, or not yet started: the bars sit at the resting
+   scale set above and do not move.
+   
+   They used to tick through four fixed heights on the film's measured beat
+   grid whenever nothing was playing. That was wrong twice over — the grid
+   belongs to one track out of twenty-seven, so it was inventing a tempo for
+   the other twenty-six; and a meter that keeps dancing after you press pause
+   is telling you the sound is still going. This is a signal readout. With no
+   signal it reads nothing. */
+
+/* LIVE — useSpectrum writes an inline transform every frame, so the CSS
+   transition has to get out of the way: a 200ms ease chasing a 16ms update
+   just smears the response and makes a real signal look laggy. Attack and
+   decay are done in JS instead. */
+.player__art.is-live i {
+  background: var(--signal);
+  transition: background-color 200ms var(--ease);
+}
+
+.player__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.player__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  font-family: var(--font-data);
+  font-size: var(--step--1);
+  color: var(--text-hi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player__detail {
+  color: var(--text-lo);
+  font-size: 0.75em;
+}
+
+/* Track position, pushed to the far end of the title row so it reads as
+   metadata rather than part of the name. Only rendered with a playlist. */
+.player__count {
+  /* flex: none, because this is the one item in the row that must never be
+     shrunk: "24/27" losing its last character reads as "24/2", which is not a
+     truncation, it is a different number. The title beside it is the part
+     that gives way. */
+  flex: none;
+  margin-left: auto;
+  padding-left: var(--sp-2);
+  color: var(--text-lo);
+  font-size: 0.7em;
+  font-variant-numeric: tabular-nums;
+}
+
+.player__row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+}
+
+.player__time {
+  flex: none;
+  font-size: 0.7rem;
+  color: var(--text-lo);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The hit area is 14px tall for fingers; the drawn rule is 2px, because the
+   rule is the thing and the rest is only for pointers. */
+.player__bar {
+  position: relative;
+  flex: 1 1 auto;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.player__bar::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--text-hi) 16%, transparent);
+}
+
+.player__fill {
+  position: absolute;
+  inset-inline: 0;
+  z-index: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--signal);
+  transform-origin: left;
+  /* Matches the 200ms clock in useGateAudio, so stepped updates read as
+     continuous movement instead of a ticking bar. */
+  transition: transform 200ms linear;
+}
+
+.player__bar:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.player__controls {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.player__controls button,
+.gate-sound {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 999px;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.player__controls button:hover:not([disabled]),
+.player__controls button:focus-visible {
+  color: var(--text-hi);
+  background: color-mix(in srgb, var(--surface-hi) 70%, transparent);
+}
+
+.player__controls button[disabled] {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.player__controls svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+/* ---- Sound, top left ----
+   Deliberately the first control on the page and the furthest from the card:
+   it is the one thing a visitor may want before reading anything. */
+.gate-sound {
+  position: absolute;
+  top: var(--sp-4);
+  left: var(--sp-4);
+  z-index: 4;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--ground) 82%, transparent);
+}
+
+.gate-sound.is-on {
+  color: var(--signal);
+}
+
+.gate-sound[disabled] {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.gate-sound svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---- Motes ----
+   Ambient only: aria-hidden, pointer-events none, and not rendered at all
+   under reduced motion (the component skips the markup, so this is belt and
+   braces rather than the only guard). */
+.motes {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.motes__m {
+  position: absolute;
+  top: -6vh;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--signal) calc(var(--warm) * 100%), var(--text-hi));
+  opacity: 0;
+  animation: mote-fall var(--dur) linear var(--delay) infinite;
+}
+
+@keyframes mote-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  10% {
+    opacity: 0.5;
+  }
+  85% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift), 118vh, 0);
+  }
+}
+
+/* ---------------------------------------------------------- narrow ---- */
+
+@media (max-width: 52rem) {
+  .intro__video {
+    /* Keep the horizon and the comet in frame on a narrow crop. */
+    object-position: 60% center;
+  }
+
+  .gate {
+    padding: var(--sp-5) var(--sp-4) var(--sp-4);
+    /* The corner scales with the card. 3rem on a 34rem plate is a soft
+       shoulder; on a 20rem one it is most of the top edge. */
+    border-radius: 2.25rem;
+  }
+
+  .gate__avatar {
+    width: 5.75rem;
+    height: 5.75rem;
+    margin-top: calc(var(--sp-5) * -1.5);
+  }
+
+  /* The player's controls and its two timestamps do not both fit beside a
+     progress bar at this width, so the bar takes the full row and the
+     controls drop under it rather than everything shrinking to nothing. */
+  .player__row {
+    flex-wrap: wrap;
+  }
+
+  .player__bar {
+    order: -1;
+    flex-basis: 100%;
+  }
+
+  .player__controls {
+    margin-left: auto;
+  }
+}
+
+/* ----------------------------------------------------------- phones ---- */
+
+/*
+ * A phone is not a small desktop, and the constraint that actually bites here
+ * is HEIGHT, not width: the card, the player and the sound button all have to
+ * clear a 640px screen with the browser's own chrome eating into it. So this
+ * block spends its budget on vertical rhythm — every value below is a gap, a
+ * padding or a line that was buying air the screen does not have.
+ */
+@media (max-width: 30rem) {
+  .intro__copy {
+    gap: var(--sp-2);
+    padding: var(--sp-5) var(--sp-3) var(--sp-4);
+    /* `safe`, and a scroll of last resort. A centred flex column that outgrows
+       its box is clipped at BOTH ends, so on the one screen small enough to
+       overflow, the top of the card — the face and the name — is the first
+       thing lost. `safe center` stops centring at that point and aligns to the
+       start instead, and the overflow gives whatever is left a way to be
+       reached. Neither does anything at all when the content fits, which is
+       every screen except the smallest. */
+    justify-content: safe center;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .gate,
+  .player {
+    width: 100%;
+  }
+
+  .gate {
+    padding: var(--sp-4) var(--sp-3) var(--sp-4);
+    border-radius: 1.9rem;
+  }
+
+  .gate__avatar {
+    width: 4.75rem;
+    height: 4.75rem;
+    margin-top: calc(var(--sp-4) * -1.5);
+    margin-bottom: var(--sp-3);
+  }
+
+  .gate__tagline { font-size: 0.9rem; }
+  .gate__place { margin-top: var(--sp-2); font-size: 0.72rem; }
+  .gate__place time { min-width: 4.2rem; }
+
+  .presence {
+    margin-top: var(--sp-3);
+    padding: 0.65rem 0.7rem;
+    gap: var(--sp-2);
+    border-radius: 1.4rem;
+  }
+
+  .presence__avatar { width: 2.9rem; height: 2.9rem; }
+  .presence__who strong { font-size: 0.85rem; }
+  .presence__line { font-size: 0.68rem; }
+
+  .gate__socials {
+    margin-top: var(--sp-4);
+    gap: 0.4rem;
+  }
+
+  /* 2.5rem tiles wrap to a second row below ~360px and cost another 3rem of
+     height. 2.25rem keeps all six on one line and is still above the 40px
+     comfortable-target floor once the gap around them is counted. */
+  .gate__socials a {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.9rem;
+  }
+
+  .intro__enter { margin-top: var(--sp-4); }
+
+  .player {
+    padding: 0.7rem 0.8rem;
+    border-radius: 1.4rem;
+  }
+
+  /* The artwork tile is a decoration next to a control the visitor needs to
+     reach. On the narrowest screens the controls get its width. */
+  .player__art { display: none; }
+
+  .player__count { display: none; }
+
+  /* The sound toggle overlaps the card's top-left corner once the card is
+     full-bleed, so it comes in to sit clear of it. */
+  .gate-sound {
+    top: var(--sp-3);
+    left: var(--sp-3);
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+/*
+ * SHORT SCREENS — a landscape phone, or a portrait one with a keyboard up.
+ *
+ * Height-keyed rather than width-keyed, because a 380px-tall window in
+ * landscape is 800px WIDE and matches none of the blocks above.
+ *
+ * 38rem (608px) and not a rounder, larger number: a 1366×768 laptop has a
+ * viewport around 640px tall once the browser's own chrome is subtracted, and
+ * a 1280×720 one lands near 610px. Those are ordinary desktops that must get
+ * the full card. Everything below this really is short.
+ */
+@media (max-height: 38rem) {
+  .intro__copy {
+    gap: var(--sp-1);
+    padding-block: var(--sp-3);
+  }
+
+  .gate { padding-block: var(--sp-3); }
+
+  .gate__avatar {
+    width: 4rem;
+    height: 4rem;
+    margin-top: calc(var(--sp-3) * -1.4);
+    margin-bottom: var(--sp-2);
+  }
+
+  .gate__name { font-size: clamp(1.5rem, 1rem + 2.4vw, 2.4rem); }
+  .gate__tagline { margin-top: var(--sp-1); }
+
+  .gate__socials { margin-top: var(--sp-3); }
+  .intro__enter { margin-top: var(--sp-3); }
+
+  /* The last few pixels. Measured at 740×380 — a phone held sideways — where
+     without these the portrait loses its top edge and the player its bottom
+     one, both by single figures. The card is the whole screen here, so a
+     hairline of it hanging off either end is the difference between a layout
+     and a mistake. */
+  .player {
+    padding-block: 0.5rem;
+    border-radius: 1.25rem;
+  }
+
+  .gate__socials a {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 0.85rem;
+  }
+  .gate__socials svg { width: 1rem; height: 1rem; }
+}
+
+/*
+ * The last thing to go. The presence card is the one purely informational
+ * element on this screen — the portrait, the name and the status dot have
+ * already said who this is — so it is what gives way when there is genuinely
+ * no room, and not one breakpoint sooner. Above this it stays, because it is
+ * the whole reason the Discord connection exists.
+ */
+@media (max-height: 30rem) {
+  .presence { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro__enter-rule,
+  .player__art i,
+  .player__fill,
+  .gate__socials a {
+    transition: none;
+  }
+
+  /* The meter is a moving graphic like any other. Left at rest, the bars
+     still show the signal colour while audio plays — just without the
+     motion. */
+  .player__art.is-live i {
+    transform: scaleY(0.4) !important;
+  }
+
+  /* The component does not render the motes at all under reduced motion; this
+     is the belt to that braces. */
+  .motes {
+    display: none;
+  }
+
+  /* Still a hand-off, not a jump cut — but a plain fade with nothing moving.
+     React shortens --intro-exit-ms to match (TRANSITION.EXIT_REDUCED_MS). */
+  .intro--exiting {
+    animation: intro-dissolve var(--intro-exit-ms, 220ms) linear both;
+  }
+
+  .intro--exiting::after,
+  .intro--exiting .intro__video,
+  .intro--exiting .intro__copy {
+    animation: none;
+  }
+
+  .intro--exiting::after {
+    content: none;
+  }
+}

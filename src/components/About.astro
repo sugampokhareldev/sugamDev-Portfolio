@@ -1,0 +1,59 @@
+{/*
+  The quiet section — 4 on the intensity budget, and deliberately the slowest
+  thing on the page. Contrast is the point: after the work plates, almost
+  nothing here moves except one masked phrase and a ghost word drifting at a
+  fifth of scroll speed.
+
+  This is the only place on the page that speaks in the first person about the
+  person rather than about the work. It deliberately does NOT list the stacks:
+  Capabilities below is generated from what actually appears in a shipped
+  project, and a hand-written copy of the same lists here would be a second
+  version of the truth, free to drift from the first. The third paragraph
+  hands over to it instead.
+*/}
+<section class="about chapter shell" id="about" data-chapter>
+  {/* DRIFT. The one word the section is actually about. */}
+  {/* --ghost-len is the character count: the ghost sizes itself so the whole
+      word fits the sheet at any viewport, instead of being cut at both edges
+      by a fixed vw. See `.ghost` in motion.css. */}
+  <span
+    class="ghost"
+    data-fam="drift"
+    data-rate="0.18"
+    style="--ghost-len: 10"
+    aria-hidden="true"
+  >Dependable</span>
+
+  <div class="about__grid">
+    <div>
+      <p class="eyebrow">About</p>
+      <h2 class="about__statement" style="margin-top:1.2rem">
+        I'm Sugam Pokharel, an 18-year-old web developer building products that
+        are <em>practical, fast and dependable.</em>
+      </h2>
+    </div>
+
+    <div class="about__copy">
+      <p>
+        I work across the whole development process — from the interfaces people
+        interact with, to the backend systems, integrations and deployment setup
+        that keep everything running once it is live.
+      </p>
+      <p>
+        That means clean, responsive frontends; backends and databases that stay
+        reliable beyond the UI; and the last mile most side projects never reach
+        — payments, API integrations, hosting and deployment.
+      </p>
+      <p>
+        What I actually reach for on each of those is listed below, alongside a
+        proof point from something I have shipped. The tools support the claim;
+        they are not the claim by themselves.
+      </p>
+      <p>
+        I am constantly learning and improving by building real projects and
+        exploring new technologies, and I am always open to interesting work,
+        collaborations, and the chance to build something useful.
+      </p>
+    </div>
+  </div>
+</section>

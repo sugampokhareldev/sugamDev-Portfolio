@@ -1,0 +1,98 @@
+/**
+ * REGISTRATION — the design system.
+ *
+ * The through-line in the work is reconciliation: every project is about the
+ * gap between the first reading of a system and the true one. The visual
+ * language is taken from print production, where the same idea is physical —
+ * two ink passes that must align. Out of register is the naive reading; in
+ * register is the truth.
+ *
+ * Consequences for anything added later:
+ *   - The inks are FLAT CHANNELS. Never gradient them, never tint them. A
+ *     gradient reads as decoration and breaks the whole conceit.
+ *   - Cyan and magenta appear as OFFSET DUPLICATES of a shape, combined with
+ *     mix-blend-mode: multiply. That is what makes them read as separations
+ *     rather than as brand colours.
+ *   - Black is what the channels make when they align, so it is the resting
+ *     state of every headline, not an accent.
+ */
+:root {
+  /* Stock. Cool, not cream — a press sheet, not parchment. */
+  --sheet: #e7e7e2;
+  --sheet-2: #f2f2ef;
+  --sheet-3: #dcdcd6;
+
+  /* Inks. Process cyan and magenta are FILL values — at full saturation they
+     are too light to carry small text on the sheet (3.8:1). --magenta-ink is
+     the same hue dropped to a legible density and is the only one of the two
+     that may be used for type. Verified by scripts/contrast-check.mjs. */
+  --ink: #131317;
+  --cyan: #0a8fd0;
+  --magenta: #e0007a;
+  --magenta-ink: #b8005f;
+
+  /* Ink at density. --ink-muted is the floor for small text on the sheet:
+     anything lighter drops under 4.5:1. */
+  --ink-70: rgba(19, 19, 23, 0.7);
+  --ink-muted: rgba(19, 19, 23, 0.64);
+  --ink-30: rgba(19, 19, 23, 0.3);
+  --ink-14: rgba(19, 19, 23, 0.14);
+  --ink-07: rgba(19, 19, 23, 0.07);
+
+  /* Reversed plate (the dark sections). */
+  --plate: #131317;
+  --plate-2: #1c1c22;
+  --sheet-70: rgba(231, 231, 226, 0.7);
+  --sheet-muted: rgba(231, 231, 226, 0.64);
+  --sheet-30: rgba(231, 231, 226, 0.3);
+  --sheet-14: rgba(231, 231, 226, 0.14);
+
+  /* Type. Archivo is loaded with its WIDTH axis — headlines run wide, which
+     is the family's least-used and most characterful setting. */
+  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Width is set through font-stretch, NOT font-variation-settings.
+     Both drive the same wdth axis, but font-variation-settings does not
+     interpolate reliably and would take precedence where both are set — which
+     would silently kill the STRETCH family. Keep width on font-stretch. */
+  --wide: 112%;
+  --wider: 118%;
+
+  /* Measure and rhythm. */
+  --pad: clamp(1.25rem, 5vw, 6rem);
+  /* The HUD is fixed in the bottom-left margin, and at its own type size it is
+     ~150px wide from the viewport edge. The default --pad tops out at 96px, so
+     the readout was sitting on top of the first column of every section. It is
+     furniture, not content, and it only earns a place once the page is wide
+     enough to give it a real margin: it appears at 1440px and the gutter opens
+     to 10rem at the same breakpoint. The breakpoint itself lives in the media
+     queries below and in .hud (interaction.css) - a custom property cannot be
+     used in a media query, so those two are kept in step by hand. */
+  --gutter: clamp(1rem, 2.4vw, 2.5rem);
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2.5rem;
+  --sp-7: 4rem;
+  --sp-8: 6rem;
+  --sp-9: 9rem;
+
+  /* Registration offset. Animated to 0 — see .reg in global.css. The unit is
+     em so the misregistration scales with the type it sits on. */
+  --reg-x: 0em;
+  --reg-y: 0em;
+
+  --radius: 0px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-reg: cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+/* The gutter that gives the HUD its margin. Only above the width at which the
+   HUD is drawn at all, so no narrower layout is disturbed by it. */
+@media (min-width: 1440px) {
+  :root { --pad: max(5vw, 10rem); }
+}

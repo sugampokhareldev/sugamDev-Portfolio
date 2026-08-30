@@ -1,0 +1,488 @@
+---
+import { profile } from '../data/site'
+---
+
+{/*
+  Production-only opening. The lab keeps its separate Hero and About test
+  stages; this canvas turns those states into one continuous scene.
+*/}
+<section class="opening" data-character-opening data-plate aria-label="Arrival and about">
+  <span class="opening__anchor opening__anchor--arrival chapter" id="arrival" data-chapter></span>
+  <span class="opening__anchor opening__anchor--about chapter" id="about" data-chapter></span>
+
+  <div class="opening__stage">
+    <div class="opening__portrait" aria-hidden="true">
+      <img src="/character.webp" alt="" width="1024" height="1280" fetchpriority="high" decoding="async" />
+    </div>
+
+    <div class="opening__scene" aria-hidden="true">
+      <video
+        data-opening-video
+        src="/video/about-scroll.mp4"
+        poster="/art/about-working-1280.webp"
+        preload="auto"
+        muted
+        loop
+        playsinline
+        tabindex="-1"
+      ></video>
+    </div>
+
+    <div class="opening__hero">
+      <p class="opening__meta eyebrow">
+        <span>{profile.name}</span>
+        <span>{profile.role}</span>
+        <span>{profile.location}</span>
+      </p>
+      <h1 class="opening__hero-title">
+        <span>What looks</span><span>complete</span><span>usually isn't.</span>
+      </h1>
+      <p class="opening__lede">{profile.statement}</p>
+      <a class="opening__cue" href="#about">
+        <span>Continue to meet the maker</span><span aria-hidden="true">↓</span>
+      </a>
+    </div>
+
+    <div class="opening__about">
+      <p class="opening__index eyebrow"><span>02</span><span>About</span></p>
+      <h2 class="opening__about-title">
+        I build the parts that make a product <em>real.</em>
+      </h2>
+      <div class="opening__body">
+        <p>
+          I'm Sugam Pokharel, an 18-year-old developer working across the whole
+          product — the interface people touch, the systems behind it, and the
+          deployment that keeps it useful once it is live.
+        </p>
+        <p>
+          I care about practical, fast and dependable work. The stack changes;
+          the standard does not: make it clear, make it resilient, and finish
+          the last mile.
+        </p>
+      </div>
+      <p class="opening__hello" aria-hidden="true"><i></i>Hello from Nepal</p>
+    </div>
+
+    <p class="opening__phase eyebrow" aria-hidden="true">
+      <span>01 / Arrival</span><i></i><span>02 / About</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  /*
+   * One pinned stage carries what the lab ran as two sections: HeroCharacter
+   * (a static 100svh screen) followed by AboutCharacter (265svh, so 165svh of
+   * pin travel). Merging them collapsed both into 100svh of travel, which
+   * dissolved the headline within 150px of scroll and left the About copy
+   * nothing to breathe in. The pin is sized to carry both budgets instead:
+   * 75svh for the arrival hold and exit, then the lab's full 165svh for About.
+   */
+  .opening {
+    --hero-out: 0;
+    --about-in: 0;
+    --copy-in: 0;
+    --wave: 0;
+    position: relative;
+    height: 340svh;
+    margin-top: -1px;
+    background: #000004;
+    color: var(--sheet);
+  }
+
+  .opening__anchor {
+    position: absolute;
+    left: 0;
+    width: 1px;
+    pointer-events: none;
+  }
+  .opening__anchor--arrival { top: 0; height: 90svh; }
+  .opening__anchor--about { top: 90svh; height: 250svh; }
+
+  .opening__stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      radial-gradient(105% 90% at 88% 100%, rgba(0, 42, 96, 0.55), transparent 64%),
+      radial-gradient(90% 78% at 100% 96%, rgba(64, 0, 96, 0.42), transparent 64%),
+      #000004;
+  }
+
+  .opening__portrait {
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 0 auto;
+    width: min(58vw, 92rem);
+    overflow: hidden;
+    opacity: calc(1 - var(--about-in));
+    transform:
+      translate3d(calc(var(--about-in) * 7vw), calc(var(--about-in) * 4vh), 0)
+      scale(calc(1 - var(--about-in) * 0.12));
+    transform-origin: 72% 72%;
+    -webkit-mask-image: linear-gradient(to left, #000 60%, transparent 98%);
+    mask-image: linear-gradient(to left, #000 60%, transparent 98%);
+    will-change: opacity, transform;
+  }
+  .opening__portrait img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: 72% 50%;
+  }
+
+  .opening__scene {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    opacity: var(--about-in);
+    transform: scale(calc(1.025 - var(--about-in) * 0.025));
+    transform-origin: 75% 62%;
+    will-change: opacity, transform;
+  }
+  .opening__scene video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .opening__hero,
+  .opening__about {
+    position: absolute;
+    left: var(--pad);
+    top: 50%;
+    width: min(46vw, 46rem);
+  }
+  .opening__hero {
+    display: grid;
+    gap: clamp(1.2rem, 2.6vh, 1.8rem);
+    opacity: calc(1 - var(--hero-out));
+    transform: translate3d(calc(var(--hero-out) * -3vw), calc(-50% - var(--hero-out) * 1.5rem), 0);
+    will-change: opacity, transform;
+  }
+  .opening__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 1.25rem;
+    color: var(--sheet-muted);
+  }
+  .opening__hero-title,
+  .opening__about-title {
+    font-family: var(--font-display);
+    font-stretch: var(--wider);
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .opening__hero-title {
+    max-width: 11ch;
+    font-size: clamp(3rem, 5.7vw, 7.5rem);
+    line-height: 0.84;
+    letter-spacing: -0.055em;
+  }
+  .opening__hero-title span { display: block; }
+  .opening__lede {
+    max-width: 52ch;
+    color: var(--sheet-70);
+    font-size: clamp(0.92rem, 1.12vw, 1.08rem);
+    line-height: 1.62;
+  }
+  .opening__cue {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    width: fit-content;
+    font: 500 0.68rem/1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /*
+   * The copy runs on its own clock, not on the portrait-to-bench crossfade.
+   * Sharing --about-in made the text land with the scene and then leave with
+   * it; the lab holds the copy from the moment it arrives to the end of the
+   * pin, so there is no window where the stage is up with nothing on it.
+   */
+  .opening__about {
+    opacity: var(--copy-in);
+    transform: translate3d(0, calc(-50% + (1 - var(--copy-in)) * 3rem), 0);
+    will-change: opacity, transform;
+  }
+  .opening__index {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    color: var(--sheet-muted);
+  }
+  .opening__index span:first-child {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--sheet-30);
+    border-radius: 50%;
+  }
+  .opening__about-title {
+    max-width: 10ch;
+    margin-top: clamp(1.3rem, 3vh, 2.3rem);
+    font-size: clamp(3rem, 5.7vw, 6.5rem);
+    line-height: 0.86;
+    letter-spacing: -0.06em;
+    text-wrap: balance;
+  }
+  .opening__about-title em {
+    display: block;
+    color: #e473ca;
+    font-style: normal;
+  }
+  .opening__body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 2rem);
+    margin-top: clamp(1.4rem, 3vh, 2.4rem);
+    color: var(--sheet-70);
+    font-size: clamp(0.84rem, 1vw, 0.98rem);
+    line-height: 1.6;
+  }
+  /*
+   * The greeting is a caption for the wave, so it is timed to it rather than
+   * printed for the whole beat: the rule draws out and the line brightens as
+   * the character turns to the viewer.
+   */
+  .opening__hello {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: clamp(1.2rem, 2.8vh, 2.2rem);
+    color: color-mix(in srgb, var(--sheet) calc(35% + var(--wave) * 65%), transparent);
+    font: 500 0.64rem/1 var(--font-mono);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: var(--wave);
+    transform: translateX(calc((1 - var(--wave)) * -0.75rem));
+  }
+  .opening__hello i {
+    width: 2.5rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(var(--wave));
+    transform-origin: left;
+  }
+  .opening__phase {
+    position: absolute;
+    right: var(--pad);
+    bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--sheet-muted);
+  }
+  .opening__phase i { width: clamp(2.5rem, 5vw, 5rem); height: 1px; background: currentColor; }
+
+  @media (min-width: 1800px) {
+    .opening__hero,
+    .opening__about { width: min(43vw, 56rem); }
+    .opening__hero-title,
+    .opening__about-title { font-size: clamp(5rem, 5.2vw, 8.3rem); }
+    .opening__lede { font-size: 1.12rem; }
+  }
+
+  @media (max-width: 900px) {
+    .opening { height: 300svh; }
+    .opening__anchor--arrival { height: 80svh; }
+    .opening__anchor--about { top: 80svh; height: 220svh; }
+    .opening__portrait {
+      inset: 0 0 auto;
+      width: 100%;
+      height: 56%;
+      -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+    }
+    .opening__portrait img { object-position: 60% 48%; }
+    .opening__hero {
+      top: auto;
+      bottom: 2.5rem;
+      width: calc(100% - var(--pad) * 2);
+      transform: translate3d(0, calc(var(--hero-out) * 1.5rem), 0);
+    }
+    .opening__hero-title { font-size: clamp(2.8rem, 11vw, 5.2rem); }
+    .opening__scene { inset: auto 0 0; height: 60%; }
+    .opening__scene video { object-position: 70% 50%; }
+    .opening__about {
+      top: 5.5rem;
+      width: calc(100% - var(--pad) * 2);
+      transform: translate3d(0, calc((1 - var(--about-in)) * 2rem), 0);
+    }
+    .opening__about-title { max-width: 11ch; font-size: clamp(2.7rem, 10vw, 4.7rem); }
+    .opening__body { grid-template-columns: 1fr; max-width: 34ch; }
+    .opening__body p:last-child { display: none; }
+    .opening__hello,
+    .opening__phase { display: none; }
+  }
+
+  @media (max-width: 620px) {
+    .opening__hero { gap: 1rem; }
+    .opening__meta { max-width: 34ch; font-size: 0.58rem; line-height: 1.45; }
+    .opening__hero-title { font-size: clamp(2.7rem, 13vw, 4.1rem); }
+    .opening__lede { max-width: 34ch; font-size: 0.82rem; line-height: 1.5; }
+    .opening__about-title { font-size: clamp(2.7rem, 12vw, 4rem); }
+    .opening__body { width: 72%; font-size: 0.8rem; line-height: 1.48; }
+  }
+
+  @media (max-width: 620px) and (max-height: 740px) {
+    .opening__lede,
+    .opening__body { display: none; }
+  }
+
+  /* Opacity only, but the copy still has to be reachable and readable, so the
+     pin keeps enough travel to hold each state rather than cross-cutting. */
+  @media (prefers-reduced-motion: reduce) {
+    .opening { height: 240svh; }
+    .opening__portrait,
+    .opening__scene,
+    .opening__hero,
+    .opening__about { transform: none; }
+  }
+</style>
+
+<script>
+  const opening = document.querySelector<HTMLElement>('[data-character-opening]')
+  const aboutVideo = opening?.querySelector<HTMLVideoElement>('[data-opening-video]')
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)')
+
+  if (opening) {
+    const clamp = (value: number) => Math.min(1, Math.max(0, value))
+    let ticking = false
+    let waving = false
+    let watching = false
+
+    /*
+     * Phase windows as fractions of the pin, carrying the lab's budgets:
+     * 75svh of the 240svh travel belongs to the arrival, the remaining 165svh
+     * to About. Within About the offsets are the lab's own (arrive 0–0.24,
+     * copy 0.12–0.34, wave 0.64–0.81 of its 165svh) mapped onto the whole pin.
+     */
+    const HERO_OUT = { from: 0.19, span: 0.14 }
+    const ABOUT_IN = { from: 0.28, span: 0.17 }
+    const COPY_IN = { from: 0.37, span: 0.15 }
+    const WAVE = { from: 0.72, span: 0.12 }
+
+    const phase = (progress: number, { from, span }: { from: number; span: number }) =>
+      clamp((progress - from) / span)
+
+    const syncVideo = () => {
+      if (!aboutVideo) return
+      if (watching && !document.hidden) aboutVideo.play().catch(() => {})
+      else aboutVideo.pause()
+    }
+
+    const update = () => {
+      const rect = opening.getBoundingClientRect()
+      const travel = Math.max(1, rect.height - innerHeight)
+      const progress = clamp(-rect.top / travel)
+
+      opening.style.setProperty('--hero-out', phase(progress, HERO_OUT).toFixed(4))
+      opening.style.setProperty('--about-in', phase(progress, ABOUT_IN).toFixed(4))
+      opening.style.setProperty('--copy-in', phase(progress, COPY_IN).toFixed(4))
+      opening.style.setProperty('--wave', phase(progress, WAVE).toFixed(4))
+
+      watching = rect.bottom > innerHeight * 0.15 && rect.top < innerHeight * 0.85 && progress > 0.24
+
+      /*
+       * The clip loops its work states, then holds the 7.1s–9.85s wave. That
+       * seek has to fire with the caption it belongs to, so it is tied to the
+       * start of the wave window rather than to a separate late threshold.
+       */
+      if (aboutVideo) {
+        const nextWave = progress > WAVE.from
+        if (nextWave !== waving) {
+          waving = nextWave
+          aboutVideo.loop = !waving
+          if (waving && (aboutVideo.currentTime < 7.1 || aboutVideo.currentTime > 9.85)) {
+            aboutVideo.currentTime = 7.1
+          }
+        }
+      }
+
+      syncVideo()
+      ticking = false
+    }
+
+    const requestUpdate = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(update)
+    }
+
+    update()
+    addEventListener('scroll', requestUpdate, { passive: true })
+    addEventListener('resize', requestUpdate, { passive: true })
+    document.addEventListener('visibilitychange', syncVideo)
+
+    /*
+     * The first update runs while the intro gate still holds the page, where
+     * the section can measure shorter than the viewport. That makes `travel`
+     * collapse to 1px and pins every phase at its end state — the headline is
+     * already gone by the time the gate lifts, and nothing recomputes until
+     * the first scroll. Re-measuring on resize catches the moment the real
+     * height lands, whichever way it arrives.
+     */
+    new ResizeObserver(requestUpdate).observe(opening)
+
+    {
+      let committed = false
+      const removeIntentListeners = () => {
+        removeEventListener('wheel', onWheel)
+        removeEventListener('keydown', onKeydown)
+      }
+      /*
+       * The handoff lands where the About copy has finished arriving, which is
+       * a position in the pin — not the #about anchor, which marks where the
+       * chapter begins for the navigation and sits well before the copy is
+       * legible. Measuring the anchor instead dropped the user in mid-reveal.
+       */
+      const aboutTop = () => {
+        const travel = Math.max(1, opening.offsetHeight - innerHeight)
+        return Math.max(0, opening.offsetTop + travel * (COPY_IN.from + COPY_IN.span))
+      }
+      const goToAbout = () =>
+        scrollTo({ top: aboutTop(), behavior: reduceMotion.matches ? 'auto' : 'smooth' })
+      const enterAbout = () => {
+        if (committed || document.body.classList.contains('intro-locked')) return
+        committed = true
+        removeIntentListeners()
+        goToAbout()
+      }
+      const onWheel = (event: WheelEvent) => {
+        if (event.deltaY <= 0 || scrollY > innerHeight * 0.42) return
+        if (document.body.classList.contains('intro-locked')) return
+        event.preventDefault()
+        enterAbout()
+      }
+      const onKeydown = (event: KeyboardEvent) => {
+        if (!['ArrowDown', 'PageDown', ' '].includes(event.key)) return
+        if (scrollY > innerHeight * 0.42) return
+        if (document.body.classList.contains('intro-locked')) return
+        event.preventDefault()
+        enterAbout()
+      }
+      addEventListener('wheel', onWheel, { passive: false })
+      addEventListener('keydown', onKeydown)
+
+      /* The cue promises the same destination the first scroll gesture goes
+         to. Left as a plain #about jump it landed a third of a screen short,
+         on copy that had not faded up yet. */
+      opening.querySelector<HTMLAnchorElement>('.opening__cue')?.addEventListener('click', (event) => {
+        event.preventDefault()
+        committed = true
+        removeIntentListeners()
+        goToAbout()
+      })
+    }
+  }
+</script>

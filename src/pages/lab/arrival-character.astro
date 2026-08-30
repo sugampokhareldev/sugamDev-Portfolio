@@ -1,0 +1,99 @@
+---
+/**
+ * Preview route for the character arrival stage.
+ *
+ * Base, not Sandbox: this is built on the real VOYAGE tokens and type, so it
+ * needs global.css — the Sandbox layout deliberately withholds it for the
+ * vendored shadcn blocks. Nothing here is linked from the navigation, and the
+ * layout is asked for noindex.
+ *
+ * This route remains as a noindex comparison surface. The character-led
+ * composition is now also the production sequence rendered by index.astro.
+ */
+import Base from '../../layouts/Base.astro'
+import HeroCharacter from '../../components/HeroCharacter.astro'
+import AboutCharacter from '../../components/AboutCharacter.astro'
+import CapabilityTransition from '../../components/CapabilityTransition.astro'
+import Capability from '../../components/Capability.astro'
+import Contact from '../../components/Contact.astro'
+import { profile, sections } from '../../data/site'
+
+const labSections = sections.filter(({ id }) => ['arrival', 'about', 'capabilities', 'contact'].includes(id))
+---
+
+<Base
+  title={`${profile.name} — arrival stage (lab)`}
+  description={profile.statement}
+  noindex
+  navSections={labSections}
+>
+  <HeroCharacter nextHref="#about" nextLabel="Continue to meet the maker" />
+  <AboutCharacter />
+  <CapabilityTransition />
+  <Capability />
+  <Contact index="04" />
+</Base>
+
+{/*
+  The page ground, not just the section's: the sheet would otherwise show
+  through as a pale band under the fold and behind the scroll bounce. Scoped to
+  this route — global.css is untouched.
+*/}
+<style is:global>
+  html, body { background: #000004; }
+</style>
+
+{/*
+  The nav inversion normally arrives with the scroll script, which waits on the
+  intro gate — about three seconds on a route that has no intro. That would
+  print dark nav on dark ground for those three seconds, so set it up front;
+  the scroll script maintains it from there.
+*/}
+<script is:inline>document.body.classList.add('on-plate')</script>
+
+{/*
+  A single downward scroll gesture from
+  the hero commits to the About handoff instead of asking the user to wheel a
+  whole viewport before the transition even begins. The target lands after
+  the portrait-to-bench change and copy reveal; scrolling is completely normal
+  again as soon as that first intent has been handled.
+*/}
+<script>
+  const about = document.querySelector<HTMLElement>('#about')
+
+  if (about) {
+    let committed = false
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)')
+
+    const removeIntentListeners = () => {
+      removeEventListener('wheel', onWheel)
+      removeEventListener('keydown', onKeydown)
+    }
+
+    const enterAbout = () => {
+      if (committed) return
+      committed = true
+      removeIntentListeners()
+
+      const travel = Math.max(0, about.offsetHeight - innerHeight)
+      const top = about.offsetTop + travel * 0.36
+      scrollTo({ top, behavior: reduceMotion.matches ? 'auto' : 'smooth' })
+    }
+
+    const onWheel = (event: WheelEvent) => {
+      if (event.deltaY <= 0 || scrollY > innerHeight * 0.4) return
+      event.preventDefault()
+      enterAbout()
+    }
+
+    const onKeydown = (event: KeyboardEvent) => {
+      if (!['ArrowDown', 'PageDown', ' '].includes(event.key)) return
+      if (scrollY > innerHeight * 0.4) return
+      event.preventDefault()
+      enterAbout()
+    }
+
+    addEventListener('wheel', onWheel, { passive: false })
+    addEventListener('keydown', onKeydown)
+  }
+</script>

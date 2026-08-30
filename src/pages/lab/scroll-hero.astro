@@ -1,0 +1,15 @@
+---
+/**
+ * Preview route for the vendored hero scroll animation.
+ *
+ * client:visible, not client:load: the whole effect is scroll-driven, so there
+ * is nothing to show before it is on screen. Without a client:* directive the
+ * component renders as static HTML and useScroll never runs.
+ */
+import Sandbox from '../../layouts/Sandbox.astro'
+import Component from '@/components/ui/hero-scroll-animation'
+---
+
+<Sandbox title="Hero scroll animation — sandbox">
+  <Component client:visible />
+</Sandbox>

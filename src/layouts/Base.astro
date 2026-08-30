@@ -1,0 +1,143 @@
+---
+import '../styles/global.css'
+import Header from '../components/Header.astro'
+import { profile } from '../data/site'
+
+interface Props {
+  title: string
+  description: string
+  noindex?: boolean
+  navSections?: readonly { id: string; label: string }[]
+}
+// noindex is opt-in and defaults off, so every existing page is unaffected.
+// The /lab preview routes ask for it: they are scratch surfaces, not pages.
+const { title, description, noindex = false, navSections } = Astro.props
+
+// Absolute URLs, which the social scrapers require — a root-relative og:image
+// is silently dropped by every one of them. Astro.site drives this, so the
+// canonical host lives in astro.config.mjs rather than being repeated here.
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url)
+const ogImage = new URL('/og.png', Astro.site ?? Astro.url)
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: profile.role,
+  url: canonical.href,
+  email: `mailto:${profile.email}`,
+  homeLocation: { '@type': 'Country', name: profile.location },
+  sameAs: [profile.links.github],
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#000004" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <title>{title}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${profile.name} — ${profile.role}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+    <script is:inline>document.documentElement.classList.add('js', 'entry-armed')</script>
+
+    {/*
+      Archivo is requested with its WIDTH axis as well as weight — the wide
+      settings are what the display type is built on, and without wdth the
+      browser synthesises nothing and every headline falls back to normal
+      width. Geist and Geist Mono carry body and data.
+    */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header items={navSections} />
+    <main id="main"><slot /></main>
+
+    <script is:inline>
+      ;(() => {
+        const root = document.documentElement
+        const body = document.body
+        let entered = false
+        let sawLock = body.classList.contains('intro-locked')
+        const enter = () => {
+          if (entered) return
+          entered = true
+          observer.disconnect()
+          clearTimeout(grace)
+          clearTimeout(failsafe)
+          root.classList.remove('entry-armed')
+          root.classList.add('is-entered')
+        }
+        const observer = new MutationObserver(() => {
+          if (body.classList.contains('intro-locked')) sawLock = true
+          else if (sawLock) enter()
+        })
+        observer.observe(body, { attributes: true, attributeFilter: ['class'] })
+        const grace = setTimeout(() => { if (!sawLock) enter() }, 3000)
+        const failsafe = setTimeout(enter, 15000)
+      })()
+    </script>
+
+    <script>
+      import { startAnimatedTab } from '../lib/animated-tab'
+      import { startMotion } from '../lib/motion'
+      import { initPointer } from '../lib/motion/pointer'
+      import { profile } from '../data/site'
+
+      // The custom pointer belongs to the welcome screen too. initPointer is
+      // idempotent, so startMotion can safely request it again after entry.
+      initPointer()
+
+      /* The tab strip is the one place the positioning line is too long to
+         use verbatim — a browser tab truncates at roughly twenty characters —
+         so it carries the short form of the same claim, not a job title. */
+      startAnimatedTab([profile.name, 'Ships paid products', 'What looks complete usually isn’t'])
+
+      /*
+       * Motion waits for the entry gate.
+       *
+       * The hero reveal is driven by an IntersectionObserver, and the hero is
+       * above the fold — so without this the entrance would play out behind
+       * the intro overlay and be finished by the time anyone saw the page.
+       * `is-entered` is set by the inline script above once the intro lifts.
+       */
+      const root = document.documentElement
+      if (root.classList.contains('is-entered')) startMotion()
+      else {
+        const gate = new MutationObserver(() => {
+          if (!root.classList.contains('is-entered')) return
+          gate.disconnect()
+          startMotion()
+        })
+        gate.observe(root, { attributes: true, attributeFilter: ['class'] })
+      }
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,175 @@
+---
+import { sectionNo, type Project } from '../data/site'
+import Reg from './Reg.astro'
+
+interface Props { projects: Project[] }
+const { projects } = Astro.props
+const liveCount = projects.filter((project) => project.status === 'live').length
+const featuredCount = projects.filter((project) => project.featured).length
+
+/*
+ * COMPOSITION, not a template.
+ *
+ * Four projects previously rendered through one identical two-column plate,
+ * which is the typographic equivalent of a grid of screenshots: the reader
+ * learns the shape once and then scrolls past three repetitions of it. Two
+ * things change that here, and neither of them is a device mockup.
+ *
+ * 1. WEIGHT. The two featured projects get a lead plate — the name at display
+ *    scale across the full measure, an asymmetric split beneath it, and roughly
+ *    twice the vertical air. The other two get a brief: smaller name, tighter
+ *    rhythm, the crux still intact. A portfolio that presents everything at the
+ *    same size is claiming everything matters equally, which is never true.
+ *
+ * 2. DIRECTION. Consecutive lead plates mirror each other — the second puts
+ *    the argument on the left and the identification on the right — so the eye
+ *    has to re-enter the page rather than falling down a fixed gutter.
+ *
+ * Both are derived from the data (`featured`) rather than hand-assigned, so
+ * adding a project cannot produce a plate with no layout.
+ */
+let leadSeen = -1
+const compose = (project: Project) => {
+  if (!project.featured) return { variant: 'brief', side: 'left' }
+  leadSeen += 1
+  return { variant: 'lead', side: leadSeen % 2 === 0 ? 'left' : 'right' }
+}
+---
+
+<section class="work chapter shell" id="work" data-chapter>
+  <div class="work__threshold" aria-hidden="true">
+    <span>Selected systems</span>
+    <i></i>
+    <strong>Proof over promise</strong>
+    <i></i>
+    <span>Scroll to inspect</span>
+  </div>
+
+  <header class="work__header">
+    <div>
+      <p class="eyebrow"><b>{sectionNo('work')}</b> / Selected work</p>
+      <h2
+        class="section-title display"
+        data-reveal-group
+        data-fam="stretch"
+        data-base="112"
+        data-gain="6"
+      >
+        <span class="rv"><span><Reg text="Four systems" /></span></span>
+        <span class="rv"><span><Reg text="disagreed with themselves." /></span></span>
+      </h2>
+    </div>
+    <p class="work__note">
+      Each one started as a problem of measurement, not of building: something the
+      system reported was not what was actually true. The interesting part of each
+      project is that gap, so that is what is written up here.
+    </p>
+  </header>
+
+  <div class="work__manifest" aria-label="Portfolio overview">
+    <p>
+      <span>Production record</span>
+      <strong>{projects.length.toString().padStart(2, '0')}</strong>
+      <small>shipped systems</small>
+    </p>
+    <p>
+      <span>Deep dives</span>
+      <strong>{featuredCount.toString().padStart(2, '0')}</strong>
+      <small>featured builds</small>
+    </p>
+    <p>
+      <span>Live now</span>
+      <strong>{liveCount.toString().padStart(2, '0')}</strong>
+      <small>public product</small>
+    </p>
+    <nav aria-label="Jump to a project">
+      {projects.map((project) => (
+        <a href={`#${project.slug}`}><span>{project.index}</span>{project.name}</a>
+      ))}
+    </nav>
+  </div>
+
+  {projects.map((project) => {
+    const { variant, side } = compose(project)
+    return (
+      <article
+        class:list={['plate', `plate--${variant}`]}
+        data-side={side}
+        id={project.slug}
+      >
+        {/*
+          The identification band. On a lead plate it spans the full measure and
+          the name is the largest type in the section; on a brief it sits in the
+          narrow column and is barely louder than the body. Same markup either
+          way — only the composition changes.
+        */}
+        <div class="plate__title">
+          <p class="plate__status">
+            <i data-status={project.status}>{project.status}</i>
+            <span>{project.year}</span>
+            <b class="plate__no">{project.index}</b>
+          </p>
+          <h3 class="plate__name"><Reg text={project.name} /></h3>
+          <p class="plate__kicker">{project.kicker}</p>
+        </div>
+
+        <div class="plate__head">
+          <p class="plate__summary">{project.summary}</p>
+
+          {/*
+            Figures only where a real quantity carries the argument AND the
+            drawing says something the number does not. Toolorah had a grid of
+            53 identical cells here, one per tool: it drew the count twice (it
+            is already in the readings table) and told you nothing about the
+            tools, so it was decoration with a data-shaped alibi.
+          */}
+          {project.slug === 'instagram-view-counter' && (
+            <div class="passes">
+              <div class="pass pass--a">
+                <p class="pass__label"><span>Pass 1 — anonymous</span><span>42%</span></p>
+                <div class="pass__track"><div class="pass__fill" style="--w: 42%"></div></div>
+              </div>
+              <div class="pass pass--b">
+                <p class="pass__label"><span>Pass 2 — reconciled</span><span>100%</span></p>
+                <div class="pass__track"><div class="pass__fill" style="--w: 100%"></div></div>
+              </div>
+              <p class="figure-note">
+                The second pass is authenticated and fills only the gaps — usually one request.
+              </p>
+            </div>
+          )}
+
+          <ul class="stack">
+            {project.stack.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+
+        <div class="plate__body">
+          <div class="crux">
+            <p class="crux__label">The hard part</p>
+            <h4 class="crux__title">{project.crux.title}</h4>
+            <p class="crux__body">{project.crux.body}</p>
+          </div>
+
+          <dl class="readings">
+            {project.readings.map((reading) => (
+              <div><dt>{reading.label}</dt><dd>{reading.value}</dd></div>
+            ))}
+          </dl>
+
+          {project.href && (
+            <a class="link" href={project.href} target="_blank" rel="noreferrer" data-cursor="view">
+              Visit {project.name} <i aria-hidden="true">↗</i>
+            </a>
+          )}
+        </div>
+      </article>
+    )
+  })}
+
+  <footer class="work__footer">
+    <p>The pattern across the work</p>
+    <strong>Measure the gap. Reconcile the system. Ship the truth.</strong>
+    <a href="#capabilities">See how I build <span aria-hidden="true">↓</span></a>
+  </footer>
+</section>

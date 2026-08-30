@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- The comet at rest on its orbit — the same mark src/lib/animated-tab.ts
+       draws on the canvas, at t=0. Geometry is copied from there (SIZE 32,
+       radius mid-5, head r 3.2) so the static icon and the animated one are
+       the same object, not two drawings of it. Colours from DESIGN.md.
+
+       Carries its own ground rather than adapting to the browser theme: the
+       site is dark by design, and a mark that inverts is a different mark. -->
+  <rect width="32" height="32" rx="7" fill="#050b16"/>
+  <circle cx="16" cy="16" r="11" fill="none" stroke="#f0a24b" stroke-opacity=".28" stroke-width="2"/>
+  <circle cx="16" cy="5" r="3.2" fill="#f0a24b"/>
+</svg>

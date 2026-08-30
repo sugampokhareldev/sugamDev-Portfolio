@@ -1,0 +1,367 @@
+---
+/**
+ * A scroll-held handoff from the arrival portrait into the human About beat.
+ *
+ * The first layer intentionally repeats HeroCharacter's still. At the exact
+ * section boundary it occupies the same right-hand plate, so scrolling feels
+ * like one character changing position instead of two unrelated scenes.
+ * The generated seated states share one composition and crossfade late in the
+ * timeline: work first, then a direct-to-viewer wave.
+ */
+---
+
+<section class="about-char chapter" id="about" data-chapter data-plate>
+  <div class="about-char__sticky">
+    <div class="about-char__glow" aria-hidden="true"></div>
+
+    <div class="about-char__portrait" aria-hidden="true">
+      <img src="/character.webp" alt="" width="1024" height="1280" />
+    </div>
+
+    <div class="about-char__scene" aria-hidden="true">
+      <video
+        class="about-char__video"
+        data-about-video
+        src="/video/about-scroll.mp4"
+        poster="/art/about-working-1280.webp"
+        preload="auto"
+        muted
+        loop
+        playsinline
+        tabindex="-1"
+      ></video>
+    </div>
+
+    <div class="about-char__copy">
+      <p class="about-char__index eyebrow"><span>02</span><span>About</span></p>
+
+      <h2 class="about-char__title">
+        I build the parts that make a product <em>real.</em>
+      </h2>
+
+      <div class="about-char__body">
+        <p>
+          I'm Sugam Pokharel, an 18-year-old developer working across the whole
+          product — the interface people touch, the systems behind it, and the
+          deployment that keeps it useful once it is live.
+        </p>
+        <p>
+          I care about practical, fast and dependable work. The stack changes;
+          the standard does not: make it clear, make it resilient, and finish
+          the last mile.
+        </p>
+      </div>
+
+      <p class="about-char__hello" aria-hidden="true">
+        <span class="about-char__hello-line"></span>
+        <span>Hello from Nepal</span>
+      </p>
+    </div>
+
+    <p class="about-char__scroll eyebrow" aria-hidden="true">
+      <span>Scroll to meet the maker</span>
+      <span class="about-char__scroll-line"></span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .about-char {
+    --arrive: 0;
+    --copy: 0;
+    --wave: 0;
+    position: relative;
+    height: 265svh;
+    margin-top: -1px;
+    color: var(--sheet);
+    background: #000004;
+  }
+
+  .about-char__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      radial-gradient(100% 85% at 88% 100%, rgba(0, 39, 90, 0.5), transparent 64%),
+      radial-gradient(80% 75% at 100% 94%, rgba(74, 0, 96, 0.38), transparent 65%),
+      #000004;
+  }
+
+  .about-char__glow {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    background: radial-gradient(55% 70% at 76% 65%, rgba(0, 135, 190, 0.11), transparent 72%);
+    opacity: calc(0.2 + var(--arrive) * 0.8);
+  }
+
+  .about-char__portrait {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: min(62%, 1000px);
+    z-index: -1;
+    overflow: hidden;
+    opacity: calc(1 - var(--arrive));
+    transform: translate3d(calc(var(--arrive) * 10vw), calc(var(--arrive) * 5vh), 0)
+      scale(calc(1 - var(--arrive) * 0.14));
+    transform-origin: 75% 75%;
+    -webkit-mask-image: linear-gradient(to left, #000 58%, transparent 97%);
+    mask-image: linear-gradient(to left, #000 58%, transparent 97%);
+    will-change: transform, opacity;
+  }
+
+  .about-char__portrait img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    /* Matches HeroCharacter exactly at the section boundary. */
+    object-position: 72% 50%;
+  }
+
+  .about-char__scene {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    opacity: var(--arrive);
+    transform: translate3d(calc((1 - var(--arrive)) * -3vw), 0, 0)
+      scale(calc(1.035 - var(--arrive) * 0.035));
+    transform-origin: 76% 65%;
+    will-change: transform, opacity;
+  }
+
+  .about-char__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  .about-char__copy {
+    position: absolute;
+    left: var(--pad);
+    top: 50%;
+    width: min(43vw, 38rem);
+    transform: translate3d(0, calc(-50% + (1 - var(--copy)) * 3rem), 0);
+    opacity: var(--copy);
+    will-change: transform, opacity;
+  }
+
+  .about-char__index {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    color: var(--sheet-muted);
+  }
+
+  .about-char__index span:first-child {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid color-mix(in srgb, var(--sheet) 26%, transparent);
+    border-radius: 50%;
+  }
+
+  .about-char__title {
+    max-width: 11ch;
+    margin-top: clamp(1.4rem, 3.5vh, 2.6rem);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 5.9vw, 6.6rem);
+    font-stretch: 118%;
+    font-weight: 800;
+    line-height: 0.86;
+    letter-spacing: -0.065em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .about-char__title em {
+    display: block;
+    padding-right: 0.08em;
+    color: #e473ca;
+    font-style: normal;
+  }
+
+  .about-char__body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 2rem);
+    max-width: 60rem;
+    margin-top: clamp(1.6rem, 3.8vh, 3rem);
+    color: var(--sheet-70);
+    font-size: clamp(0.86rem, 1.05vw, 1rem);
+    line-height: 1.65;
+  }
+
+  .about-char__hello {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: clamp(1.5rem, 3.5vh, 2.8rem);
+    color: color-mix(in srgb, var(--sheet) calc(35% + var(--wave) * 65%), transparent);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transform: translateX(calc((1 - var(--wave)) * -0.75rem));
+    opacity: var(--wave);
+  }
+
+  .about-char__hello-line {
+    width: 2.5rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(var(--wave));
+    transform-origin: left;
+  }
+
+  .about-char__scroll {
+    position: absolute;
+    right: var(--pad);
+    bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--sheet-muted);
+    opacity: calc(1 - var(--arrive) * 1.7);
+  }
+
+  .about-char__scroll-line {
+    width: clamp(2.5rem, 6vw, 6rem);
+    height: 1px;
+    background: currentColor;
+  }
+
+  @media (max-width: 980px) {
+    .about-char { height: 230svh; }
+    .about-char__copy { width: min(48vw, 31rem); }
+    .about-char__title { font-size: clamp(2.7rem, 6.8vw, 5rem); }
+    .about-char__body { grid-template-columns: 1fr; max-width: 34ch; }
+    .about-char__body p:last-child { display: none; }
+  }
+
+  @media (max-width: 700px) {
+    .about-char { height: 210svh; }
+    .about-char__sticky {
+      background:
+        radial-gradient(115% 60% at 78% 100%, rgba(0, 47, 100, 0.48), transparent 70%),
+        #000004;
+    }
+    .about-char__portrait {
+      inset: auto 0 0;
+      width: 100%;
+      height: 58%;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28%);
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 28%);
+    }
+    .about-char__portrait img { object-position: 64% 50%; }
+    .about-char__scene { inset: auto 0 0; height: 58%; }
+    .about-char__video { object-fit: cover; object-position: 72% 50%; }
+    .about-char__copy {
+      top: 5.6rem;
+      left: var(--pad);
+      width: calc(100% - var(--pad) * 2);
+      transform: translate3d(0, calc((1 - var(--copy)) * 2rem), 0);
+    }
+    .about-char__title {
+      max-width: 12ch;
+      margin-top: 1.1rem;
+      font-size: clamp(2.55rem, 12vw, 4.5rem);
+    }
+    .about-char__body {
+      width: min(76%, 31rem);
+      margin-top: 1.2rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .about-char__hello { display: none; }
+    .about-char__scroll { display: none; }
+  }
+
+  @media (max-width: 700px) and (max-height: 720px) {
+    .about-char__body { display: none; }
+    .about-char__scene,
+    .about-char__portrait { height: 65%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-char {
+      --arrive: 1;
+      --copy: 1;
+      --wave: 0;
+      height: 100svh;
+      min-height: 44rem;
+    }
+    .about-char__sticky { position: relative; }
+    .about-char__portrait,
+    .about-char__scroll { display: none; }
+    .about-char__scene,
+    .about-char__copy { transform: none; }
+    .about-char__hello { display: none; }
+  }
+</style>
+
+<script>
+  const section = document.querySelector<HTMLElement>('.about-char')
+  const video = section?.querySelector<HTMLVideoElement>('[data-about-video]')
+
+  if (section && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let ticking = false
+
+    const clamp = (value: number) => Math.min(1, Math.max(0, value))
+    const update = () => {
+      const rect = section.getBoundingClientRect()
+      const distance = Math.max(1, rect.height - window.innerHeight)
+      const progress = clamp(-rect.top / distance)
+
+      section.style.setProperty('--arrive', String(clamp(progress / 0.24)))
+      section.style.setProperty('--copy', String(clamp((progress - 0.12) / 0.22)))
+      section.style.setProperty('--wave', String(clamp((progress - 0.64) / 0.17)))
+      ticking = false
+    }
+
+    const requestUpdate = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(update)
+    }
+
+    update()
+    addEventListener('scroll', requestUpdate, { passive: true })
+    addEventListener('resize', requestUpdate, { passive: true })
+
+    if (video) {
+      let watching = false
+
+      const syncPlayback = () => {
+        if (watching && !document.hidden) {
+          video.play().catch(() => {
+            // Muted inline playback is normally allowed. The poster remains
+            // in place if a browser still requires explicit interaction.
+          })
+        } else {
+          video.pause()
+        }
+      }
+
+      /* The centre half of the viewport is the reading area. The clip starts
+         when About reaches it, loops while the section remains there, and
+         pauses once the user has genuinely moved on. */
+      const playbackObserver = new IntersectionObserver(([entry]) => {
+        watching = entry.isIntersecting
+        syncPlayback()
+      }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 })
+
+      video.pause()
+      playbackObserver.observe(section)
+      document.addEventListener('visibilitychange', syncPlayback)
+    }
+  }
+</script>

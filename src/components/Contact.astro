@@ -1,0 +1,96 @@
+---
+import { profile, sectionNo, socials } from '../data/site'
+import Reg from './Reg.astro'
+
+const reachable = socials.filter((social) =>
+  ['GitHub', 'Discord', 'Email'].includes(social.label)
+)
+
+interface Props { index?: string }
+const { index = sectionNo('contact') } = Astro.props
+---
+
+{/*
+  The page closes by returning to the person from Arrival. The character looks
+  back toward one invitation and one action; everything dashboard-like has
+  been removed. There is no pointer-position tracking or magnetic movement.
+*/}
+<section class="contact chapter is-plate" id="contact" data-chapter data-plate>
+  <div class="contact__portrait" aria-hidden="true">
+    <img src="/character.webp" alt="" width="1024" height="1280" loading="lazy" />
+  </div>
+
+  <header class="contact__header">
+    <p class="eyebrow"><b>{index}</b> / Contact</p>
+    <p class="contact__status"><i aria-hidden="true"></i> Available for the right project</p>
+  </header>
+
+  <div class="contact__main">
+    <p class="contact__kicker">Have something useful in mind?</p>
+    <h2
+      class="contact__title"
+      data-reveal-group
+      aria-label="Let's make it real."
+    >
+      <span class="rv"><span><Reg text="Let's make" /></span></span>
+      <span class="rv"><span><Reg text="it real." /></span></span>
+    </h2>
+
+    <p class="contact__note">
+      Tell me what you are building, who it is for and where it is stuck. A
+      short, honest email is the best place to begin.
+    </p>
+
+    <a class="contact__cta" href={`mailto:${profile.email}`}>
+      <span>
+        <strong>Tell me about your project</strong>
+        <small>{profile.email}</small>
+      </span>
+      <i aria-hidden="true">↗</i>
+    </a>
+
+    <button class="contact__copy" type="button" data-copy-email data-email={profile.email}>
+      <span data-copy-label>Copy email address</span>
+      <i aria-hidden="true">Copy</i>
+    </button>
+  </div>
+
+  <div class="contact__foot">
+    <p>{profile.location} / Working worldwide</p>
+    <nav aria-label="Elsewhere">
+      {reachable.map((social) => (
+        <a
+          class="link"
+          href={social.href}
+          target={social.label === 'Email' ? undefined : '_blank'}
+          rel="noreferrer"
+        >
+          {social.label} <i aria-hidden="true">↗</i>
+        </a>
+      ))}
+    </nav>
+    <p>© {new Date().getFullYear()} {profile.name}</p>
+  </div>
+</section>
+
+<script>
+  const copyButton = document.querySelector<HTMLButtonElement>('[data-copy-email]')
+  const copyLabel = copyButton?.querySelector<HTMLElement>('[data-copy-label]')
+
+  copyButton?.addEventListener('click', async () => {
+    const email = copyButton.dataset.email
+    if (!email || !copyLabel) return
+
+    try {
+      await navigator.clipboard.writeText(email)
+      copyLabel.textContent = 'Email copied'
+      copyButton.dataset.copied = 'true'
+      window.setTimeout(() => {
+        copyLabel.textContent = 'Copy email address'
+        delete copyButton.dataset.copied
+      }, 1800)
+    } catch {
+      window.location.href = `mailto:${email}`
+    }
+  })
+</script>

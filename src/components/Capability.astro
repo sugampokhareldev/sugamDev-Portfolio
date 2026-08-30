@@ -1,0 +1,69 @@
+---
+import { capabilities, sectionNo } from '../data/site'
+import Reg from './Reg.astro'
+---
+
+{/*
+  Capabilities are presented as one product path rather than a wall of skills:
+  shape the interface, connect the system, then carry it into production.
+  Every row has a concrete proof point so the tools never have to make the
+  claim on their own.
+*/}
+<section class="caps chapter shell" id="capabilities" data-chapter>
+  <div class="caps__register" aria-hidden="true">
+    <span>Interface</span><i></i><span>Infrastructure</span><i></i><span>Production</span>
+  </div>
+
+  <header class="caps__header">
+    <div class="caps__heading">
+      <p class="eyebrow"><b>{sectionNo('capabilities')}</b> / Capabilities</p>
+      <h2
+        class="section-title display"
+        data-reveal-group
+        data-fam="stretch"
+        data-base="112"
+        data-gain="6"
+      >
+        <span class="rv"><span><Reg text="One builder." /></span></span>
+        <span class="rv"><span><Reg text="The whole product." /></span></span>
+      </h2>
+    </div>
+    <div class="caps__intro">
+      <p class="caps__lead">
+        I move through the layers that usually create handoffs — from the first
+        interaction to the system behind it and the release people can use.
+      </p>
+      <p class="caps__aside">A complete path from idea to live product.</p>
+    </div>
+  </header>
+
+  <div class="caps__list" aria-label="Capability areas">
+    {capabilities.map((capability) => (
+      <article class="cap" tabindex="0">
+        <span class="cap__trace" aria-hidden="true"></span>
+        <div class="cap__meta" aria-hidden="true">
+          <span class="cap__index">{capability.index}</span>
+          <span class="cap__verb">{capability.verb}</span>
+        </div>
+        <div class="cap__body">
+          <p class="cap__verb cap__verb--mobile">{capability.verb}</p>
+          <h3 class="cap__group">{capability.group}</h3>
+          <p class="cap__note">{capability.note}</p>
+          <ul class="cap__items stack" aria-label={`${capability.group} tools`}>
+            {capability.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="cap__proof">
+          <span>Shipped proof</span>
+          <strong>{capability.proof.value}</strong>
+          <p>{capability.proof.label}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <footer class="caps__footer">
+    <p>Tools change. The ability to connect the layers is the capability.</p>
+    <span aria-hidden="true">03 disciplines / 01 product path</span>
+  </footer>
+</section>

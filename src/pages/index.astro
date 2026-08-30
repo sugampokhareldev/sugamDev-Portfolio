@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro'
+import CharacterOpening from '../components/CharacterOpening.astro'
+import WorkIndex from '../components/WorkIndex.astro'
+import Capability from '../components/Capability.astro'
+import Journey from '../components/Journey.astro'
+import Contact from '../components/Contact.astro'
+import BeatIntro from '../components/BeatIntro.tsx'
+import { profile, projects } from '../data/site'
+---
+
+<Base
+  title={`${profile.name} — ${profile.role}`}
+  description={profile.statement}
+>
+  {/*
+    The entry film remains the main portfolio's opening gate. Once it clears,
+    the complete character-led sequence from the lab is already rendered
+    underneath it; no route change or delayed content load is involved.
+  */}
+  <BeatIntro client:load />
+
+  {/*
+    About hands straight to Capabilities. The clip that used to bridge them
+    is gone, so the ground change carries the cut on its own — the nav follows
+    the standard [data-plate] inversion, which the opening already declares.
+  */}
+  <CharacterOpening />
+  <WorkIndex projects={projects} />
+  <Capability />
+  <Journey />
+  <Contact />
+</Base>
+
+{/*
+  The new opening and closing scenes use the same near-black stage. Keeping
+  that ground on the document prevents a light flash beneath overscroll.
+*/}
+<style is:global>
+  html, body { background: #000004; }
+</style>
+
+{/* The first visible chapter is a plate, so the navigation starts inverted. */}
+<script is:inline>document.body.classList.add('on-plate')</script>

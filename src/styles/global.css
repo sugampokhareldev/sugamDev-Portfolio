@@ -1,0 +1,1053 @@
+@import './tokens.css';
+@import './motion.css';
+@import './interaction.css';
+
+/* ---------------------------------------------------------------- reset -- */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { scroll-behavior: smooth; background: var(--sheet); }
+body {
+  min-width: 320px;
+  overflow-x: hidden;
+  background: var(--sheet);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body.intro-locked { overflow: hidden; }
+
+/*
+ * No scrollbars, anywhere.
+ *
+ * The page already states its own position twice — the HUD percentage and the
+ * nav progress rule — so the native track is redundant, and Chrome on Windows
+ * paints a classic light gutter that sits badly down the edge of the
+ * near-black opening stage.
+ *
+ * Hidden, not disabled: wheel, touch, keyboard, drag-select and the scroll
+ * APIs are all untouched, and the document keeps its full scroll height. The
+ * universal reach is deliberate so nested scrollers match the document rather
+ * than each having to opt in.
+ *
+ * scrollbar-width covers Firefox and Chromium 121+; the -webkit- pseudo
+ * covers older Chrome, Edge and Safari. Both are needed.
+ */
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; width: 0; height: 0; }
+img, svg, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; }
+::selection { color: var(--sheet-2); background: var(--magenta); }
+:focus-visible { outline: 2px solid var(--magenta); outline-offset: 3px; }
+
+.skip-link {
+  position: fixed; z-index: 999; top: 1rem; left: 1rem;
+  padding: 0.7rem 1rem;
+  color: var(--sheet-2); background: var(--ink);
+  font: 500 0.75rem var(--font-mono);
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* ------------------------------------------------- registration primitive -- */
+
+/*
+ * The signature. One piece of text printed three times: a cyan pass, a
+ * magenta pass, and the black that results when they align. The channels are
+ * offset by --reg-x / --reg-y and multiply into each other, so the closer to
+ * zero the offset gets, the more solid the black becomes.
+ *
+ * The base copy is the only one in the accessibility tree; the channels are
+ * aria-hidden duplicates.
+ */
+.reg { position: relative; display: inline-block; }
+.reg__ch {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  /* Deliberately no will-change: there are ~60 of these on the page and the
+     transform only moves during a sub-second convergence. Promoting every one
+     to its own layer costs more than it saves. */
+}
+.reg__ch--c { color: var(--cyan); transform: translate(calc(var(--reg-x) * -1), calc(var(--reg-y) * -1)); }
+.reg__ch--m { color: var(--magenta); transform: translate(var(--reg-x), var(--reg-y)); }
+.reg__base { position: relative; }
+
+/* On the dark plate the channels have to screen, not multiply — multiplying
+   into black is a no-op and the passes vanish. */
+.is-plate .reg__ch { mix-blend-mode: screen; }
+
+/* ------------------------------------------------------- sheet furniture -- */
+
+/*
+ * The corner registration marks that used to live here are gone. They framed
+ * the viewport rather than the page, which meant four plus signs floating over
+ * whatever happened to be beneath them — including the nav.
+ */
+
+.shell { padding-inline: var(--pad); }
+.chapter { position: relative; scroll-margin-top: 5rem; }
+
+.eyebrow {
+  font: 500 0.7rem/1.5 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.eyebrow b { font-weight: 500; color: var(--magenta-ink); }
+
+.display {
+  font-family: var(--font-display);
+  font-stretch: var(--wide);
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+.section-title { font-size: clamp(2.6rem, 7vw, 6.5rem); }
+
+/*
+ * In a two-column header the display type has to be sized by the COLUMN it
+ * sits in, not by the viewport: at 1300px a 7vw headline set "THEMSELVES." 93px
+ * wider than the column holding it, and the word printed straight across the
+ * note beside it. Container units make the measure the thing that governs, and
+ * the 12 leaves room for STRETCH to widen the face by 6% without touching the
+ * column edge. At full width this resolves to about the same size as before.
+ */
+.work__header > div { container-type: inline-size; }
+.work__header .section-title { font-size: clamp(2.2rem, 12cqi, 6.5rem); }
+
+.rule { height: 1px; background: var(--ink-14); border: 0; }
+
+/* ------------------------------------------------------------------ nav -- */
+
+.nav {
+  --progress: 0;
+  position: fixed; z-index: 80; inset: 0 0 auto;
+  height: 4.5rem;
+  /* The index is the only thing in the bar now, so it sits at the end rather
+     than being pushed there by a monogram that is no longer opposite it. */
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 2rem;
+  /* Tracks --pad so the brand stays on the same vertical as the headline
+     beneath it, with its own floor for narrow screens where --pad is tighter
+     than the nav wants to be. */
+  padding-inline: max(2.5rem, var(--pad));
+  transition: background 0.35s ease, color 0.35s ease;
+}
+.nav.is-scrolled { background: rgba(231, 231, 226, 0.92); backdrop-filter: blur(10px); }
+body.on-plate .nav { color: var(--sheet); }
+body.on-plate .nav.is-scrolled { background: rgba(19, 19, 23, 0.9); }
+
+
+.nav__links { display: flex; gap: clamp(0.9rem, 2vw, 2rem); }
+.nav__links a {
+  position: relative;
+  font: 400 0.68rem/1 var(--font-mono);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-muted);
+  padding-block: 0.4rem;
+  transition: color 0.2s ease;
+}
+body.on-plate .nav__links a { color: var(--sheet-muted); }
+.nav__links a:hover, .nav__links a.is-active { color: var(--ink); }
+body.on-plate .nav__links a:hover, body.on-plate .nav__links a.is-active { color: var(--sheet); }
+/* The underline is NOT here: it is a single travelling rail (.nav__rail in
+   interaction.css), and ::before/::after on these links are the hover
+   brackets. */
+/*
+ * NO BAR ON SMALL SCREENS.
+ *
+ * The six section names do not fit across a phone, and the answer this used to
+ * reach for — a horizontally scrolling strip of them — is the worst of both:
+ * it hides most of its own contents behind a gesture nobody is told about,
+ * while permanently spending 3.35rem of a screen that has very little to
+ * spend. On a page that is one continuous scroll anyway, a jump list is a
+ * convenience, not a way in.
+ *
+ * So the bar goes and its PROGRESS LINE stays, on the top edge of the
+ * viewport: one pixel that says how far down the page you are, which is the
+ * only thing the bar was telling a phone that the page itself does not. The
+ * links remain in the DOM and remain reachable by keyboard and screen reader —
+ * this hides a redundant control, it does not remove navigation.
+ */
+@media (max-width: 900px) {
+  .nav {
+    /* The line only. Not `display: none` — that would take the progress
+       indicator with it. */
+    height: 1px;
+    padding-inline: 0;
+    background: none;
+    backdrop-filter: none;
+  }
+  body.on-plate .nav,
+  .nav.is-scrolled,
+  body.on-plate .nav.is-scrolled { background: none; }
+
+  /* Off the screen, still in the accessibility tree. */
+  .nav__links {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .nav__rail { display: none; }
+}
+
+.nav__progress { position: absolute; inset: auto 0 0; height: 1px; background: var(--ink-14); }
+.nav__progress i { display: block; height: 100%; background: var(--magenta); transform: scaleX(var(--progress)); transform-origin: left; }
+
+/* ----------------------------------------------------------------- hero -- */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  /* `safe` matters: on a short viewport the block is taller than the screen,
+     and plain `center` would push the first line up under the fixed nav. */
+  align-content: safe center;
+  /* Height-aware, because the failure case is a short WIDE window: the width
+     clamp alone sets a 176px headline that a 950px-tall screen cannot hold, so
+     the hero grew past 100svh and pushed the scroll cue below the fold. */
+  gap: clamp(1.75rem, min(4vw, 3.6vh), 3.5rem);
+  padding: clamp(6.5rem, 12vh, 8rem) var(--pad) clamp(3rem, 6vh, 4rem);
+  overflow: hidden;
+}
+
+/* The sheet's own texture: a faint halftone dot grid, fading out downward. */
+.hero::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background-image: radial-gradient(circle at center, var(--ink-14) 0 1px, transparent 1.4px);
+  background-size: 18px 18px;
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000, transparent 78%);
+  opacity: 0.55;
+}
+
+.hero__meta {
+  display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem;
+  align-items: baseline;
+}
+.hero__title {
+  font-family: var(--font-display);
+  font-stretch: var(--wider);
+  font-weight: 800;
+  /* The vh term is a ceiling, not a preference: on a normal window the width
+     term still wins and nothing changes. See .hero above. */
+  font-size: clamp(2.9rem, min(9.4vw, 14vh), 11rem);
+  line-height: 0.83;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  max-width: 15ch;
+}
+.hero__title .reg { display: block; }
+.hero__title em { font-style: normal; }
+
+.hero__lede {
+  max-width: 46ch;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.55;
+  color: var(--ink-70);
+}
+
+.hero__cue {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font: 400 0.72rem var(--font-mono);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-muted);
+}
+/* REVEAL, at the smallest scale on the site: a clip one arrow tall holding two
+   arrows stacked, so on hover the pair travels down by exactly that height and
+   the second arrives where the first began. When the pointer leaves, removing
+   the animation returns both to their resting offsets — which look identical
+   on screen to where the animation left them, so the reset is invisible. */
+.hero__cue-arrow {
+  position: relative; display: block; flex: none;
+  width: 12px; height: 20px; overflow: hidden;
+}
+.hero__cue-arrow svg {
+  position: absolute; left: 0; width: 12px; height: 20px;
+  stroke: currentColor; stroke-width: 1.6; fill: none;
+}
+.hero__cue-arrow svg:first-child { top: 0; }
+.hero__cue-arrow svg:last-child { top: -20px; }
+@keyframes cue-cycle { to { transform: translateY(20px); } }
+.hero__cue:hover .hero__cue-arrow svg {
+  animation: cue-cycle 480ms var(--reveal-e) both;
+}
+.hero__cue:hover { color: var(--magenta-ink); }
+
+/* ----------------------------------------------------------------- work -- */
+
+.work {
+  padding-block: 0 clamp(5rem, 10vw, 9rem);
+  background: var(--sheet);
+}
+.work__threshold {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  min-height: clamp(6rem, 10vw, 9rem);
+  margin-inline: calc(var(--pad) * -1);
+  padding-inline: var(--pad);
+  color: var(--sheet-muted);
+  background: #000004;
+  border-bottom: 3px solid var(--magenta);
+  font: 500 0.62rem/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.work__threshold i { height: 1px; background: var(--sheet-14); }
+.work__threshold strong {
+  color: var(--sheet);
+  font-weight: 500;
+}
+.work__header {
+  display: grid; gap: 1.6rem;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  align-items: end;
+  padding-top: clamp(5rem, 10vw, 9rem);
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--ink-14);
+}
+/*
+ * The note is the second voice in the header, not a footnote to the heading:
+ * at body size and bottom-aligned it sat in the corner of its column and read
+ * as small print. It is set one step up from body and aligned to the optical
+ * middle of the heading beside it, which is where the eye goes after the
+ * second line lands.
+ */
+.work__header p.work__note {
+  max-width: 44ch;
+  align-self: center;
+  color: var(--ink-70);
+  font-size: clamp(1.02rem, 0.92rem + 0.42vw, 1.28rem);
+  line-height: 1.62;
+  text-wrap: pretty;
+}
+
+.work__manifest {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(8rem, 0.38fr)) minmax(18rem, 1.2fr);
+  border-bottom: 1px solid var(--ink);
+}
+.work__manifest > p,
+.work__manifest > nav {
+  min-width: 0;
+  padding: clamp(1.25rem, 2.6vw, 2.2rem);
+  border-right: 1px solid var(--ink-14);
+}
+.work__manifest > p {
+  display: grid;
+  align-content: space-between;
+  min-height: clamp(9rem, 14vw, 12.5rem);
+}
+.work__manifest > p span,
+.work__manifest > p small {
+  font: 500 0.61rem/1.4 var(--font-mono);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.work__manifest > p strong {
+  align-self: end;
+  font-family: var(--font-display);
+  font-stretch: var(--wider);
+  font-weight: 800;
+  font-size: clamp(2.8rem, 5.4vw, 5.4rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+}
+.work__manifest > p:nth-child(2) strong { color: var(--magenta-ink); }
+.work__manifest > p:nth-child(3) strong { color: var(--cyan); }
+.work__manifest > nav {
+  display: grid;
+  align-content: center;
+  gap: 0;
+  border-right: 0;
+}
+.work__manifest > nav a {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  align-items: center;
+  gap: 0.8rem;
+  padding-block: 0.62rem;
+  border-bottom: 1px solid var(--ink-14);
+  font-family: var(--font-display);
+  font-stretch: var(--wide);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  transition: color 180ms ease, padding-left 260ms var(--ease-out);
+}
+.work__manifest > nav a:first-child { border-top: 1px solid var(--ink-14); }
+.work__manifest > nav a span {
+  font: 500 0.6rem/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+}
+.work__manifest > nav a:hover,
+.work__manifest > nav a:focus-visible {
+  color: var(--magenta-ink);
+  padding-left: 0.5rem;
+}
+
+.work__footer {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.45fr) minmax(18rem, 1.4fr) auto;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: start;
+  padding-block: clamp(3rem, 7vw, 6rem);
+  border-bottom: 1px solid var(--ink);
+}
+.work__footer p,
+.work__footer a {
+  font: 500 0.64rem/1.45 var(--font-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.work__footer strong {
+  max-width: 24ch;
+  font-family: var(--font-display);
+  font-stretch: var(--wide);
+  font-weight: 750;
+  font-size: clamp(1.7rem, 3.2vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+.work__footer a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--magenta-ink);
+}
+.work__footer a span { font-size: 1rem; }
+
+@media (max-width: 1000px) {
+  .work__header { grid-template-columns: 1fr; }
+  .work__header p.work__note { align-self: start; }
+  .work__manifest { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .work__manifest > nav { grid-column: 1 / -1; border-top: 1px solid var(--ink-14); }
+  .work__manifest > p:nth-child(3) { border-right: 0; }
+}
+
+@media (max-width: 620px) {
+  .work__threshold { grid-template-columns: auto 1fr auto; min-height: 5rem; }
+  .work__threshold span:last-child,
+  .work__threshold i:last-of-type { display: none; }
+  .work__manifest { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .work__manifest > p { min-height: 7rem; padding: 1rem 0.75rem; }
+  .work__manifest > p strong { font-size: clamp(2.25rem, 12vw, 3.5rem); }
+  .work__manifest > p span,
+  .work__manifest > p small { font-size: 0.52rem; }
+  .work__manifest > nav { padding: 1.25rem 0; }
+  .work__footer { grid-template-columns: 1fr; }
+}
+
+/*
+ * Two compositions, not one repeated four times. See the note at the top of
+ * WorkIndex.astro for why. The areas are named so the mirrored lead plate is a
+ * one-line override rather than a second set of rules.
+ */
+.plate {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: 'title title' 'head body';
+  column-gap: clamp(2rem, 5vw, 5rem);
+  row-gap: clamp(1.6rem, 3.2vw, 3rem);
+  border-bottom: 1px solid var(--ink-14);
+  align-items: start;
+}
+.plate__title { grid-area: title; display: grid; gap: 0.85rem; align-content: start; }
+.plate__head { grid-area: head; display: grid; gap: 1.4rem; align-content: start; }
+.plate__body { grid-area: body; }
+
+/* --- LEAD. The two featured projects. The name runs the full measure at
+   display scale and the plate is given about twice the air of a brief, so the
+   work has room to be looked at rather than scanned past. --- */
+.plate--lead {
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  padding-block: clamp(4.5rem, 10vw, 10rem);
+}
+/* The mirror: the second lead plate leads with the argument, so two featured
+   projects in a row do not fall down the same gutter. */
+.plate--lead[data-side='right'] {
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+  grid-template-areas: 'title title' 'body head';
+}
+
+/* --- BRIEF. The other two: identification and summary stacked in a narrow
+   column, the crux beside it at full height. Quieter, and a different shape
+   from the plate above it. --- */
+.plate--brief {
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  grid-template-areas: 'title body' 'head body';
+  padding-block: clamp(2.75rem, 5.5vw, 4.5rem);
+  row-gap: 1.1rem;
+}
+
+@media (max-width: 940px) {
+  .plate,
+  .plate--lead,
+  .plate--lead[data-side='right'],
+  .plate--brief {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'title' 'head' 'body';
+  }
+}
+.plate__status {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center;
+  font: 400 0.68rem var(--font-mono);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.plate__status i {
+  font-style: normal; display: inline-flex; align-items: center; gap: 0.4rem;
+}
+.plate__status i::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--ink-30);
+}
+.plate__status i[data-status='live']::before { background: var(--magenta); }
+.plate__status i[data-status='active']::before { background: var(--cyan); }
+
+/* The plate number, set as data rather than as ornament: it is the only thing
+   in the status line that is not a fact about the project's state. */
+.plate__no { font-weight: 400; color: var(--ink-muted); margin-left: auto; }
+@media (max-width: 940px) { .plate__no { margin-left: 0; } }
+
+.plate__name {
+  font-family: var(--font-display);
+  font-stretch: var(--wider);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+/* Scale is the hierarchy. A lead name is the second-largest type on the page,
+   behind the hero; a brief name is barely above the crux beside it. */
+.plate--lead .plate__name { font-size: clamp(3rem, 9.5vw, 8rem); letter-spacing: -0.05em; }
+.plate--brief .plate__name { font-size: clamp(1.9rem, 3.6vw, 3rem); }
+
+.plate__kicker { color: var(--ink-70); max-width: 40ch; }
+.plate--lead .plate__kicker { font-size: clamp(1.02rem, 1.4vw, 1.2rem); max-width: 46ch; }
+.plate--brief .plate__kicker { font-size: 0.94rem; max-width: 34ch; }
+
+.plate__summary { max-width: 44ch; color: var(--ink-70); }
+.plate--lead .plate__summary { font-size: clamp(1.02rem, 1.35vw, 1.18rem); line-height: 1.6; }
+.plate--brief .plate__summary { font-size: 0.94rem; line-height: 1.62; max-width: 38ch; }
+
+.plate__body { display: grid; gap: 1.6rem; align-content: start; }
+.plate--brief .plate__body { gap: 1.25rem; }
+
+/* The crux is the best writing on the site, so it gets the typographic
+   emphasis that would normally go to a name or a number. */
+.crux { display: grid; gap: 0.9rem; }
+.crux__label { font: 400 0.68rem var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--magenta-ink); }
+.crux__title {
+  font-family: var(--font-display);
+  font-stretch: 104%;
+  font-weight: 600;
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.crux__body { color: var(--ink-70); font-size: 0.96rem; line-height: 1.68; max-width: 62ch; }
+
+/* The crux tracks the plate it sits in: on a lead it is the argument the whole
+   composition is built around, on a brief it is the only thing worth reading
+   twice, so it stays intact but drops a size. */
+.plate--lead .crux__title { font-size: clamp(1.5rem, 3vw, 2.5rem); }
+.plate--lead .crux__body { font-size: 1.02rem; }
+.plate--brief .crux__title { font-size: clamp(1.2rem, 2vw, 1.6rem); }
+
+.readings { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: 1px; background: var(--ink-14); border: 1px solid var(--ink-14); }
+.readings div { display: grid; gap: 0.2rem; padding: 0.9rem 1rem; background: var(--sheet); }
+.readings dt { font: 400 0.62rem var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+.readings dd {
+  font-family: var(--font-display); font-stretch: var(--wide);
+  font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em;
+}
+
+.stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.stack li {
+  list-style: none;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--ink-14);
+  font: 400 0.68rem var(--font-mono);
+  color: var(--ink-70);
+}
+
+/* Project links use the shared .link behaviour (interaction.css). There is
+   exactly one link hover on this site; a second one here is what made the old
+   version's microinteractions feel arbitrary. */
+.plate .link { align-self: start; }
+
+/* --- View Counter figure: two stacked scans rather than one split total. The
+   figure earns its place because the second bar is the argument: the first
+   pass is not a smaller version of the truth, it is a different reading. --- */
+.passes { display: grid; gap: 0.6rem; }
+.pass { display: grid; gap: 0.35rem; }
+.pass__label { display: flex; justify-content: space-between; font: 400 0.66rem var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); }
+.pass__track { height: 1.6rem; border: 1px solid var(--ink); }
+/* Resting width is the real value, so with JS off the bars are simply drawn.
+   The observer only takes them from 0 when it can animate them. */
+.pass__fill { height: 100%; width: var(--w, 0%); }
+.motion-ready .pass__fill { width: 0; transition: width 1.1s var(--ease-out); }
+.motion-ready .pass__fill.is-inview { width: var(--w, 0%); }
+.pass--a .pass__fill { background: var(--cyan); }
+.pass--b .pass__fill { background: var(--magenta); }
+
+.figure-note { font: 400 0.72rem/1.6 var(--font-mono); color: var(--ink-muted); max-width: 34ch; }
+
+/* ---------------------------------------------------------------- about -- */
+
+.about {
+  padding-block: clamp(6rem, 12vw, 11rem);
+  background: var(--sheet-3);
+  border-block: 1px solid var(--ink-14);
+}
+.about__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+@media (max-width: 880px) { .about__grid { grid-template-columns: 1fr; } }
+.about__statement {
+  font-family: var(--font-display);
+  font-stretch: 104%;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.1vw, 2.6rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.about__statement em { font-style: normal; color: var(--magenta-ink); }
+.about__copy { display: grid; gap: 1.1rem; color: var(--ink-70); max-width: 48ch; }
+
+/* --------------------------------------------------------- capabilities -- */
+
+.caps {
+  overflow: hidden;
+  padding: 0 var(--pad) clamp(5rem, 9vw, 8rem);
+  background: var(--sheet-2);
+  color: var(--ink);
+  border-top: 1px solid var(--ink);
+}
+.caps__register {
+  min-height: 3.25rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto;
+  gap: clamp(0.65rem, 2vw, 1.5rem);
+  align-items: center;
+  border-bottom: 1px solid var(--ink-14);
+  font: 500 0.62rem/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.caps__register i { height: 1px; background: var(--ink-14); }
+.caps__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.55fr);
+  gap: clamp(2rem, 7vw, 8rem);
+  align-items: end;
+  padding-block: clamp(5rem, 10vw, 9rem) clamp(3.5rem, 7vw, 6rem);
+}
+.caps__heading { container-type: inline-size; }
+.caps__heading .section-title {
+  margin-top: 0.75rem;
+  font-size: clamp(2.6rem, 11.4cqi, 7rem);
+  line-height: 0.84;
+}
+.caps__intro { display: grid; gap: clamp(1.5rem, 4vw, 3rem); }
+.caps__lead {
+  max-width: 33ch;
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+  line-height: 1.42;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+.caps__aside {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--ink);
+  font: 500 0.68rem/1.5 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--magenta-ink);
+}
+.caps__list { display: grid; border-bottom: 1px solid var(--ink); }
+.cap {
+  --cap-shift: 0px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(5rem, 0.22fr) minmax(18rem, 1.08fr) minmax(14rem, 0.7fr);
+  gap: clamp(1.5rem, 4vw, 5rem);
+  align-items: start;
+  min-height: clamp(15rem, 26vw, 22rem);
+  padding-block: clamp(2rem, 4vw, 3.75rem);
+  border-top: 1px solid var(--ink);
+  outline-offset: -3px;
+}
+.cap__trace {
+  position: absolute;
+  inset: -1px auto auto 0;
+  width: 100%;
+  height: 3px;
+  background: var(--magenta);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.cap:nth-child(2) .cap__trace { background: var(--cyan); }
+.cap:nth-child(3) .cap__trace { background: var(--ink); }
+.cap__meta { display: grid; align-content: space-between; min-height: 100%; }
+.cap__index {
+  font: 500 clamp(1.2rem, 2vw, 1.7rem)/1 var(--font-mono);
+  letter-spacing: -0.05em;
+}
+.cap__verb {
+  font: 500 0.64rem/1 var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.cap__verb--mobile { display: none; }
+.cap__body { max-width: 50rem; transform: translateX(var(--cap-shift)); }
+.cap__group {
+  max-width: 11ch;
+  font-family: var(--font-display);
+  font-stretch: var(--wide);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5.1vw, 5.5rem);
+  line-height: 0.84;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.cap__note {
+  max-width: 43ch;
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  color: var(--ink-70);
+  font-size: clamp(0.96rem, 1.2vw, 1.08rem);
+}
+.cap__items { margin-top: clamp(1.4rem, 3vw, 2.25rem); }
+.cap__proof {
+  align-self: end;
+  display: grid;
+  gap: 0.45rem;
+  padding: 1.15rem 0 0 clamp(1rem, 2vw, 1.5rem);
+  border-top: 1px solid var(--ink);
+  border-left: 3px solid var(--magenta);
+}
+.cap:nth-child(2) .cap__proof { border-left-color: var(--cyan); }
+.cap:nth-child(3) .cap__proof { border-left-color: var(--ink); }
+.cap__proof > span {
+  font: 500 0.61rem/1 var(--font-mono);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.cap__proof strong {
+  font-family: var(--font-display);
+  font-stretch: 118%;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 3.2vw, 3.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+.cap__proof p { max-width: 24ch; color: var(--ink-muted); font-size: 0.84rem; line-height: 1.45; }
+.caps__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 1.2rem;
+  font: 500 0.66rem/1.5 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.caps__footer span { color: var(--magenta-ink); text-align: right; }
+
+@media (max-width: 900px) {
+  .caps__header { grid-template-columns: 1fr; align-items: start; }
+  .caps__lead { max-width: 46ch; }
+  .cap { grid-template-columns: 3.5rem minmax(0, 1fr); }
+  .cap__proof { grid-column: 2; align-self: start; max-width: 28rem; }
+}
+@media (max-width: 620px) {
+  .caps { padding-inline: 1.25rem; }
+  .caps__register { grid-template-columns: auto 1fr auto; }
+  .caps__register span:nth-of-type(2),
+  .caps__register i:nth-of-type(2) { display: none; }
+  .caps__header { padding-top: 4.5rem; }
+  .cap { grid-template-columns: 1fr; gap: 1.2rem; min-height: 0; padding-block: 2.25rem; }
+  .cap__meta { display: none; }
+  .cap__verb--mobile { display: block; writing-mode: initial; transform: none; margin-bottom: 0.8rem; }
+  .cap__proof { grid-column: 1; }
+  .caps__footer { display: grid; }
+  .caps__footer span { text-align: left; }
+}
+
+/* -------------------------------------------------------------- journey -- */
+
+.journey {
+  /* Named, because the rail has to climb back through exactly this much space
+     to meet the handoff curve at the section's edge - see .journey__route. */
+  --journey-pad: clamp(5rem, 10vw, 9rem);
+  padding-block: var(--journey-pad);
+  background: var(--plate);
+  color: var(--sheet);
+}
+.journey .eyebrow { color: var(--sheet-muted); }
+.journey__header { padding-bottom: clamp(2rem, 5vw, 3.5rem); border-bottom: 1px solid var(--sheet-14); display: grid; gap: 1.2rem; }
+.era {
+  display: grid;
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.6fr);
+  gap: clamp(1rem, 4vw, 4rem);
+  padding-block: clamp(2rem, 4vw, 3.4rem);
+  border-bottom: 1px solid var(--sheet-14);
+}
+@media (max-width: 820px) { .era { grid-template-columns: 1fr; gap: 1rem; } }
+.era__period {
+  font-family: var(--font-display); font-stretch: var(--wide);
+  font-weight: 700; font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+  line-height: 1; letter-spacing: -0.03em;
+  color: var(--sheet-muted);
+}
+.era--now .era__period { color: var(--cyan); }
+.era__title {
+  font-family: var(--font-display); font-stretch: var(--wide);
+  font-weight: 700; font-size: clamp(1.5rem, 3vw, 2.3rem);
+  line-height: 1.02; letter-spacing: -0.03em; text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.era__body { color: var(--sheet-70); max-width: 62ch; }
+.era__coda { margin-top: 1rem; color: var(--cyan); font: 400 0.9rem var(--font-mono); }
+.era__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.1rem; }
+.era__tags li { list-style: none; padding: 0.28rem 0.6rem; border: 1px solid var(--sheet-14); font: 400 0.68rem var(--font-mono); color: var(--sheet-70); }
+
+/* -------------------------------------------------------------- contact -- */
+
+.contact {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100svh;
+  padding: clamp(5.5rem, 10vh, 7rem) var(--pad) 2rem;
+  background: #000004;
+  color: var(--sheet);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.contact__header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--sheet-14);
+}
+.contact .eyebrow { color: var(--sheet-muted); }
+.contact .eyebrow b { color: var(--cyan); }
+.contact__status {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font: 500 0.65rem/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheet-70);
+}
+.contact__status i {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--cyan);
+  transform: rotate(45deg);
+}
+.contact__portrait {
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 auto;
+  width: min(57vw, 58rem);
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to left, #000 68%, transparent 100%);
+  mask-image: linear-gradient(to left, #000 68%, transparent 100%);
+}
+.contact__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.contact__main {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  width: min(52vw, 43rem);
+  padding-block: clamp(3rem, 8vh, 6rem);
+}
+.contact__kicker {
+  max-width: 40ch;
+  margin-bottom: clamp(1.4rem, 3vh, 2.4rem);
+  color: var(--sheet-70);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  text-wrap: balance;
+}
+.contact__title {
+  font-family: var(--font-display);
+  font-stretch: var(--wider);
+  font-weight: 800;
+  font-size: clamp(4rem, 8.4vw, 8.8rem);
+  line-height: 0.82;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+.contact__note {
+  max-width: 42ch;
+  margin-top: clamp(1.5rem, 3vh, 2.5rem);
+  color: var(--sheet-70);
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  line-height: 1.65;
+}
+.contact__cta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: center;
+  width: min(100%, 38rem);
+  margin-top: clamp(1.75rem, 4vh, 3rem);
+  padding-block: 1rem;
+  border-block: 1px solid var(--sheet-30);
+  font-family: var(--font-mono);
+}
+.contact__cta > span { display: grid; gap: 0.35rem; }
+.contact__cta strong {
+  font-size: clamp(0.85rem, 1.15vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.contact__cta small { color: var(--sheet-muted); font-size: 0.68rem; }
+.contact__cta i {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 3.25rem;
+  aspect-ratio: 1;
+  border: 1px solid var(--sheet-30);
+  border-radius: 50%;
+  font-style: normal;
+}
+
+.contact__copy {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(100%, 38rem);
+  margin-top: 0.85rem;
+  padding-block: 0.7rem;
+  color: var(--sheet-muted);
+  border-bottom: 1px solid var(--sheet-14);
+  font: 500 0.62rem/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+.contact__copy i { color: var(--cyan); font-style: normal; }
+.contact__copy:hover,
+.contact__copy:focus-visible,
+.contact__copy[data-copied='true'] {
+  color: var(--sheet);
+  border-color: var(--cyan);
+}
+
+.contact__foot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--sheet-14);
+  font: 400 0.72rem var(--font-mono);
+  color: var(--sheet-muted);
+}
+.contact__foot nav { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+.contact__foot a { transition: color 0.2s ease; }
+.contact__foot a:hover { color: var(--sheet); }
+
+@media (max-width: 850px) {
+  .contact__portrait { width: 64vw; opacity: 0.65; }
+  .contact__main { width: min(62vw, 38rem); }
+}
+@media (max-width: 620px) {
+  .contact {
+    min-height: 64rem;
+    padding: 5.5rem 1.25rem 1.5rem;
+  }
+  .contact__header { align-items: flex-start; }
+  .contact__status { max-width: 12rem; justify-content: flex-end; text-align: right; line-height: 1.4; }
+  .contact__main { align-content: start; width: 100%; padding-top: 4.5rem; }
+  .contact__title { max-width: 6ch; font-size: clamp(4rem, 21vw, 6.2rem); }
+  .contact__note { max-width: 31ch; }
+  /*
+   * The portrait has to get out of the way of the address.
+   *
+   * On a wide screen it sits beside the copy and the two never meet. Stacked
+   * on a phone it sits BEHIND it, and the mask reached full strength at 32%
+   * of its own height — which is exactly where the email row lands. A face at
+   * that opacity under 0.8rem mono is not a background, it is noise the
+   * address has to be read through, and the address is the one thing on this
+   * screen that has to be read.
+   *
+   * So the ramp is pushed past the rows: near-transparent through the whole
+   * call to action, reaching strength only in the lower third where nothing
+   * is set over it. The portrait is still there and still doing its job — it
+   * is simply doing it below the words rather than through them.
+   */
+  .contact__portrait {
+    inset: auto -14% 0 auto;
+    width: 116%;
+    height: 54%;
+    opacity: 0.34;
+    --contact-portrait-mask: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 34%,
+      rgba(0, 0, 0, 0.3) 54%,
+      #000 78%
+    );
+    -webkit-mask-image: var(--contact-portrait-mask);
+    mask-image: var(--contact-portrait-mask);
+  }
+  .contact__portrait img { object-position: 58% 50%; }
+
+  /* The footer runs across the strongest part of the picture. One wash of the
+     section's own ground under it, so the links keep their contrast without
+     the portrait having to be dimmed everywhere for the sake of one row. */
+  .contact__portrait::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 34%;
+    background: linear-gradient(to bottom, transparent, var(--plate, #000004) 82%);
+  }
+  .contact__cta { width: 100%; }
+  .contact__foot { display: grid; }
+}

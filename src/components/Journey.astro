@@ -1,0 +1,132 @@
+---
+import { journey, sectionNo } from '../data/site'
+import Reg from './Reg.astro'
+---
+
+{/*
+  THE HANDOFF — the single largest gesture on the page (8 on the intensity
+  budget), and the thing that makes the cream-to-dark change feel authored
+  rather than abrupt.
+
+  Scrubbed entirely by scroll across 200vh:
+    0.00–0.45  the last rule of Capabilities curves downward       TRACE
+    0.30–0.75  the dark ground rises behind it                     REVEAL
+    0.72–0.92  the title arrives, once the ground has landed       REVEAL
+
+  The curve does not stop at the bottom of the stage: it becomes the vertical
+  route the eras below are pinned to, so one line carries you from one section
+  into the next.
+
+  The path below is only the no-JS fallback. The rail it has to land on sits at
+  the page gutter, which is a clamp() on the viewport width, so no constant in
+  a fixed viewBox can hit it — with the motion runtime the geometry is measured
+  and this `d` is rewritten in pixel space (layoutCurve, in motion/scroll.ts).
+  These coordinates are a close approximation for the static case.
+*/}
+{/* NOT aria-hidden: this carries the Journey heading, and hiding the section
+    would remove that heading from the accessibility tree entirely. Only the
+    decorative plate and curve are hidden. */}
+<section class="handoff" data-handoff>
+  <div class="handoff__stage">
+    <div class="handoff__plate" aria-hidden="true"></div>
+
+    <svg class="handoff__curve" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+      <path
+        d="M0 300 H420 C580 300 80 480 80 600"
+        vector-effect="non-scaling-stroke"
+      />
+      <path
+        class="is-route"
+        data-fam="trace"
+        data-draw
+        d="M0 300 H420 C580 300 80 480 80 600"
+        vector-effect="non-scaling-stroke"
+      />
+
+      {/* The head of the line, riding the draw. The stage is pinned for most
+          of the scrub, which means nothing on screen moves except what is
+          being scrubbed — a stroke lengthening by a few pixels a frame was
+          not enough to register as movement, and the section read as a still
+          image you were scrolling past. The node is placed by
+          getPointAtLength in motion/scroll.ts. */}
+      <g class="handoff__node" data-handoff-node>
+        <circle class="handoff__node-ring" r="13" />
+        <circle class="handoff__node-dot" r="3.5" />
+      </g>
+    </svg>
+
+    {/*
+      The two ends of the curve, named. Without them the line is a shape; with
+      them it is a statement about where you have been and where this is going,
+      which is the only reason the gesture is on the page.
+
+      Cyan rather than ink: they are printed over BOTH grounds — the sheet
+      before the wipe and the plate after it — and cyan is the one value in the
+      system that holds on either. Placed from --entry-y / --rail-x, which
+      layoutCurve writes after measuring the same geometry the path uses, so a
+      label can never drift off the line it is labelling.
+    */}
+    <p class="handoff__mark handoff__mark--from" aria-hidden="true">
+      <span>From</span> Capabilities
+    </p>
+    <p class="handoff__mark handoff__mark--to" aria-hidden="true">
+      <span>To</span> Journey
+    </p>
+
+    <div class="handoff__title">
+      <p class="eyebrow handoff__eyebrow">{sectionNo('journey')} / 2020 — 2026</p>
+      <h2 class="section-title display" id="journey-heading">
+        <Reg text="Six years, four shipped." />
+      </h2>
+      <p class="handoff__caption">
+        The line does not stop here. Every period below is pinned to it, and it
+        draws as you read them.
+      </p>
+    </div>
+  </div>
+</section>
+
+{/*
+  This section IS a sequence — the periods are consecutive and each depends on
+  the one before — so it is the only part of the site that keeps an ordered
+  structure, and it uses the real period labels rather than step numbers.
+
+  The route draws as you read and each marker turns cyan as it is passed, so
+  the section reports progress instead of decorating it. Past eras dim, the
+  one you are reading is full strength, and what is still ahead stays faint.
+
+  No DRIFT ghost here, unlike About. The word behind About is "Constraint" -
+  it names what the section is about. The one here was "2020", which is not a
+  word but a year, and one that is already printed twice in the list beside
+  it; at ghost opacity it read as a stray number rather than as atmosphere.
+*/}
+<section
+  class="journey chapter shell is-plate"
+  id="journey"
+  data-chapter
+  data-plate
+  aria-labelledby="journey-heading"
+>
+  {/* The rail is a sibling of the list, not a child of it — an <ol> may only
+      contain <li>, and the marker positions depend on sharing this box. */}
+  <div class="journey__eras">
+    <span class="journey__route" aria-hidden="true"><i></i></span>
+
+    <ol>
+      {journey.map((era) => (
+        <li class="era" data-state="future">
+          <span class="era__marker" aria-hidden="true"></span>
+          <p class="era__period">{era.period}</p>
+          <div>
+            <h3 class="era__title">{era.title}</h3>
+            <p class="era__body">{era.body}</p>
+            {era.coda && <p class="era__coda">{era.coda}</p>}
+            <ul class="era__tags">
+              {era.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

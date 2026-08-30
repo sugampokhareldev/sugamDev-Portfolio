@@ -1,0 +1,61 @@
+---
+import { profile } from '../data/site'
+import Reg from './Reg.astro'
+---
+
+{/*
+  The thesis, stated as the page's own subject matter, and the highest-motion
+  moment on the site (9 on the intensity budget).
+
+  Entrance, about 1.35s end to end:
+    0ms    name locks in                        SNAP
+    70ms   role, then location                  SNAP
+    300ms  headline lines rise out of the clip  REVEAL
+    +      each line splits and snaps clean     SNAP
+    1000ms lede                                 quiet
+    1200ms navigation, last                     SNAP
+
+  Afterwards the section goes almost still: a 3px pointer nudge, and the lines
+  separating on scroll.
+*/}
+<section class="hero chapter shell" id="arrival" data-chapter>
+  <p class="hero__meta eyebrow">
+    <span data-entry="snap" style="--d:0ms">{profile.name}</span>
+    <span data-entry="snap" style="--d:70ms">{profile.role}</span>
+    <span data-entry="snap" style="--d:140ms">{profile.location}</span>
+  </p>
+
+  {/*
+    Each line is its own clip. data-reveal-group="live" hands the lines to
+    direct control once they land, so the scroll separation tracks the wheel
+    exactly instead of easing through the 820ms reveal curve.
+  */}
+  <h1
+    class="hero__title"
+    aria-label="What looks complete usually isn't"
+    data-reveal-group="live"
+    data-delay="300"
+    data-settle="hero-settled"
+  >
+    <span class="rv"><span><Reg text="What looks" /></span></span>
+    <span class="rv"><span><Reg text="complete" /></span></span>
+    <span class="rv"><span><Reg text="usually isn't." /></span></span>
+  </h1>
+
+  <p class="hero__lede" data-entry="snap" style="--d:1000ms">{profile.statement}</p>
+
+  {/*
+    REVEAL, at the smallest scale on the site. Two identical arrows in a clip
+    the height of one: on hover both travel down by exactly that height, so the
+    first leaves through the floor while the second arrives through the ceiling
+    and lands where the first began. One arrow animating down and back would
+    read as a bounce; this reads as the same arrow coming round again.
+  */}
+  <a class="hero__cue" href="#about" data-entry="snap" style="--d:1080ms">
+    <span>Four projects, four discrepancies</span>
+    <span class="hero__cue-arrow" aria-hidden="true">
+      <svg viewBox="0 0 20 36"><path d="M10 1v31m0 0 7-8m-7 8-7-8" /></svg>
+      <svg viewBox="0 0 20 36"><path d="M10 1v31m0 0 7-8m-7 8-7-8" /></svg>
+    </span>
+  </a>
+</section>

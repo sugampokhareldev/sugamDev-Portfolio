@@ -1,0 +1,167 @@
+---
+/**
+ * The arrival section as a dark stage: the thesis knocked out on the left,
+ * the character standing on the right and looking back toward it.
+ *
+ * The frame plate shares its blue/magenta ground with the page. Masking its
+ * left edge into that ground keeps the character feeling like he is standing
+ * ON the page instead of inside a player pasted into it.
+ *
+ * data-plate hands the section to the site's existing inversion: the nav goes
+ * light over dark ground, the same way it does over Contact.
+ *
+ * Nothing here carries data-entry / data-reveal. The stage appears intact
+ * when the main portfolio's intro overlay lifts.
+ */
+import { profile } from '../data/site'
+
+interface Props {
+  fallback?: string
+  nextHref?: string
+  nextLabel?: string
+}
+
+const {
+  fallback = '/character.webp',
+  nextHref = '#about',
+  nextLabel = 'Continue to meet the maker',
+} = Astro.props
+---
+
+<section class="hero-char chapter" id="arrival" data-chapter data-plate>
+  <div class="hero-char__stage">
+    <img
+      class="hero-char__portrait"
+      src={fallback}
+      alt=""
+      width="1024"
+      height="1280"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+
+  <div class="hero-char__body">
+    <p class="hero__meta eyebrow">
+      <span>{profile.name}</span>
+      <span>{profile.role}</span>
+      <span>{profile.location}</span>
+    </p>
+
+    <h1 class="hero__title hero-char__title">
+      <span>What looks</span>
+      <span>complete</span>
+      <span>usually isn't.</span>
+    </h1>
+
+    <p class="hero__lede">{profile.statement}</p>
+
+    <a class="hero__cue" href={nextHref}>
+      <span>{nextLabel}</span>
+      <span class="hero__cue-arrow" aria-hidden="true">
+        <svg viewBox="0 0 20 36"><path d="M10 1v31m0 0 7-8m-7 8-7-8" /></svg>
+        <svg viewBox="0 0 20 36"><path d="M10 1v31m0 0 7-8m-7 8-7-8" /></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero-char {
+    position: relative;
+    display: grid;
+    /* The text leads on the left; the character owns the right half. */
+    grid-template-columns: 50% 1fr;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    isolation: isolate;
+
+    /* Sampled from the clip: near-black overall, blue low-left, violet
+       low-right. The two radials are what the rim lights spill onto the
+       backdrop, continued past the edge of the footage. */
+    background:
+      radial-gradient(120% 95% at 90% 100%, rgba(0, 42, 96, 0.55), transparent 62%),
+      radial-gradient(105% 85% at 96% 100%, rgba(64, 0, 96, 0.45), transparent 60%),
+      #000004;
+    color: var(--sheet);
+  }
+
+  /*
+   * Right-anchored and masked, not full-bleed: stretching the character plate
+   * across the whole viewport would push the subject to the middle and put him
+   * under the headline. Confining the frames to the right and
+   * fading its left edge into an identical ground keeps him on the right
+   * while the stage still reads as one continuous surface.
+   */
+  .hero-char__stage {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: min(62%, 1000px);
+    overflow: hidden;
+    z-index: -1;
+    -webkit-mask-image: linear-gradient(to left, #000 58%, transparent 97%);
+    mask-image: linear-gradient(to left, #000 58%, transparent 97%);
+  }
+
+  .hero-char__portrait {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    /* Keep the left half completely clear for the thesis. */
+    object-position: 72% 50%;
+  }
+
+  .hero-char__body {
+    grid-column: 1;
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.6rem;
+    padding-inline: var(--pad) clamp(1.5rem, 3vw, 3.5rem);
+    padding-block: 7rem 4rem;
+  }
+
+  /* Knocked out, so the ink tokens have to invert with the ground. */
+  .hero-char__body :global(.eyebrow) { color: var(--sheet-muted); }
+  .hero-char__body :global(.hero__lede) { color: var(--sheet-70); }
+  .hero-char__body :global(.hero__cue) { color: var(--sheet); }
+
+  /*
+   * Sized by the column it sits in, not the viewport — the same rule the
+   * two-column section headings follow.
+   */
+  .hero-char__title {
+    font-size: clamp(2.4rem, 8cqw, 6.4rem);
+    max-width: 12ch;
+  }
+  .hero-char__title span { display: block; }
+
+  /*
+   * One column below the fold-out: the stage becomes a band across the top and
+   * the text sits under it, still on the same ground.
+   */
+  @media (max-width: 900px) {
+    .hero-char {
+      grid-template-columns: 1fr;
+      grid-template-rows: 52svh auto;
+      min-height: 0;
+    }
+    .hero-char__stage {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      height: 100%;
+      -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 99%);
+      mask-image: linear-gradient(to bottom, #000 62%, transparent 99%);
+    }
+    .hero-char__body {
+      grid-column: 1;
+      padding-inline: var(--pad);
+      padding-block: 2rem 4rem;
+    }
+    .hero-char__title { font-size: clamp(2.4rem, 12vw, 5rem); }
+  }
+</style>

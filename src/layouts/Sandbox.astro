@@ -1,0 +1,32 @@
+---
+/**
+ * Isolation layout for vendored shadcn / Tailwind components.
+ *
+ * It deliberately does NOT import global.css. src/styles/shadcn.css carries
+ * Tailwind's Preflight plus an `@layer base` block that sets `body` to a white
+ * background with near-black text and `html` to Geist — which is precisely the
+ * opposite of the VOYAGE system. The two stylesheets cannot share a document,
+ * so anything built on shadcn primitives lives on its own route under /lab
+ * until it is either restyled onto the real tokens or dropped.
+ *
+ * Nothing here is linked from the portfolio's navigation.
+ */
+import '../styles/shadcn.css'
+
+interface Props { title: string }
+const { title } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- A scratch route: keep it out of search results. -->
+    <meta name="robots" content="noindex" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

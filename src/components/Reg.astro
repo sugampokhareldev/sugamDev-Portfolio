@@ -1,0 +1,21 @@
+---
+/**
+ * One line of text, printed as three passes: cyan, magenta, and the black
+ * they make when they align. See `.reg` in global.css and `reg-converge` in
+ * motion.css.
+ *
+ * Only the base copy is in the accessibility tree — the two channels are
+ * aria-hidden duplicates, so a screen reader hears the line once.
+ */
+interface Props {
+  text: string
+  class?: string
+}
+const { text, class: className } = Astro.props
+---
+
+<span class:list={['reg', className]}>
+  <span class="reg__ch reg__ch--c" aria-hidden="true">{text}</span>
+  <span class="reg__ch reg__ch--m" aria-hidden="true">{text}</span>
+  <span class="reg__base">{text}</span>
+</span>

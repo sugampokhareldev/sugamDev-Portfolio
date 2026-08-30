@@ -1,0 +1,17 @@
+---
+/**
+ * Preview route for the vendored animated-video-on-scroll block.
+ *
+ * client:visible, not client:load: the effect is entirely scroll-driven, so
+ * there is nothing to show before it is on screen. The directive goes on the
+ * demo (the outermost component) because ContainerScroll shares its scroll
+ * progress with the parts through React context — they must hydrate together
+ * as one island.
+ */
+import Sandbox from '../../layouts/Sandbox.astro'
+import HeroVideoDemo from '@/components/ui/animated-video-on-scroll-demo'
+---
+
+<Sandbox title="Animated video on scroll — sandbox">
+  <HeroVideoDemo client:visible />
+</Sandbox>

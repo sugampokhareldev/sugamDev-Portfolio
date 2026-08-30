@@ -1,0 +1,327 @@
+/**
+ * THE MOTION SYSTEM
+ * =================
+ *
+ * Five families. Every animation on this site belongs to exactly one of them
+ * and declares it with `data-fam`. If a new effect does not fit a family,
+ * either it is wrong for this site or the family list is wrong — do not add a
+ * sixth quietly.
+ *
+ *   SNAP     Technical UI. Fast, hard settle, no bounce. Nav underline
+ *            travelling between items, labels locking, tags inverting, cursor
+ *            state changes, the chromatic split resolving.
+ *
+ *   STRETCH  Typography only. Display type widens or compresses on the wdth
+ *            axis. Never more than ~8% — it must register subconsciously, not
+ *            read as a wobble.
+ *
+ *   DRIFT    Background atmosphere. Ghost words, annotations and coordinates
+ *            moving slower than the page. Scroll-linked, linear, no easing.
+ *
+ *   TRACE    Anything linear. Progress bar, rules drawing in, the journey
+ *            route. Grows along its own length; origin always matters.
+ *
+ *   REVEAL   Masks and clipping. Heading lines rising out of a clip, the
+ *            section wipe. Never a fade — a fade is not a reveal.
+ *
+ * INTENSITY BUDGET. The site is deliberately uneven; if everything moves at
+ * once nothing feels special.
+ *
+ *   Hero 9 · Section transition 8 · Journey 9 · Capabilities 7
+ *   About 4 · Navigation 3 · Body text 1
+ *
+ * Body text is 1 on purpose: paragraphs do not animate at all. A page where
+ * every paragraph fades upward reads as a template.
+ */
+
+:root {
+  /* SNAP — quick out, hard in. The tiny overshoot lives in the curve, not in
+     a spring, so it cannot wobble. */
+  --snap-d: 160ms;
+  --snap-e: cubic-bezier(0.2, 0, 0, 1);
+
+  /* STRETCH — slow enough to be felt rather than seen. */
+  --stretch-d: 520ms;
+  --stretch-e: cubic-bezier(0.16, 1, 0.3, 1);
+  --stretch-max: 8%;
+
+  /* DRIFT — a rate, not a duration. Background moves at a quarter of scroll. */
+  --drift-rate: 0.25;
+
+  /* TRACE */
+  --trace-d: 900ms;
+  --trace-e: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* REVEAL */
+  --reveal-d: 820ms;
+  --reveal-e: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* The chromatic split. Deliberately brief: constant glitching gets cheap
+     fast, so the channels separate and resolve inside 200ms and are otherwise
+     perfectly in register. */
+  --split-d: 200ms;
+  --split-x: 0.055em;
+  --split-y: 0.022em;
+
+  /* The same split as an ENTRY rather than as an answer to a pointer. A
+     heading arriving on scroll has no pointer to keep up with, so 200ms was
+     simply missed: the channels had converged before the eye had finished
+     following the line up out of its clip. This one opens a little wider,
+     over three times as long, and starts before the line lands — see
+     SPLIT_LEAD in motion/reveal.ts. */
+  --split-in-d: 620ms;
+  --split-in-x: 0.075em;
+  --split-in-y: 0.03em;
+}
+
+/* --reg-x/--reg-y must be registered or they step discretely instead of
+   interpolating. */
+@property --reg-x { syntax: '<length>'; inherits: true; initial-value: 0em; }
+@property --reg-y { syntax: '<length>'; inherits: true; initial-value: 0em; }
+
+/* ============================================================== REVEAL === */
+
+/*
+ * A line of type sitting below a clip, rising into place. The wrapper clips;
+ * the child moves. Both are needed — transforming the clipping box itself
+ * would move the mask along with the text.
+ */
+.rv { display: block; overflow: hidden; }
+.rv > * { display: block; }
+
+/*
+ * The vertical reveal and the horizontal line-drift act on the SAME element,
+ * so they have to compose into one transform. --lx is the horizontal offset
+ * (scroll separation in the hero); the class toggle
+ * owns the vertical.
+ */
+.motion-ready .rv > * {
+  transform: translateY(105%) translateX(var(--lx, 0px));
+  transition: transform var(--reveal-d) var(--reveal-e) var(--d, 0ms);
+}
+.motion-ready .rv.is-in > * { transform: translateY(0) translateX(var(--lx, 0px)); }
+
+/* Once a line has finished revealing, --lx is driven directly and must not be
+   eased through the 820ms reveal curve or it lags a whole beat behind. */
+.motion-ready .rv.is-live > * { transition: transform 0ms linear; }
+.motion-ready .rv.is-soft > * { transition: transform 500ms var(--ease-out); }
+
+/*
+ * The clip exists ONLY for the vertical reveal. Once the line has landed the
+ * same box would start eating the horizontal offset --lx drives — the hero
+ * lines separate by up to 14vw and were being sliced mid-glyph at their own
+ * clip edge. The class that hands a line to direct control is therefore also
+ * what releases the mask. The sections that drive --lx (.hero, .contact) clip
+ * their own overflow, so nothing escapes the page.
+ */
+.motion-ready .rv.is-live,
+.motion-ready .rv.is-soft { overflow: visible; }
+
+/* The full-bleed wipe used on the Capabilities → Journey handoff. */
+.motion-ready [data-fam='reveal'][data-wipe] {
+  clip-path: inset(var(--wipe, 100%) 0 0 0);
+}
+
+/* ============================================================== STRETCH === */
+
+/*
+ * Width responds to how close the element is to the middle of the viewport.
+ * JS writes --w; the transition does the rest. font-stretch is used rather
+ * than font-variation-settings because only the former interpolates.
+ */
+/*
+ * --w is rewritten every scroll frame, so a 520ms ease here never settles: it
+ * restarts each frame and the width trails the scroll by half a second. The
+ * scroll-driven case is smoothed by the frame rate alone (as DRIFT is); the
+ * 520ms curve belongs to the hover-driven widths in interaction.css, which
+ * change once per state rather than once per frame.
+ */
+.motion-ready [data-fam='stretch'] {
+  font-stretch: var(--w, 112%);
+  transition: font-stretch 120ms linear;
+}
+
+/* ================================================================ DRIFT === */
+
+/*
+ * Purely scroll-linked, so there is no transition — a transition here would
+ * fight the scroll and lag behind the pointer.
+ */
+[data-fam='drift'] {
+  transform: translate3d(var(--dx, 0), var(--dy, 0), 0);
+  will-change: transform;
+}
+
+/*
+ * The ghost is one unbreakable word, so its width is a function of the font
+ * size and the character count — nothing else. Sizing it from vw alone meant
+ * the word was wider than the sheet at every viewport (20vw x ~7em of glyph
+ * put "DEPENDABLE" at 2258px inside a 1600px window), so it was cut at both
+ * edges on small screens and again on large ones, where the rem cap froze the
+ * size while the sheet kept growing.
+ *
+ * --ghost-adv is the measured average advance of this face at font-stretch
+ * 118% (0.80em per uppercase character once the display face has loaded);
+ * 0.82 is that with headroom for wide-glyph words. The min() therefore reads:
+ * as big as the design wants, but never wider than the sheet it has to sit on.
+ */
+.ghost {
+  --ghost-adv: 0.82;
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding-inline: var(--pad);
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-display);
+  font-size: min(
+    var(--ghost-cap, 18vw),
+    calc((100vw - 2 * var(--pad)) / (var(--ghost-len, 10) * var(--ghost-adv)))
+  );
+  font-stretch: 118%;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+  white-space: nowrap;
+  color: var(--ink);
+  opacity: 0.04;
+  z-index: 0;
+}
+.is-plate .ghost { color: var(--sheet); opacity: 0.05; }
+
+/* ================================================================ TRACE === */
+
+.motion-ready [data-fam='trace'][data-axis='x'] {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--trace-d) var(--trace-e) var(--d, 0ms);
+}
+.motion-ready [data-fam='trace'][data-axis='x'].is-in { transform: scaleX(1); }
+
+/* Scroll-linked stroke drawing (the journey route). --draw is 0..1. */
+[data-fam='trace'][data-draw] {
+  stroke-dasharray: var(--len, 1000);
+  stroke-dashoffset: calc(var(--len, 1000) * (1 - var(--draw, 0)));
+}
+
+/* ================================================================= SNAP === */
+
+.motion-ready [data-fam='snap'] {
+  transition:
+    transform var(--snap-d) var(--snap-e),
+    opacity var(--snap-d) var(--snap-e),
+    color var(--snap-d) var(--snap-e),
+    background-color var(--snap-d) var(--snap-e),
+    border-color var(--snap-d) var(--snap-e);
+}
+
+/* The chromatic split, as a SNAP: out fast, resolved by 200ms. */
+@keyframes reg-split {
+  0%   { --reg-x: 0em;             --reg-y: 0em; }
+  35%  { --reg-x: var(--split-x);  --reg-y: var(--split-y); }
+  100% { --reg-x: 0em;             --reg-y: 0em; }
+}
+.reg-split { animation: reg-split var(--split-d) var(--snap-e) both; }
+
+/*
+ * The entry version. The two segments carry their own curves: the channels
+ * come apart on the SNAP curve (fast, decisive) and then take the long
+ * REVEAL curve back into register, which is the half that has to be watched.
+ * A single easing across both made the opening feel as slow as the settle.
+ */
+@keyframes reg-split-in {
+  0% {
+    --reg-x: 0em; --reg-y: 0em;
+    animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  }
+  20% {
+    --reg-x: var(--split-in-x); --reg-y: var(--split-in-y);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  100% { --reg-x: 0em; --reg-y: 0em; }
+}
+.reg-split--in { animation: reg-split-in var(--split-in-d) linear both; }
+
+/* ====================================================== hero entry ======= */
+
+/*
+ * The entrance runs about 1.5s end to end:
+ *
+ *   0ms    name locks in                         SNAP
+ *   90ms   role and location follow, staggered   SNAP
+ *   300ms  headline lines rise out of the clip   REVEAL
+ *   +820ms each line splits AS IT LANDS          SNAP
+ *   1000ms lede                                  quiet
+ *   1200ms navigation, last                      SNAP
+ *   1500ms the last line is clean and goes live
+ */
+.entry-armed [data-entry] { opacity: 0; }
+
+@keyframes snap-in {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.is-entered [data-entry='snap'] {
+  animation: snap-in var(--snap-d) var(--snap-e) both;
+  animation-delay: var(--d, 0ms);
+}
+.is-entered [data-entry='reveal'] > * {
+  transform: translateY(0);
+  transition: transform var(--reveal-d) var(--reveal-e) var(--d, 0ms);
+}
+.entry-armed [data-entry='reveal'] { opacity: 1; }
+.entry-armed [data-entry='reveal'] > * { transform: translateY(105%); }
+
+/* The nav is held back until the hero has resolved. */
+.entry-armed .nav { opacity: 0; }
+.is-entered .nav {
+  animation: snap-in 400ms var(--snap-e) both;
+  animation-delay: 1200ms;
+}
+
+/* ====================================================== hero scroll ====== */
+
+/*
+ * On scroll the headline does not simply travel up — the lines separate
+ * horizontally, opening onto the section beneath. --sep runs 0..1 from the
+ * scroll loop, and each line takes a different amplitude and direction so the
+ * block comes apart rather than sliding.
+ *
+ * These write --lx, which .rv composes into its transform.
+ */
+.hero-settled .hero__title .rv:nth-child(1) { --lx: calc(var(--sep, 0) * -14vw); }
+.hero-settled .hero__title .rv:nth-child(2) { --lx: calc(var(--sep, 0) * 16vw); }
+.hero-settled .hero__title .rv:nth-child(3) { --lx: calc(var(--sep, 0) * -9vw); }
+
+/* The pointer nudge: 3px, no more. Enough to feel alive, not enough to read
+   as a parallax gimmick. Applied to the block, not the lines, so it does not
+   fight the separation. */
+.hero-settled .hero__title {
+  transform: translate3d(calc(var(--px, 0) * 3px), calc(var(--py, 0) * 3px), 0);
+  transition: transform 600ms var(--ease-out);
+}
+
+/* ================================================== reduced motion ======= */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  /* Resting state is fully present and in register. */
+  [data-entry] { opacity: 1 !important; }
+  .nav { opacity: 1 !important; }
+  .rv > * { transform: none !important; }
+  [data-fam='drift'] { transform: none !important; }
+  [data-fam='trace'][data-axis='x'] { transform: scaleX(1) !important; }
+  [data-fam='trace'][data-draw] { stroke-dashoffset: 0 !important; }
+  [data-fam='reveal'][data-wipe] { clip-path: none !important; }
+  .hero__title { transform: none !important; }
+  .hero__cue-arrow svg { animation: none !important; }
+  .reg { --reg-x: 0em !important; --reg-y: 0em !important; }
+  .cursor { display: none !important; }
+  .pass__fill { transition: none !important; }
+}
