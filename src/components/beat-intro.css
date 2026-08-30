@@ -450,6 +450,7 @@ body.intro-locked {
 }
 
 .presence__who {
+  flex-wrap: wrap;
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
@@ -485,6 +486,73 @@ body.intro-locked {
 
 /* The status dot, on the avatar — the Discord convention, and the reason the
    avatar needs a positioning context. */
+/* The equipped avatar frame.
+   Drawn at 1.25x the portrait and centred on it, because the presets are
+   authored with the ring sitting OUTSIDE the picture — matched to the avatar
+   box it would overlap the face. The wrapper is not clipped (the frames are
+   meant to break its edge), and it takes no pointer events so it cannot
+   intercept anything. */
+/* Selector carries the parent deliberately. `.gate__avatar img` above is
+   (0,1,1) and a bare `.gate__decoration` is (0,1,0), so the portrait's rule
+   won on every property that mattered — the frame came out sized to the avatar
+   box, cropped with object-fit: cover and clipped to a circle, which is
+   exactly the three things a decoration must not be. Qualifying it to (0,2,0)
+   is what makes the values below actually apply. */
+.gate__avatar .gate__decoration {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 125%;
+  height: 125%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  /* Every one of these is a reset, not a default. The first three undo
+     `.gate__avatar img`; max-width undoes the global `img, svg, video`
+     reset, which caps images at their container and was silently holding the
+     frame to 100% no matter what width was asked for above. */
+  border: 0;
+  border-radius: 0;
+  object-fit: contain;
+  max-width: none;
+}
+
+/* ---- Server tag ----
+   The badge and short text Discord shows beside a display name. Set in the
+   interface face like every other label here rather than in Discord's, and
+   sized off the type it sits next to so it tracks the line instead of being a
+   fixed lump beside it. */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  margin-left: 0.5em;
+  padding: 0.16em 0.5em 0.16em 0.32em;
+  border: 1px solid var(--rule-hi);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-hi) 70%, transparent);
+  color: var(--text);
+  font-size: 0.92em;
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.tag img {
+  width: 1.15em;
+  height: 1.15em;
+  border-radius: 3px;
+  object-fit: contain;
+}
+
+/* In the card it sits on the display name, which is not uppercase, so the tag
+   should not be either. */
+.presence__who .tag {
+  font-family: var(--font-data);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+}
+
 /* ---- Socials ---- */
 .gate__socials {
   display: flex;

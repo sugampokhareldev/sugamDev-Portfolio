@@ -19,9 +19,13 @@ export type DiscordOAuthProfile = {
   username: string
   displayName: string
   avatarUrl: string | null
+  /** Overlay frame for the avatar, when the account has one equipped. */
+  decorationUrl?: string | null
   bannerUrl?: string | null
   accentColor?: number | null
   bio?: string | null
+  /** The server tag shown beside the name, when one is being displayed. */
+  serverTag?: { text: string; badgeUrl: string | null } | null
 }
 
 /** The site's own route. Overridable for the case where the profile function

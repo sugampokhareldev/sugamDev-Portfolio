@@ -50,14 +50,26 @@ const CACHE_MS = 5 * 60 * 1000
  *  expiry on a request that arrives just as it lapses. */
 const TOKEN_SKEW_MS = 60 * 1000
 
+/** The server tag Discord shows beside a display name. `identity_enabled` is
+ *  what the account's own setting controls, so a tag is only carried here when
+ *  the owner is actually displaying it. */
+export type ServerTag = {
+  text: string
+  badgeUrl: string | null
+}
+
 export type PublicProfile = {
   id: string
   username: string
   displayName: string
   avatarUrl: string | null
+  /** The frame that sits over the avatar. Shipped separately from the avatar
+   *  because it is a separate image that overlays it, not a variant of it. */
+  decorationUrl: string | null
   bannerUrl: string | null
   accentColor: number | null
   bio: string | null
+  serverTag: ServerTag | null
 }
 
 export type ProfileSource = 'oauth' | 'bot'
@@ -200,6 +212,15 @@ type DiscordUser = {
   banner?: string | null
   accent_color?: number | null
   bio?: string | null
+  /** Both of these are `identify`-scope fields, so they arrive on the same
+   *  request as the name and the avatar — no extra call, no extra permission. */
+  avatar_decoration_data?: { asset: string; sku_id?: string } | null
+  primary_guild?: {
+    identity_guild_id?: string | null
+    identity_enabled?: boolean | null
+    tag?: string | null
+    badge?: string | null
+  } | null
 }
 
 /** Animated avatars and banners are hashed with an `a_` prefix and are only
@@ -211,9 +232,29 @@ function cdn(kind: 'avatars' | 'banners', id: string, hash: string, size = 256):
 }
 
 function sanitize(user: DiscordUser): PublicProfile {
+  const guild = user.primary_guild
+  // A tag is only shown when the account is actually displaying one. Discord
+  // keeps the last chosen guild on the object with identity_enabled false once
+  // the setting is turned off, so reading `tag` alone would resurrect a badge
+  // the owner has deliberately hidden.
+  const serverTag =
+    guild?.identity_enabled && guild.tag
+      ? {
+          text: guild.tag,
+          badgeUrl:
+            guild.badge && guild.identity_guild_id
+              ? `https://cdn.discordapp.com/guild-tag-badges/${guild.identity_guild_id}/${guild.badge}.png?size=48`
+              : null,
+        }
+      : null
+
   return {
     id: user.id,
     username: user.username,
+    decorationUrl: user.avatar_decoration_data?.asset
+      ? `https://cdn.discordapp.com/avatar-decoration-presets/${user.avatar_decoration_data.asset}.png?size=160`
+      : null,
+    serverTag,
     // `global_name` is the display name Discord shows now; `username` is the
     // handle beneath it. Older accounts have no global_name at all.
     displayName: user.global_name?.trim() || user.username,

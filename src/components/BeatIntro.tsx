@@ -120,8 +120,9 @@ export default function BeatIntro() {
   // green is not a status indicator, it is a decoration pretending to be one,
   // and this page does not print figures it cannot check.
   //
-  // What OAuth gives that presence never did is the banner and the accent
-  // colour, which are the account's own art direction. The card uses them.
+  // What OAuth DOES give — all on the same `identify` request, no extra scope —
+  // is the account's own art direction: banner, accent colour, avatar
+  // decoration and the equipped server tag. The card uses every one of them.
   const discord = useDiscordOAuth(DISCORD_PROFILE_ENDPOINT, phase !== 'done')
 
   /* Discord stores the accent as a 24-bit integer. Rendered at low alpha as a
@@ -135,8 +136,8 @@ export default function BeatIntro() {
   const sound = useGateAudio(videoRef, phase !== 'done')
 
   // Real spectrum on the meter whenever something is actually playing. When
-  // nothing is, the bars fall back to the beat-grid tick below — which is
-  // honest, because the grid is only known for the film's own track.
+  // nothing is, the hook clears the bars and they sit at rest: a meter with no
+  // signal reads nothing rather than inventing a tempo.
   useSpectrum(sound.audioRef, barsRef, sound.playing && phase !== 'done')
   const soundRef = useRef(sound)
   soundRef.current = sound
@@ -622,10 +623,36 @@ export default function BeatIntro() {
               </span>
             )}
 
+            {/* The decoration is a separate image laid OVER the portrait, not a
+                variant of it — which is why it is a sibling here rather than
+                something applied to the img. It is drawn larger than the avatar
+                on purpose: the frames are designed with the ring sitting
+                outside the picture. */}
+            {discord?.decorationUrl && (
+              <img
+                className="gate__decoration"
+                src={discord.decorationUrl}
+                alt=""
+                aria-hidden="true"
+              />
+            )}
+
           </div>
 
           <h1 className="display gate__name">{discord?.displayName ?? profile.name}</h1>
-          {discord && <p className="data gate__handle">@{discord.username}</p>}
+          {discord && (
+            <p className="data gate__handle">
+              @{discord.username}
+              {discord.serverTag && (
+                <span className="tag" title={`Server tag: ${discord.serverTag.text}`}>
+                  {discord.serverTag.badgeUrl && (
+                    <img src={discord.serverTag.badgeUrl} alt="" width={16} height={16} />
+                  )}
+                  {discord.serverTag.text}
+                </span>
+              )}
+            </p>
+          )}
           <p className="gate__tagline">{gate.tagline}</p>
 
           <p className="data gate__place">
@@ -666,6 +693,14 @@ export default function BeatIntro() {
             <span className="presence__body">
               <span className="presence__who">
                 <strong>{discord?.displayName ?? profile.name}</strong>
+                {discord?.serverTag && (
+                  <span className="tag" title={`Server tag: ${discord.serverTag.text}`}>
+                    {discord.serverTag.badgeUrl && (
+                      <img src={discord.serverTag.badgeUrl} alt="" width={16} height={16} />
+                    )}
+                    {discord.serverTag.text}
+                  </span>
+                )}
               </span>
               {/* The handle only exists once Discord has answered. Nothing
                   stands in for it: the two candidates — the location and the
