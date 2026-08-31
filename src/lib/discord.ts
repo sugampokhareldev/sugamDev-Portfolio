@@ -22,20 +22,30 @@
  * subsequent request to /api/discord/profile trades it for a short-lived access
  * token, reads /users/@me, and returns the display-safe fields.
  *
- * The refresh token is a rotating credential: Discord issues a NEW one on every
- * refresh and the old one stops working. A serverless function cannot write
- * back to its own environment, so the freshly issued token is held in the
- * module-scope cache below for as long as the instance lives, and the one in
- * the environment is the fallback for a cold start. Discord accepts the
- * environment's original for a long time, which is what makes this work — but
- * it is also why `refreshed` is surfaced on the status endpoint: if refreshes
- * ever start failing, the fix is to re-run /api/discord/login.
+ * WHY OAUTH ALONE IS NOT ENOUGH HERE — read this before removing the bot path.
  *
- * A bot token is supported as a simpler alternative and is tried first when
- * present. It never expires, never rotates, and reads the same public fields
- * through /users/{id} — for a single fixed profile it is strictly less moving
- * parts than OAuth. OAuth remains the default because it proves the account is
- * actually the owner's rather than any id somebody typed in.
+ * Discord's refresh token ROTATES. Every refresh issues a new one and kills
+ * the one that was used, so a refresh token is effectively single-use. That is
+ * fine for a server with a database and fatal for a serverless function, which
+ * cannot write back to its own environment: the rotated token survives only in
+ * the module-scope cache below, only for the life of one warm instance. The
+ * next cold start reads the original out of DISCORD_REFRESH_TOKEN, Discord has
+ * already invalidated it, and every request from then on fails with
+ * `invalid_grant` until a human re-runs the grant by hand.
+ *
+ * This module used to claim the environment's original stayed valid "for a
+ * long time". It does not. That assumption is what produced exactly the
+ * failure above in production.
+ *
+ * So: a BOT TOKEN is the supported way to run this, and it is tried first.
+ * It never expires, never rotates, needs no store, and reads the same public
+ * fields through /users/{id} — which makes it the only one of the two that is
+ * actually stateless, and stateless is the whole requirement.
+ *
+ * OAuth is kept because approving the grant is what PROVES the account is the
+ * owner's rather than any id typed into site.ts, and because it works fine on
+ * a host that can persist a rotating credential. On serverless it is a
+ * fallback, not the plan.
  */
 import { gate } from '../data/site'
 
@@ -130,6 +140,18 @@ export const OWNER_ID = gate.discordId
 
 let accessToken: { value: string; expiresAt: number } | null = null
 let rotatedRefresh: string | null = null
+
+/**
+ * When the OAuth path is known to be broken, and until when.
+ *
+ * A dead grant fails identically on every attempt, so without this each page
+ * view costs a pointless round trip to Discord's token endpoint — and a burst
+ * of traffic against a revoked grant is exactly the shape of thing that gets
+ * an application rate limited. Five minutes is short enough that re-running
+ * the grant takes effect almost immediately.
+ */
+let oauthDeadUntil = 0
+const OAUTH_BACKOFF_MS = 5 * 60 * 1000
 
 export function currentRefreshToken(): string | undefined {
   return rotatedRefresh ?? envRefreshToken()
@@ -324,17 +346,32 @@ export async function fetchOwnerProfile(origin: string): Promise<ProfileResult> 
   }
 
   const config = oauthConfig(origin)
-  if (config && currentRefreshToken()) {
+  if (config && currentRefreshToken() && Date.now() >= oauthDeadUntil) {
     try {
       const token = await accessTokenFor(config)
       const profile = await readAuthorizedUser(token)
       cached = { profile, source: 'oauth', at: Date.now() }
+      oauthDeadUntil = 0
       return { profile, source: 'oauth', maxAge: CACHE_MS / 1000 }
     } catch (error) {
-      // A failed refresh usually means the grant was revoked. Drop the access
-      // token so the next request retries rather than serving a stale error.
       accessToken = null
-      errors.push(String((error as Error).message))
+      const message = String((error as Error).message)
+
+      // `invalid_grant` is not a transient error. It means the stored refresh
+      // token has been rotated past, revoked, or superseded by a later grant —
+      // none of which fix themselves, and all of which need a person. Back off
+      // and say what to actually do about it.
+      if (message.includes('invalid_grant')) {
+        oauthDeadUntil = Date.now() + OAUTH_BACKOFF_MS
+        errors.push(
+          'DISCORD_REFRESH_TOKEN is no longer valid (invalid_grant). Discord rotates ' +
+            'refresh tokens on every use and a serverless function cannot write the new ' +
+            'one back to its environment, so this recurs on OAuth alone. Set ' +
+            'DISCORD_BOT_TOKEN instead, or re-run /api/discord/login to mint a fresh token.'
+        )
+      } else {
+        errors.push(message)
+      }
     }
   }
 

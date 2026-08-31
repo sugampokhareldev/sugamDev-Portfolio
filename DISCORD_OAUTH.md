@@ -68,19 +68,44 @@ It is shown on screen because a serverless function cannot write to its own
 environment — the credential has to reach it through a human. That page is
 `no-store`, `noindex`, and reachable only by the browser that started the flow.
 
-## Bot token instead
+## Bot token — the one that keeps working
 
-A bot token is simpler and is tried first when present. It reads the same
-public fields through `/users/{id}`, never expires and never rotates, so there
-is no grant to re-run:
+**On serverless, set this.** It is tried before OAuth and it is what makes the
+card survive a redeploy.
+
+Same application → **Bot** in the sidebar → **Reset Token** → copy it:
 
 ```
 DISCORD_BOT_TOKEN=...
 ```
 
-The trade-off is that it proves nothing about ownership — it will happily read
-whatever id is in `gate.discordId`. OAuth is the default because approving the
-grant *is* the proof.
+The bot needs no permissions, no invite, and does not have to be in any server.
+It only calls `GET /users/{id}`, which reads a public profile.
+
+### Why OAuth alone breaks
+
+Discord **rotates** refresh tokens: every refresh issues a new one and
+invalidates the one just used. A refresh token is effectively single-use.
+
+A serverless function cannot write the new token back into its own environment.
+So the rotated token lives only in that instance's memory, and the next cold
+start reads the original `DISCORD_REFRESH_TOKEN`, which Discord has already
+killed. From then on every request fails:
+
+```json
+{"profile":null,"reason":"discord token 400: {\"error\": \"invalid_grant\"}"}
+```
+
+Re-running `/api/discord/login` fixes it until the next cold start. That is not
+a fix, it is a chore on a timer. A bot token has nothing to rotate.
+
+OAuth is still worth running **once**, because approving the grant is what
+proves the account is yours rather than whatever id is sitting in
+`gate.discordId`. After that the bot token does the day-to-day reading.
+
+To keep OAuth as the live path you need somewhere to persist the rotated token
+between invocations — Vercel KV, Upstash, any small store — and to write it
+back on every refresh.
 
 ## Hosting
 
@@ -99,4 +124,5 @@ to the local portrait on its own and nothing else on the page notices.
 | `/api/discord/profile` returns 503 with "not configured" | No credentials set, or the grant has not been run |
 | Callback says **Exchange failed** with `invalid_grant` | The redirect URL registered on the Discord application does not match the one the site sends — the page prints the exact string it used |
 | Callback says **Wrong account** | You authorized as someone other than `gate.discordId` |
-| Worked, then stopped after a redeploy | The grant was revoked, or the refresh token rotated past the stored one. Re-run `/api/discord/login` |
+| `invalid_grant` on `/api/discord/profile` | The stored refresh token has been rotated past or revoked. Set `DISCORD_BOT_TOKEN` — see above. Re-running the grant works only until the next cold start |
+| Worked, then stopped after a redeploy | Same cause. The refresh token is single-use and the environment still holds the spent one |
