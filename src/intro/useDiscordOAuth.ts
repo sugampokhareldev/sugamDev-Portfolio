@@ -44,17 +44,59 @@ function isProfile(value: unknown): value is DiscordOAuthProfile {
   )
 }
 
+export type DiscordOAuthState = {
+  profile: DiscordOAuthProfile | null
+  /**
+   * Whether the answer is in — successfully or not.
+   *
+   * This is what stops the card showing the local portrait for a moment and
+   * then replacing it with the real face. The page is prerendered, so the
+   * fallback is in the HTML before any script runs; without a flag for "we
+   * have not asked yet", `profile === null` is indistinguishable from
+   * "Discord said no" and the card has to commit to the fallback immediately.
+   *
+   * It goes true on success, on failure, and on the deadline below — so a
+   * caller waiting for it can never wait forever.
+   */
+  settled: boolean
+}
+
+/**
+ * How long the card may stay blank waiting for Discord.
+ *
+ * The request is same-origin JSON off the edge cache and normally lands in
+ * tens of milliseconds. This exists for the case where it does not: a hung
+ * request must degrade to the local portrait, not hide the identity behind a
+ * hole in the card indefinitely.
+ */
+const SETTLE_DEADLINE_MS = 1500
+
 export function useDiscordOAuth(
   endpoint: string | undefined,
   enabled = true
-): DiscordOAuthProfile | null {
+): DiscordOAuthState {
   const [profile, setProfile] = useState<DiscordOAuthProfile | null>(null)
+  const [settled, setSettled] = useState(false)
 
   useEffect(() => {
-    if (!enabled) return
+    // Disabled means nothing will ever arrive, so nothing should be waiting on
+    // it either — settle immediately rather than holding the card back.
+    if (!enabled) {
+      setSettled(true)
+      return
+    }
 
     const url = endpoint?.trim() || DEFAULT_ENDPOINT
     const controller = new AbortController()
+    let done = false
+
+    const settle = () => {
+      if (done) return
+      done = true
+      setSettled(true)
+    }
+
+    const deadline = window.setTimeout(settle, SETTLE_DEADLINE_MS)
 
     fetch(url, {
       signal: controller.signal,
@@ -72,9 +114,13 @@ export function useDiscordOAuth(
         // The local portrait is the deliberate fallback while OAuth is
         // unconfigured, unavailable, or refreshing.
       })
+      .finally(settle)
 
-    return () => controller.abort()
+    return () => {
+      window.clearTimeout(deadline)
+      controller.abort()
+    }
   }, [endpoint, enabled])
 
-  return profile
+  return { profile, settled }
 }

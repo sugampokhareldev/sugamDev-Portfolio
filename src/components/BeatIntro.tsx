@@ -123,7 +123,10 @@ export default function BeatIntro() {
   // What OAuth DOES give — all on the same `identify` request, no extra scope —
   // is the account's own art direction: banner, accent colour, avatar
   // decoration and the equipped server tag. The card uses every one of them.
-  const discord = useDiscordOAuth(DISCORD_PROFILE_ENDPOINT, phase !== 'done')
+  const { profile: discord, settled: profileSettled } = useDiscordOAuth(
+    DISCORD_PROFILE_ENDPOINT,
+    phase !== 'done'
+  )
 
   /* Discord stores the accent as a 24-bit integer. Rendered at low alpha as a
      wash behind the card, so a profile with a colour set brings it along and
@@ -593,8 +596,14 @@ export default function BeatIntro() {
       </button>
 
       <div className="intro__copy" ref={copyRef}>
-        {/* ---- The card ---- */}
-        <div className="gate">
+        {/* ---- The card ----
+            `is-pending` holds the identity back until the profile request has
+            answered. The page is prerendered, so without it the local portrait
+            and the site's own name are painted first and then swapped for the
+            Discord ones a beat later — a visible flash of the wrong person on
+            every single load. See the hook's `settled` for why null alone
+            cannot express this. */}
+        <div className={`gate${profileSettled ? '' : ' is-pending'}`}>
           {/* Live Discord avatar first, the local file second, initials last.
               The Discord one is keyed on its URL so React swaps the element
               rather than mutating src on a loaded image — otherwise the old

@@ -294,6 +294,50 @@ body.intro-locked {
   text-align: center;
 }
 
+/* ---- Waiting for the profile ----
+   The identity — portrait, name, handle, card — is held at zero opacity until
+   the profile request has answered, then fades in over a beat and a half.
+   Everything else (tagline, location, clock, socials, ENTER) is not profile
+   data and stays put, so the card never moves: only these four elements are
+   invisible, and they still occupy exactly the space they will fill.
+
+   This is a fade, not a spinner. The wait is normally under 100ms off the edge
+   cache, and a skeleton that flickers for a tenth of a second is more
+   distracting than a surface that simply arrives complete. If the request
+   hangs, the hook settles on its own deadline and the local portrait fades in
+   instead — the card is never held back indefinitely.
+
+   Opacity only. Nothing here can shift layout, which is the entire point. */
+.gate__avatar,
+.gate__name,
+.gate__handle,
+.presence {
+  transition: opacity 260ms var(--ease, ease);
+}
+
+.gate.is-pending .gate__avatar,
+.gate.is-pending .gate__name,
+.gate.is-pending .gate__handle,
+.gate.is-pending .presence {
+  opacity: 0;
+}
+
+/* The name reserves its line height even while invisible, so the card does not
+   resize when the real display name turns out to be shorter than the one in
+   site.ts. */
+.gate.is-pending .gate__name {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate__avatar,
+  .gate__name,
+  .gate__handle,
+  .presence {
+    transition: none;
+  }
+}
+
 /* Lifted clear of the card's top edge, so the card reads as a plate the
    portrait sits on rather than a box with a picture inside it. */
 .gate__avatar {
