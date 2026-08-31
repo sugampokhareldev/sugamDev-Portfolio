@@ -15,8 +15,13 @@ OAuth or otherwise. The only way to get them is a third-party service that
 monitors your account after you join someone else's server — a dependency on a
 stranger's uptime, in exchange for a green dot.
 
-So this card has no status dot and no "listening to" line. Both were removed
-rather than faked: a dot that is always green is not a status indicator.
+A status dot therefore needs a process that holds a Gateway socket open, which
+a serverless function cannot do. `presence-relay/` in this repo is that
+process — deploy it anywhere that runs continuously, set `DISCORD_PRESENCE_URL`,
+and the dot and activity line appear. Leave it unset and the card draws
+neither, because a status indicator that guesses is worse than none.
+
+Last seen is not available by any route: Discord has never published it.
 
 ## What the browser can see
 

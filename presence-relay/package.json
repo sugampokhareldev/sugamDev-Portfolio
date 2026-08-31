@@ -1,0 +1,9 @@
+{
+  "name": "presence-relay",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Holds a Discord Gateway socket open so the portfolio can read a live online status.",
+  "engines": { "node": ">=22.0.0" },
+  "scripts": { "start": "node index.mjs" }
+}

@@ -31,6 +31,14 @@ import './beat-intro.css'
 
 type Phase = 'loading' | 'idle' | 'armed' | 'exiting' | 'done'
 
+/** Discord's own words for the four states it publishes. */
+const STATUS_LABEL: Record<string, string> = {
+  online: 'Online',
+  idle: 'Idle',
+  dnd: 'Do not disturb',
+  offline: 'Offline',
+}
+
 /** Initials, for when no avatar file has been dropped in. */
 const INITIALS = profile.name
   .split(' ')
@@ -120,9 +128,17 @@ export default function BeatIntro() {
   // green is not a status indicator, it is a decoration pretending to be one,
   // and this page does not print figures it cannot check.
   //
-  // What OAuth DOES give — all on the same `identify` request, no extra scope —
-  // is the account's own art direction: banner, accent colour, avatar
-  // decoration and the equipped server tag. The card uses every one of them.
+  // What the token DOES give — all on one request, no extra scope — is the
+  // account's own art direction: banner, accent colour, avatar decoration and
+  // the equipped server tag. The card uses every one of them.
+  //
+  // ONLINE STATUS is the exception, and it is not a scope problem. Discord
+  // publishes presence only as Gateway events to a bot holding an open
+  // WebSocket; no REST endpoint returns it at any scope. So it arrives here
+  // only when the separate presence-relay service is running and pointed at
+  // by DISCORD_PRESENCE_URL. Absent, `presence` is null and no dot is drawn —
+  // never a default, because a status indicator that guesses is worse than
+  // no status indicator.
   const { profile: discord, settled: profileSettled } = useDiscordOAuth(
     DISCORD_PROFILE_ENDPOINT,
     phase !== 'done'
@@ -697,6 +713,14 @@ export default function BeatIntro() {
 
             <span className="presence__avatar">
               <img src={discord?.avatarUrl ?? gate.avatar} alt="" width={56} height={56} />
+              {discord?.presence && (
+                <i
+                  className={`is-${discord.presence.status}`}
+                  role="img"
+                  aria-label={STATUS_LABEL[discord.presence.status]}
+                  title={STATUS_LABEL[discord.presence.status]}
+                />
+              )}
             </span>
 
             <span className="presence__body">
@@ -717,9 +741,14 @@ export default function BeatIntro() {
                   a chip that repeats the card it sits in is worse than a chip
                   with one line in it. */}
               {discord && <span className="presence__handle">@{discord.username}</span>}
-              {/* The bio, when the account has one. No fallback sentence: an
-                  empty line is better than a line invented to fill it. */}
-              {discord?.bio && <span className="presence__line">{discord.bio}</span>}
+              {/* What they are doing, then what they wrote about themselves.
+                  No fallback sentence: an empty line is better than a line
+                  invented to fill it. */}
+              {(discord?.presence?.activity || discord?.bio) && (
+                <span className="presence__line">
+                  {discord.presence?.activity || discord.bio}
+                </span>
+              )}
             </span>
           </div>
 

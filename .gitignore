@@ -42,3 +42,4 @@ Trial/*.zip
 Trial/
 _archive/
 mainframe/
+presence-relay/node_modules/

@@ -26,6 +26,10 @@ export type DiscordOAuthProfile = {
   bio?: string | null
   /** The server tag shown beside the name, when one is being displayed. */
   serverTag?: { text: string; badgeUrl: string | null } | null
+  /** Live online state, present only when a presence relay is configured and
+   *  answering. Absent means nobody could tell us — the card draws no dot
+   *  rather than guessing at one. */
+  presence?: { status: 'online' | 'idle' | 'dnd' | 'offline'; activity: string | null } | null
 }
 
 /** The site's own route. Overridable for the case where the profile function

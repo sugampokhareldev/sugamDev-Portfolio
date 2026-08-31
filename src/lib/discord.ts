@@ -68,6 +68,15 @@ export type ServerTag = {
   badgeUrl: string | null
 }
 
+/** Online state, when a presence relay is configured. Never invented: absent
+ *  means nobody could tell us, and the card draws nothing. */
+export type PresenceStatus = 'online' | 'idle' | 'dnd' | 'offline'
+
+export type Presence = {
+  status: PresenceStatus
+  activity: string | null
+}
+
 export type PublicProfile = {
   id: string
   username: string
@@ -80,6 +89,9 @@ export type PublicProfile = {
   accentColor: number | null
   bio: string | null
   serverTag: ServerTag | null
+  /** Null whenever no relay is configured, it is unreachable, or it has not
+   *  yet seen a first snapshot. */
+  presence: Presence | null
 }
 
 export type ProfileSource = 'oauth' | 'bot'
@@ -122,6 +134,64 @@ export function oauthConfig(origin: string): OAuthConfig | null {
 
 export function botToken(): string | undefined {
   return env('DISCORD_BOT_TOKEN')
+}
+
+/**
+ * The presence relay, if one is running. See presence-relay/ for why online
+ * status needs a separate always-on process: it arrives only as Gateway
+ * events over a held-open WebSocket, which a function that lives for
+ * milliseconds cannot do.
+ */
+export function presenceUrl(): string | undefined {
+  return env('DISCORD_PRESENCE_URL')
+}
+
+const PRESENCE_TIMEOUT_MS = 1200
+/** How long a status may be cached at the edge. Presence is the one live
+ *  value here; anything longer and the dot is lying. */
+const PRESENCE_MAX_AGE_S = 20
+const VALID_STATUS = new Set<PresenceStatus>(['online', 'idle', 'dnd', 'offline'])
+
+/**
+ * Reads the relay. Every failure path returns null, and null means the card
+ * shows no status at all — which is the correct outcome, because a status
+ * indicator that guesses is worse than none.
+ *
+ * The timeout matters: this sits in the request path for the profile, so a
+ * relay that has fallen over must cost a fraction of a second, not the whole
+ * response.
+ */
+async function fetchPresence(): Promise<Presence | null> {
+  const url = presenceUrl()
+  if (!url) return null
+
+  try {
+    const response = await fetch(url, {
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(PRESENCE_TIMEOUT_MS),
+    })
+    if (!response.ok) return null
+
+    const body = (await response.json()) as {
+      status?: unknown
+      activity?: unknown
+      connected?: unknown
+    }
+
+    // `connected: false` means the relay is up but its socket is not, so
+    // whatever status it holds is stale. Better to show nothing.
+    if (body.connected === false) return null
+    if (typeof body.status !== 'string' || !VALID_STATUS.has(body.status as PresenceStatus)) {
+      return null
+    }
+
+    return {
+      status: body.status as PresenceStatus,
+      activity: typeof body.activity === 'string' && body.activity.trim() ? body.activity.trim() : null,
+    }
+  } catch {
+    return null
+  }
 }
 
 export function envRefreshToken(): string | undefined {
@@ -273,6 +343,7 @@ function sanitize(user: DiscordUser): PublicProfile {
   return {
     id: user.id,
     username: user.username,
+    presence: null,
     decorationUrl: user.avatar_decoration_data?.asset
       ? `https://cdn.discordapp.com/avatar-decoration-presets/${user.avatar_decoration_data.asset}.png?size=160`
       : null,
@@ -323,7 +394,7 @@ export type ProfileResult = {
  * Throws when nothing is configured or both paths fail; the route turns that
  * into a 503 and the client keeps its local portrait.
  */
-export async function fetchOwnerProfile(origin: string): Promise<ProfileResult> {
+async function fetchIdentity(origin: string): Promise<ProfileResult> {
   if (cached && Date.now() - cached.at < CACHE_MS) {
     return {
       profile: cached.profile,
@@ -386,6 +457,38 @@ export async function fetchOwnerProfile(origin: string): Promise<ProfileResult> 
       ? errors.join('; ')
       : 'discord is not configured: set DISCORD_BOT_TOKEN, or DISCORD_CLIENT_ID/SECRET and run /api/discord/login'
   )
+}
+
+/**
+ * The owner's profile, with live presence merged on.
+ *
+ * The two halves are cached on completely different clocks, and mixing them
+ * would ruin one or the other. IDENTITY — name, avatar, banner, tag — changes
+ * a few times a year and is held for five minutes. PRESENCE is the single
+ * genuinely live value on this page; caching it for five minutes would mean
+ * showing someone as online for five minutes after they closed Discord, which
+ * is worse than not showing it at all.
+ *
+ * So identity comes from the cache and presence is read every time, and the
+ * response's max-age drops to the presence clock whenever a relay is
+ * answering. With no relay configured, nothing changes: no fetch, no shortened
+ * cache, no status on the card.
+ */
+export async function fetchOwnerProfile(origin: string): Promise<ProfileResult> {
+  const [identity, presence] = await Promise.all([
+    fetchIdentity(origin),
+    fetchPresence(),
+  ])
+
+  if (!presence) return identity
+
+  return {
+    profile: { ...identity.profile, presence },
+    source: identity.source,
+    // Long enough to absorb a burst, short enough that a status change shows
+    // up while it still means something.
+    maxAge: Math.min(identity.maxAge, PRESENCE_MAX_AGE_S),
+  }
 }
 
 /** Called by the callback route once the owner has authorized, so the very

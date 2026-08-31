@@ -478,6 +478,26 @@ body.intro-locked {
   flex: none;
 }
 
+/* The status dot, drawn only when a relay actually reported one.
+   Three of Discord's four states get a colour from this page's own palette
+   rather than Discord's brand greens and reds — the gate is allowed one
+   accent, and importing three more would make the card the loudest thing on
+   a screen it is not the subject of. Offline is an empty mark. */
+.presence__avatar i {
+  position: absolute;
+  right: -1px;
+  bottom: 1px;
+  width: 0.78rem;
+  height: 0.78rem;
+  border: 3px solid var(--surface-hi);
+  border-radius: 50%;
+  background: var(--rule-hi);
+}
+
+.presence__avatar i.is-online { background: var(--data); }
+.presence__avatar i.is-idle { background: var(--signal); }
+.presence__avatar i.is-dnd { background: var(--signal-dim); }
+
 .presence__avatar img {
   width: 100%;
   height: 100%;
